@@ -6,7 +6,7 @@ using System.Text;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace BallanceTASEditor {
+namespace BallanceTASEditor.UI {
 
     [ValueConversion(typeof(bool), typeof(Color))]
     public class BackgroundConverter : IValueConverter {

@@ -56,8 +56,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="StyleConverter.cs" />
-    <Compile Include="TASViewer.cs" />
+    <Compile Include="UI\StyleConverter.cs" />
+    <Compile Include="UI\TASFlow.xaml.cs">
+      <DependentUpon>TASFlow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TASViewer.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -70,11 +73,15 @@
     <Compile Include="Core\TASStruct.cs" />
     <Compile Include="Core\Util.cs" />
     <Compile Include="Core\ZlibUtil.cs" />
-    <Compile Include="DialogUtil.cs" />
+    <Compile Include="UI\DialogUtil.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UI\TASFlow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

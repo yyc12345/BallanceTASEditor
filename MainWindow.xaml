@@ -4,14 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BallanceTASEditor"
-        xmlns:converter="clr-namespace:BallanceTASEditor"
+        xmlns:controls="clr-namespace:BallanceTASEditor.UI"
         mc:Ignorable="d"
-        Title="Ballance TAS Editor" Height="800" Width="500">
-    <Window.Resources>
-        <converter:BackgroundConverter x:Key="bgConv"></converter:BackgroundConverter>
-        <converter:FloatConverter x:Key="floatConv"></converter:FloatConverter>
-        <converter:LongConverter x:Key="longConv"></converter:LongConverter>
-    </Window.Resources>
+        Title="Ballance TAS Editor" Height="500" Width="800">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -27,6 +22,9 @@
                 <MenuItem x:Name="uiMenu_File_SaveAs" Header="Save As..." Click="funcMenu_File_SaveAs"/>
                 <MenuItem x:Name="uiMenu_File_Close" Header="Close" Click="funcMenu_File_Close"/>
             </MenuItem>
+            <MenuItem Header="Display">
+                <MenuItem x:Name="uiMenu_Display_ItemCount" Header="Item Count"/>
+            </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem x:Name="uiMenu_Help_ReportBugs" Header="Report bugs" Click="funcMenu_Help_ReportBugs"/>
                 <MenuItem x:Name="uiMenu_Help_About" Header="About" Click="funcMenu_Help_About"/>
@@ -39,11 +37,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
 
             <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.ColumnSpan="2">
                 <Button x:Name="uiBtn_Select" Margin="5" Padding="5">
@@ -78,181 +73,55 @@
                 </Button>
             </StackPanel>
 
-            <DataGrid x:Name="uiTASData" ItemsSource="{Binding}" Grid.Column="0" Grid.Row="1" CanUserReorderColumns="False" CanUserSortColumns="False" IsReadOnly="true" AutoGenerateColumns="False" SelectionUnit="Cell" SelectionMode="Single" Background="#00000000" BorderThickness="1" Margin="5" HorizontalScrollBarVisibility="Visible">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Frame" Binding="{Binding index,Converter={StaticResource longConv},Mode=OneWay}"/>
-                    <DataGridTextColumn Header="Delta Time" Binding="{Binding deltaTime,Converter={StaticResource floatConv},Mode=OneWay}"/>
+            <controls:TASFlow x:Name="uiTASData" Grid.Row="1" Margin="5" BorderThickness="1" BorderBrush="Gray">
+            </controls:TASFlow>
 
-                    <DataGridTemplateColumn Header="^" Width="30" >
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.Background>
-                                        <SolidColorBrush Color="{Binding key_up,Converter={StaticResource bgConv},Mode=OneWay}"/>
-                                    </Grid.Background>
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="v" Width="30" >
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.Background>
-                                        <SolidColorBrush Color="{Binding key_down,Converter={StaticResource bgConv},Mode=OneWay}"/>
-                                    </Grid.Background>
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="&lt;" Width="30" >
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.Background>
-                                        <SolidColorBrush Color="{Binding key_left,Converter={StaticResource bgConv},Mode=OneWay}"/>
-                                    </Grid.Background>
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="&gt;" Width="30" >
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.Background>
-                                        <SolidColorBrush Color="{Binding key_right,Converter={StaticResource bgConv},Mode=OneWay}"/>
-                                    </Grid.Background>
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="shift" Width="30" >
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.Background>
-                                        <SolidColorBrush Color="{Binding key_shift,Converter={StaticResource bgConv},Mode=OneWay}"/>
-                                    </Grid.Background>
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="space" Width="30" >
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.Background>
-                                        <SolidColorBrush Color="{Binding key_space,Converter={StaticResource bgConv},Mode=OneWay}"/>
-                                    </Grid.Background>
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="q" Width="30" >
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.Background>
-                                        <SolidColorBrush Color="{Binding key_q,Converter={StaticResource bgConv},Mode=OneWay}"/>
-                                    </Grid.Background>
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="esc" Width="30" >
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.Background>
-                                        <SolidColorBrush Color="{Binding key_esc,Converter={StaticResource bgConv},Mode=OneWay}"/>
-                                    </Grid.Background>
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="enter" Width="30" >
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.Background>
-                                        <SolidColorBrush Color="{Binding key_enter,Converter={StaticResource bgConv},Mode=OneWay}"/>
-                                    </Grid.Background>
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
+            <Grid Grid.Row="2" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                <DataGrid.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem x:Name="uiDataMenu_Set" Header="Set"/>
-                        <MenuItem x:Name="uiDataMenu_Unset" Header="Unset"/>
-                        <Separator/>
-                        <MenuItem x:Name="uiDataMenu_Copy" Header="Copy"/>
-                        <MenuItem x:Name="uiDataMenu_Delete" Header="Delete"/>
-                        <Separator/>
-                        <MenuItem x:Name="uiDataMenu_PasteAfter" Header="Paste after this"/>
-                        <MenuItem x:Name="uiDataMenu_PasteBefore" Header="Paste before this"/>
-                        <Separator/>
-                        <MenuItem x:Name="uiDataMenu_AddAfter" Header="Add blank item after this"/>
-                        <MenuItem x:Name="uiDataMenu_AddBefore" Header="Add blank item before this"/>
-                    </ContextMenu>
-                </DataGrid.ContextMenu>
-            </DataGrid>
-
-            <Grid Grid.Column="1" Grid.Row="1" Margin="5">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <Button Grid.Row="0" RenderTransformOrigin="0.5,0.5" Margin="2" HorizontalAlignment="Center">
-                    <Button.RenderTransform>
-                        <RotateTransform Angle="-90"/>
-                    </Button.RenderTransform>
-                    <Viewbox Width="16" Height="16">
-                        <Canvas Width="24" Height="24">
-                            <Path Fill="Black" Data="M13,6V18L21.5,12M4,18L12.5,12L4,6V18Z" />
-                        </Canvas>
-                    </Viewbox>
-                </Button>
-                <Button Grid.Row="1" Margin="2" HorizontalAlignment="Center">
-                    <Viewbox Width="16" Height="16">
-                        <Canvas Width="24" Height="24">
-                            <Path Fill="Black" Data="M7,15L12,10L17,15H7Z" />
-                        </Canvas>
-                    </Viewbox>
-                </Button>
-                <Slider x:Name="uiTASSlider" Margin="0, 5, 0, 5" Grid.Row="2" Orientation="Vertical" RenderTransformOrigin="0.5,0.5" SmallChange="1" LargeChange="10" Maximum="1" HorizontalAlignment="Center">
-                    <Slider.LayoutTransform>
-                        <TransformGroup>
-                            <ScaleTransform ScaleY="-1" ScaleX="1"/>
-                            <SkewTransform AngleY="0" AngleX="0"/>
-                            <RotateTransform Angle="0"/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Slider.LayoutTransform>
-                </Slider>
-                <Button Grid.Row="3" Margin="2" HorizontalAlignment="Center">
-                    <Viewbox Width="16" Height="16">
-                        <Canvas Width="24" Height="24">
-                            <Path Fill="Black" Data="M7,10L12,15L17,10H7Z" />
-                        </Canvas>
-                    </Viewbox>
-                </Button>
-                <Button Grid.Row="4" RenderTransformOrigin="0.5,0.5" Margin="2" HorizontalAlignment="Center">
-                    <Button.RenderTransform>
-                        <RotateTransform Angle="-90"/>
-                    </Button.RenderTransform>
+                <Button Grid.Column="0" Margin="2" HorizontalAlignment="Center">
                     <Viewbox Width="16" Height="16">
                         <Canvas Width="24" Height="24">
                             <Path Fill="Black" Data="M11.5,12L20,18V6M11,18V6L2.5,12L11,18Z" />
                         </Canvas>
                     </Viewbox>
                 </Button>
+                <Button Grid.Column="1" Margin="2" HorizontalAlignment="Center">
+                    <Viewbox Width="16" Height="16" RenderTransformOrigin="0.5,0.5">
+                        <Viewbox.RenderTransform>
+                            <RotateTransform Angle="-90"/>
+                        </Viewbox.RenderTransform>
+                        <Canvas Width="24" Height="24">
+                            <Path Fill="Black" Data="M7,15L12,10L17,15H7Z" />
+                        </Canvas>
+                    </Viewbox>
+                </Button>
+                <Button Grid.Column="2" Margin="2" HorizontalAlignment="Center">
+                    <Viewbox Width="16" Height="16" RenderTransformOrigin="0.5,0.5">
+                        <Viewbox.RenderTransform>
+                            <RotateTransform Angle="-90"/>
+                        </Viewbox.RenderTransform>
+                        <Canvas Width="24" Height="24">
+                            <Path Fill="Black" Data="M7,10L12,15L17,10H7Z" />
+                        </Canvas>
+                    </Viewbox>
+                </Button>
+                <Button Grid.Column="3" Margin="2" HorizontalAlignment="Center">
+                    <Viewbox Width="16" Height="16">
+                        <Canvas Width="24" Height="24">
+                            <Path Fill="Black" Data="M13,6V18L21.5,12M4,18L12.5,12L4,6V18Z" />
+                        </Canvas>
+                    </Viewbox>
+                </Button>                
+                <Slider x:Name="uiTASSlider" Margin="5,0,0,0" Grid.Column="4" SmallChange="1" LargeChange="10" Maximum="1" VerticalAlignment="Center">
+                </Slider>
+
             </Grid>
 
 

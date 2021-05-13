@@ -38,15 +38,26 @@ namespace BallanceTASEditor.Core {
             }
         }
 
-        public int Get(ObservableCollection<FrameDataDisplay> container, long startIndex, int count) {
-            if (mPointer == null) return 0;
+        public void Get(List<FrameDataDisplay> container, long startIndex, int count) {
+            // no item. clean container
+            if (mPointer == null) {
+                for(int j = 0; j < count; j++) {
+                    container[j].isEnable = false;
+                }
+                return;
+            }
+
+            // fill container
             var cachePointer = mPointer;
             int i;
             for(i = 0; i < count && cachePointer != null; i++, startIndex++) {
                 container[i].Reload(startIndex, cachePointer.Value);
+                container[i].isEnable = true;
                 cachePointer = cachePointer.Next;
             }
-            return i;
+            for(; i < count; i++) {
+                container[i].isEnable = false;
+            }
         }
 
         public void Set(FrameDataField field, long prevRange, long nextRange, bool isSet) {

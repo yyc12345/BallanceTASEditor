@@ -8,9 +8,9 @@ using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows;
 
-namespace BallanceTASEditor {
+namespace BallanceTASEditor.UI {
     public class TASViewer : IDisposable {
-        public TASViewer(TASFile file, Slider slider, DataGrid datagrid) {
+        public TASViewer(TASFile file, Slider slider, TASFlow datagrid) {
             mFile = file;
             mSlider = slider;
             mDataGrid = datagrid;
@@ -21,7 +21,7 @@ namespace BallanceTASEditor {
 
             // init data
             mPosition = 0;
-            mDataSource = new ObservableCollection<FrameDataDisplay>();
+            mDataSource = new List<FrameDataDisplay>();
             INVALID_FRAME_DATA = new FrameData(-1f, 0);
             for (int i = 0; i < DATA_LIST_LENGTH; i++) {
                 mDataSource.Add(new FrameDataDisplay(0, INVALID_FRAME_DATA));
@@ -29,32 +29,32 @@ namespace BallanceTASEditor {
             mFile.Get(mDataSource, 0, DATA_LIST_LENGTH);
 
             // bind event and source
-            mDataGrid.ItemsSource = mDataSource;
+            mDataGrid.SetItemCount(DATA_LIST_LENGTH);
+            mDataGrid.DataSources = mDataSource;
+            mDataGrid.RefreshDataSources();
             mSlider.ValueChanged += sliderValueChanged;
         }
         public void Dispose() {
-            mDataGrid.ItemsSource = null;
+            mDataGrid.DataSources = null;
             mSlider.ValueChanged -= sliderValueChanged;
         }
 
-        const int DATA_LIST_LENGTH = 30;
+        const int DATA_LIST_LENGTH = 15;
         FrameData INVALID_FRAME_DATA;
         TASFile mFile;
         Slider mSlider;
-        DataGrid mDataGrid;
+        TASFlow mDataGrid;
         long mPosition;
-        ObservableCollection<FrameDataDisplay> mDataSource;
+        List<FrameDataDisplay> mDataSource;
 
         private void sliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
             long pos = Convert.ToInt64(Math.Floor(e.NewValue));
             long offset = pos - mPosition;
             mFile.Shift(offset);
-            var gotten = mFile.Get(mDataSource, pos, DATA_LIST_LENGTH);
-            for(; gotten < DATA_LIST_LENGTH; gotten++) {
-                mDataSource[gotten].Reload(-1, INVALID_FRAME_DATA);
-            }
+            mFile.Get(mDataSource, pos, DATA_LIST_LENGTH);
 
             mPosition = pos;
+            mDataGrid.RefreshDataSources();
         }
 
         private void updateSliderRange() {

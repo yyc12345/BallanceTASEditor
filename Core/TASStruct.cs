@@ -8,6 +8,7 @@ using System.Text;
 namespace BallanceTASEditor.Core.TASStruct {
     public class FrameDataDisplay : INotifyPropertyChanged {
         public FrameDataDisplay(long index, FrameData fd) {
+            isEnable = true;
             Reload(index, fd);
         }
 
@@ -26,6 +27,7 @@ namespace BallanceTASEditor.Core.TASStruct {
             this.keystates = fd.keystates;
         }
 
+        public bool isEnable { get; set; }
         public long index { get; set; }
         public float deltaTime { get; set; }
         public UInt32 keystates {

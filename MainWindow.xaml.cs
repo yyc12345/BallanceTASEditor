@@ -1,5 +1,6 @@
 ﻿using BallanceTASEditor.Core;
 using BallanceTASEditor.Core.TASStruct;
+using BallanceTASEditor.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;

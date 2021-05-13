@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="BallanceTASEditor.UI.TASFlow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BallanceTASEditor.UI"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="800">
+    <Grid x:Name="uiCoreWindow">
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem x:Name="uiDataMenu_Set" Header="Set"/>
+                <MenuItem x:Name="uiDataMenu_Unset" Header="Unset"/>
+                <Separator/>
+                <MenuItem x:Name="uiDataMenu_Copy" Header="Copy"/>
+                <MenuItem x:Name="uiDataMenu_Delete" Header="Delete"/>
+                <Separator/>
+                <MenuItem x:Name="uiDataMenu_PasteAfter" Header="Paste after this"/>
+                <MenuItem x:Name="uiDataMenu_PasteBefore" Header="Paste before this"/>
+                <Separator/>
+                <MenuItem x:Name="uiDataMenu_AddAfter" Header="Add blank item after this"/>
+                <MenuItem x:Name="uiDataMenu_AddBefore" Header="Add blank item before this"/>
+            </ContextMenu>
+        </Grid.ContextMenu>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="0" Text="Frame"/>
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="1" Text="Delta Time"/>
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="2" Text="^"/>
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="3" Text="v"/>
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="4" Text="&lt;"/>
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="5" Text="&gt;"/>
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="6" Text="shift"/>
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="7" Text="space"/>
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="8" Text="q"/>
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="9" Text="esc"/>
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="10" Text="enter"/>
+    </Grid>
+</UserControl>
