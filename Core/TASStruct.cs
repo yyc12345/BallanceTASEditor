@@ -131,16 +131,16 @@ namespace BallanceTASEditor.Core.TASStruct {
         public const int FRAMEDATA_OFFSET_KEY_STATES = 4;
     }
 
-    public enum FrameDataField {
-        Key_Up,
-        Key_Down,
-        Key_Left,
-        Key_Right,
-        Key_Shift,
-        Key_Space,
-        Key_Q,
-        Key_Esc,
-        Key_Enter
+    public enum FrameDataField : int {
+        Key_Up = 0,
+        Key_Down = 1,
+        Key_Left = 2,
+        Key_Right = 3,
+        Key_Shift = 4,
+        Key_Space = 5,
+        Key_Q = 6,
+        Key_Esc = 7,
+        Key_Enter = 8
     }
 
 }

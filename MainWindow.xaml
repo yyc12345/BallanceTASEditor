@@ -23,7 +23,7 @@
                 <MenuItem x:Name="uiMenu_File_Close" Header="Close" Click="funcMenu_File_Close"/>
             </MenuItem>
             <MenuItem Header="Display">
-                <MenuItem x:Name="uiMenu_Display_ItemCount" Header="Item Count"/>
+                <MenuItem x:Name="uiMenu_Display_ItemCount" Header="Item Count" Click="funcMenu_Display_ItemCount"/>
             </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem x:Name="uiMenu_Help_ReportBugs" Header="Report bugs" Click="funcMenu_Help_ReportBugs"/>
@@ -41,7 +41,7 @@
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.ColumnSpan="2">
-                <Button x:Name="uiBtn_Select" Margin="5" Padding="5">
+                <Button x:Name="uiBtn_Cursor" Margin="5" Padding="5" Click="funcBtn_Cursor">
                     <StackPanel Orientation="Horizontal">
                         <Viewbox Width="24" Height="24">
                             <Canvas Width="24" Height="24">
@@ -51,7 +51,7 @@
                         <TextBlock Text="Select mode" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
-                <Button x:Name="uiBtn_Fill" Margin="5" Padding="5">
+                <Button x:Name="uiBtn_Fill" Margin="5" Padding="5" Click="funcBtn_Fill">
                     <StackPanel Orientation="Horizontal">
                         <Viewbox Width="24" Height="24">
                             <Canvas Width="24" Height="24">
@@ -61,7 +61,7 @@
                         <TextBlock Text="Fill mode" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
-                <Button x:Name="uiBtn_Draw" Margin="5" Padding="5">
+                <Button x:Name="uiBtn_Overwrite" Margin="5" Padding="5" Click="funcBtn_Overwrite">
                     <StackPanel Orientation="Horizontal">
                         <Viewbox Width="24" Height="24">
                             <Canvas Width="24" Height="24">
@@ -127,13 +127,13 @@
 
         </Grid>
 
-        <StatusBar Grid.Row="2">
-            <TextBlock Text="Select mode"/>
-            <TextBlock Text="Fill mode"/>
-            <TextBlock Text="Draw mode"/>
+        <StatusBar x:Name="uiStatusbar" Grid.Row="2">
+            <TextBlock x:Name="uiStatusbar_Mode_Cursor" Text="Select mode"/>
+            <TextBlock x:Name="uiStatusbar_Mode_Fill" Text="Fill mode"/>
+            <TextBlock x:Name="uiStatusbar_Mode_Overwrite" Text="Draw mode"/>
             <Separator/>
             <TextBlock Text="Selected: "/>
-            <TextBlock Text="aaa"/>
+            <TextBlock x:Name="uiStatusbar_Selected" Text="-"/>
         </StatusBar>
 
     </Grid>

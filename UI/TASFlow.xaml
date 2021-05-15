@@ -38,19 +38,20 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="0" Text="Frame"/>
-        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="1" Text="Delta Time"/>
-        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="2" Text="^"/>
-        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="3" Text="v"/>
-        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="4" Text="&lt;"/>
-        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="5" Text="&gt;"/>
-        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="6" Text="shift"/>
-        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="7" Text="space"/>
-        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="8" Text="q"/>
-        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="9" Text="esc"/>
-        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="10" Text="enter"/>
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="1" Text="Frame"/>
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="2" Text="Delta Time"/>
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="3" Text="^"/>
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="4" Text="v"/>
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="5" Text="&lt;"/>
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="6" Text="&gt;"/>
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="7" Text="shift"/>
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="8" Text="space"/>
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="9" Text="q"/>
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="10" Text="esc"/>
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="11" Text="enter"/>
     </Grid>
 </UserControl>
