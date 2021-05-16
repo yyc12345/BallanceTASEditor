@@ -33,6 +33,17 @@ namespace BallanceTASEditor.UI {
             // bind event and source
             mDataGrid.DataSources = mDataSource;
             mDataGrid.SelectionHelp = mSelectionHelp;
+
+            mDataGrid.uiDataMenu_Set.Click += funcDataMenu_Set;
+            mDataGrid.uiDataMenu_Unset.Click += funcDataMenu_Unset;
+            mDataGrid.uiDataMenu_Copy.Click += funcDataMenu_Copy;
+            mDataGrid.uiDataMenu_Delete.Click += funcDataMenu_Delete;
+            mDataGrid.uiDataMenu_PasteAfter.Click += funcDataMenu_PasteAfter;
+            mDataGrid.uiDataMenu_PasteBefore.Click += funcDataMenu_PasteBefore;
+            mDataGrid.uiDataMenu_AddAfter.Click += funcDataMenu_AddAfter;
+            mDataGrid.uiDataMenu_AddBefore.Click += funcDataMenu_AddBefore;
+            mDataGrid.Click += funcDataMenu_Click;
+
             mSlider.ValueChanged += sliderValueChanged;
 
             // display data
@@ -41,6 +52,17 @@ namespace BallanceTASEditor.UI {
 
         public void Dispose() {
             mDataGrid.DataSources = null;
+
+            mDataGrid.uiDataMenu_Set.Click -= funcDataMenu_Set;
+            mDataGrid.uiDataMenu_Unset.Click -= funcDataMenu_Unset;
+            mDataGrid.uiDataMenu_Copy.Click -= funcDataMenu_Copy;
+            mDataGrid.uiDataMenu_Delete.Click -= funcDataMenu_Delete;
+            mDataGrid.uiDataMenu_PasteAfter.Click -= funcDataMenu_PasteAfter;
+            mDataGrid.uiDataMenu_PasteBefore.Click -= funcDataMenu_PasteBefore;
+            mDataGrid.uiDataMenu_AddAfter.Click -= funcDataMenu_AddAfter;
+            mDataGrid.uiDataMenu_AddBefore.Click -= funcDataMenu_AddBefore;
+            mDataGrid.Click -= funcDataMenu_Click;
+
             mSlider.ValueChanged -= sliderValueChanged;
         }
 
@@ -141,5 +163,51 @@ namespace BallanceTASEditor.UI {
             mSelectionHelp.SetMode(mode);
         }
 
+
+
+        #region data menu
+
+        private void funcDataMenu_AddBefore(object sender, RoutedEventArgs e) {
+            throw new NotImplementedException();
+        }
+
+        private void funcDataMenu_AddAfter(object sender, RoutedEventArgs e) {
+            throw new NotImplementedException();
+        }
+
+        private void funcDataMenu_PasteBefore(object sender, RoutedEventArgs e) {
+            throw new NotImplementedException();
+        }
+
+        private void funcDataMenu_PasteAfter(object sender, RoutedEventArgs e) {
+            throw new NotImplementedException();
+        }
+
+        private void funcDataMenu_Delete(object sender, RoutedEventArgs e) {
+            throw new NotImplementedException();
+        }
+
+        private void funcDataMenu_Copy(object sender, RoutedEventArgs e) {
+            throw new NotImplementedException();
+        }
+
+        private void funcDataMenu_Unset(object sender, RoutedEventArgs e) {
+            mFile.Set(mSelectionHelp.GetFieldRange(), mSelectionHelp.GetRange().GetRelative(mPosition), false);
+            RefreshDisplay(mPosition);
+        }
+
+        private void funcDataMenu_Set(object sender, RoutedEventArgs e) {
+            mFile.Set(mSelectionHelp.GetFieldRange(), mSelectionHelp.GetRange().GetRelative(mPosition), true);
+            RefreshDisplay(mPosition);
+        }
+
+        private void funcDataMenu_Click() {
+            var data = mSelectionHelp.GetPoint() - mPosition;
+            var field = (int)mSelectionHelp.GetPointField();
+            mFile.Set(new SelectionRange(field, field), new SelectionRange(data, data), null);
+            RefreshDisplay(mPosition);
+        }
+
+        #endregion
     }
 }

@@ -110,6 +110,10 @@ namespace BallanceTASEditor.Core.TASStruct {
             keystates &= ~offset;
         }
 
+        public void ReverseKeyStates(UInt32 offset) {
+            keystates ^= offset;
+        }
+
         public float deltaTime;
         public UInt32 keystates;
     }

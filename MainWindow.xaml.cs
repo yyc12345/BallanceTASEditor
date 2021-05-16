@@ -22,20 +22,8 @@ namespace BallanceTASEditor {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
-
-            // bind event without xaml due to xaml shit design
-            uiTASData.uiDataMenu_Set.Click += funcDataMenu_Set;
-            uiTASData.uiDataMenu_Unset.Click += funcDataMenu_Unset;
-            uiTASData.uiDataMenu_Copy.Click += funcDataMenu_Copy;
-            uiTASData.uiDataMenu_Delete.Click += funcDataMenu_Delete;
-            uiTASData.uiDataMenu_PasteAfter.Click += funcDataMenu_PasteAfter;
-            uiTASData.uiDataMenu_PasteBefore.Click += funcDataMenu_PasteBefore;
-            uiTASData.uiDataMenu_AddAfter.Click += funcDataMenu_AddAfter;
-            uiTASData.uiDataMenu_AddBefore.Click += funcDataMenu_AddBefore;
-
             RefreshUI(false);
         }
-
 
         TASFile mFile;
         TASViewer mViewer;
@@ -100,41 +88,6 @@ namespace BallanceTASEditor {
 
         #endregion
 
-        #region data menu
-
-        private void funcDataMenu_AddBefore(object sender, RoutedEventArgs e) {
-            throw new NotImplementedException();
-        }
-
-        private void funcDataMenu_AddAfter(object sender, RoutedEventArgs e) {
-            throw new NotImplementedException();
-        }
-
-        private void funcDataMenu_PasteBefore(object sender, RoutedEventArgs e) {
-            throw new NotImplementedException();
-        }
-
-        private void funcDataMenu_PasteAfter(object sender, RoutedEventArgs e) {
-            throw new NotImplementedException();
-        }
-
-        private void funcDataMenu_Delete(object sender, RoutedEventArgs e) {
-            throw new NotImplementedException();
-        }
-
-        private void funcDataMenu_Copy(object sender, RoutedEventArgs e) {
-            throw new NotImplementedException();
-        }
-
-        private void funcDataMenu_Unset(object sender, RoutedEventArgs e) {
-            throw new NotImplementedException();
-        }
-
-        private void funcDataMenu_Set(object sender, RoutedEventArgs e) {
-            throw new NotImplementedException();
-        }
-
-        #endregion
 
         private void ChangeToolMode(ToolMode mode) {
             switch (mode) {

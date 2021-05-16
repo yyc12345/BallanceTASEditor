@@ -57,6 +57,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\ClipboardUtil.cs" />
+    <Compile Include="Core\KeyboardState.cs" />
     <Compile Include="UI\SelectionHelp.cs" />
     <Compile Include="UI\StyleConverter.cs" />
     <Compile Include="UI\TASFlow.xaml.cs">

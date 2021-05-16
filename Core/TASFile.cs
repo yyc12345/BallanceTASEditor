@@ -1,4 +1,5 @@
 ﻿using BallanceTASEditor.Core.TASStruct;
+using BallanceTASEditor.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -60,20 +61,43 @@ namespace BallanceTASEditor.Core {
             }
         }
 
-        public void Set(FrameDataField field, long prevRange, long nextRange, bool isSet) {
+        // if isSet is null, mean flip state
+        public void Set(SelectionRange field, SelectionRange relativeRange, bool? isSet) {
             if (mPointer == null) return;
 
             var cachePointer = mPointer;
-            var offset = ConstValue.Mapping[field];
-            for (long i = 0; i < nextRange && cachePointer != null; i++) {
-                if (isSet) cachePointer.Value.SetKeyStates(offset);
-                else cachePointer.Value.UnsetKeyStates(offset);
-                cachePointer = cachePointer.Next;
+            uint offset = 0;
+            for(int i = (int)field.start; i <= (int)field.end; i++) {
+                offset |= ConstValue.Mapping[(FrameDataField)i];
             }
-            for (long i = 0; i < prevRange && cachePointer != null; i++) {
-                if (isSet) cachePointer.Value.SetKeyStates(offset);
-                else cachePointer.Value.UnsetKeyStates(offset);
-                cachePointer = cachePointer.Previous;
+            foreach(var item in mMem.IterateWithSelectionRange(relativeRange, mPointer)) {
+                if (isSet == null) item.Value.ReverseKeyStates(offset);
+                else if (isSet == true) item.Value.SetKeyStates(offset);
+                else if (isSet == false) item.Value.UnsetKeyStates(offset);
+            }
+        }
+
+        public void Remove(SelectionRange relativeRange) {
+            if (mPointer == null) return;
+
+            mMem.RemoveWithSelectionRange(relativeRange, mPointer);
+            // todo: fix pointer point to invalid item
+        }
+
+        public void Add(long relativePos, bool isAddBefore) {
+            
+        }
+
+        public void Insert(long relativePos, LinkedList<FrameData> data, bool isInsertBefore) {
+            if (mPointer == null) return;
+
+        }
+
+        public void Copy(SelectionRange relativeRange, LinkedList<FrameData> data) {
+            if (mPointer == null) return;
+
+            foreach (var item in mMem.IterateWithSelectionRange(relativeRange, mPointer)) {
+                data.AddLast(item.Value);
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using BallanceTASEditor.Core.TASStruct;
+﻿using BallanceTASEditor.Core;
+using BallanceTASEditor.Core.TASStruct;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,8 @@ namespace BallanceTASEditor.UI {
             mItemCount = 0;
             SetItemCount(1);
         }
+
+        public event Action Click;
 
         private int mItemCount;
         private List<TASFlowUIItem> mItemList;
@@ -147,10 +150,21 @@ namespace BallanceTASEditor.UI {
             var pos = mRectMap[rect];
             if (!mItemList[pos.column - 1].rawIsEnable) return;
             if (e.MouseDevice.LeftButton == MouseButtonState.Pressed) {
-                SelectionHelp.FirstClick(mItemList[pos.column - 1].rawFrame, pos.field);
-            } else if (e.MouseDevice.RightButton == MouseButtonState.Pressed) {
-                SelectionHelp.LastClick(mItemList[pos.column - 1].rawFrame, pos.field);
+                if (KeyboardState.IsKeyPressed(KeyboardState.VirtualKeyStates.VK_SHIFT)) {
+                    SelectionHelp.LastClick(mItemList[pos.column - 1].rawFrame, pos.field);
+                } else {
+                    SelectionHelp.FirstClick(mItemList[pos.column - 1].rawFrame, pos.field);
+                }
             }
+
+            // note main window to process it.
+            OnClick();
+        }
+
+        // only raised in overwrite mode
+        private void OnClick() {
+            if (SelectionHelp.GetToolMode() == ToolMode.Overwrite)
+                Click?.Invoke();
         }
 
     }
@@ -159,12 +173,12 @@ namespace BallanceTASEditor.UI {
         private static readonly Thickness DEFAULT_MARGIN = new Thickness(2);
         private static readonly Thickness RECT_MARGIN = new Thickness(1);
         private static readonly SolidColorBrush SEL_RECT_NORMAL_BRUSH = new SolidColorBrush(Colors.White);
-        private static readonly SolidColorBrush SEL_RECT_SELECTED_BRUSH = new SolidColorBrush(Colors.Orange);
-        private static readonly SolidColorBrush SEL_RECT_STROKE = new SolidColorBrush(Colors.Gray);
+        private static readonly SolidColorBrush SEL_RECT_SELECTED_BRUSH = new SolidColorBrush(Colors.OrangeRed);
+        private static readonly SolidColorBrush SEL_RECT_STROKE = new SolidColorBrush(Colors.LightGray);
         private static readonly Color COLOR_SET = Color.FromRgb(30, 144, 255);
         private static readonly Color COLOR_UNSET = Color.FromArgb(0, 255, 255, 255);
-        private static readonly Color COLOR_SELECTED = Colors.Orange;
-        private static readonly Color COLOR_UNSELECTED = Colors.Gray;
+        private static readonly Color COLOR_SELECTED = Colors.OrangeRed;
+        private static readonly Color COLOR_UNSELECTED = Colors.LightGray;
         private const int KEY_COUNT = 9;
         private const double SELECTION_HEADER_HEIGHT = 10.0f;
 
@@ -185,7 +199,7 @@ namespace BallanceTASEditor.UI {
             frame.Margin = DEFAULT_MARGIN;
             deltaTime.Margin = DEFAULT_MARGIN;
 
-            sel_rect.StrokeThickness = 3;
+            sel_rect.StrokeThickness = 2;
             sel_rect.Stroke = SEL_RECT_STROKE;
             sel_rect.Height = SELECTION_HEADER_HEIGHT;
 
@@ -246,6 +260,7 @@ namespace BallanceTASEditor.UI {
             keystatesFill[7].Color = isEnable && fdd.key_esc ? COLOR_SET : COLOR_UNSET;
             keystatesFill[8].Color = isEnable && fdd.key_enter ? COLOR_SET : COLOR_UNSET;
 
+            sel_rect.Visibility = isEnable ? Visibility.Visible : Visibility.Collapsed;
             frame.Visibility = isEnable ? Visibility.Visible : Visibility.Collapsed;
             deltaTime.Visibility = isEnable ? Visibility.Visible : Visibility.Collapsed;
             for (int i = 0; i < KEY_COUNT; i++) {

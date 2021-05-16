@@ -87,12 +87,19 @@ namespace BallanceTASEditor.UI {
             if (mMode == ToolMode.Fill) throw new Exception("Read with wrong mode.");
             if (!mIsStartConfirmed) throw new Exception("Data is not ready to read");
 
-            if (mMode == ToolMode.Cursor) return mStart;
+            if (mMode == ToolMode.Overwrite) return mStart;
             else {
                 // cursor mode
                 if (mIsStartConfirmed) return mStart;
                 else throw new Exception("Data is not ready to read");
             }
+        }
+
+        public FrameDataField GetPointField() {
+            if (mMode != ToolMode.Overwrite) throw new Exception("Read with wrong mode.");
+            if (!mIsStartConfirmed) throw new Exception("Data is not ready to read");
+
+            return mStartField;
         }
 
         public bool IsDataReady() {
