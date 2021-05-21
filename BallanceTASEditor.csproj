@@ -59,6 +59,9 @@
     </ApplicationDefinition>
     <Compile Include="Core\ClipboardUtil.cs" />
     <Compile Include="Core\KeyboardState.cs" />
+    <Compile Include="UI\AddItem.xaml.cs">
+      <DependentUpon>AddItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\SelectionHelp.cs" />
     <Compile Include="UI\StyleConverter.cs" />
     <Compile Include="UI\TASFlow.xaml.cs">
@@ -83,6 +86,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UI\AddItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\TASFlow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

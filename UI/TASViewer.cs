@@ -25,7 +25,6 @@ namespace BallanceTASEditor.UI {
             mSelectionHelp.SelectionChanged += funcSelectionHelp_SelectionChanged;
 
             // init data
-            mPosition = 0;
             INVALID_FRAME_DATA = new FrameData(-1f, 0);
             mDataSource = new List<FrameDataDisplay>();
             mListLength = 0;
@@ -73,17 +72,14 @@ namespace BallanceTASEditor.UI {
         TextBlock mStatusbar;
         TASFlow mDataGrid;
         SelectionHelp mSelectionHelp;
-        long mPosition;
         int mListLength;
         List<FrameDataDisplay> mDataSource;
 
         private void sliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
             long pos = Convert.ToInt64(Math.Floor(e.NewValue));
-            long offset = pos - mPosition;
-            mFile.Shift(offset);
+            mFile.Shift(pos);
 
-            RefreshDisplay(pos);
-            mPosition = pos;
+            RefreshDisplay();
         }
 
         private void updateSliderRange() {
@@ -150,11 +146,11 @@ namespace BallanceTASEditor.UI {
             mListLength = newLen;
 
             // then refresh
-            RefreshDisplay(mPosition);
+            RefreshDisplay();
         }
 
-        public void RefreshDisplay(long pos) {
-            mFile.Get(mDataSource, pos, mListLength);
+        public void RefreshDisplay() {
+            mFile.Get(mDataSource, mListLength);
             mDataGrid.RefreshDataSources();
             mDataGrid.RefreshSelectionHighlight();
         }
@@ -168,11 +164,19 @@ namespace BallanceTASEditor.UI {
         #region data menu
 
         private void funcDataMenu_AddBefore(object sender, RoutedEventArgs e) {
-            throw new NotImplementedException();
+            if (!DialogUtil.AddItemDialog(out int count, out float deltaTime)) return;
+
+            var pos = mSelectionHelp.GetPoint();
+            mFile.Add(pos, count, deltaTime, true);
+            RefreshDisplay();
         }
 
         private void funcDataMenu_AddAfter(object sender, RoutedEventArgs e) {
-            throw new NotImplementedException();
+            if (!DialogUtil.AddItemDialog(out int count, out float deltaTime)) return;
+
+            var pos = mSelectionHelp.GetPoint();
+            mFile.Add(pos, count, deltaTime, false);
+            RefreshDisplay();
         }
 
         private void funcDataMenu_PasteBefore(object sender, RoutedEventArgs e) {
@@ -192,20 +196,20 @@ namespace BallanceTASEditor.UI {
         }
 
         private void funcDataMenu_Unset(object sender, RoutedEventArgs e) {
-            mFile.Set(mSelectionHelp.GetFieldRange(), mSelectionHelp.GetRange().GetRelative(mPosition), false);
-            RefreshDisplay(mPosition);
+            mFile.Set(mSelectionHelp.GetFieldRange(), mSelectionHelp.GetRange(), false);
+            RefreshDisplay();
         }
 
         private void funcDataMenu_Set(object sender, RoutedEventArgs e) {
-            mFile.Set(mSelectionHelp.GetFieldRange(), mSelectionHelp.GetRange().GetRelative(mPosition), true);
-            RefreshDisplay(mPosition);
+            mFile.Set(mSelectionHelp.GetFieldRange(), mSelectionHelp.GetRange(), true);
+            RefreshDisplay();
         }
 
         private void funcDataMenu_Click() {
-            var data = mSelectionHelp.GetPoint() - mPosition;
+            var data = mSelectionHelp.GetPoint();
             var field = (int)mSelectionHelp.GetPointField();
             mFile.Set(new SelectionRange(field, field), new SelectionRange(data, data), null);
-            RefreshDisplay(mPosition);
+            RefreshDisplay();
         }
 
         #endregion

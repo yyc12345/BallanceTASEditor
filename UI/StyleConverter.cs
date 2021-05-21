@@ -3,55 +3,41 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
 namespace BallanceTASEditor.UI {
 
-    [ValueConversion(typeof(bool), typeof(Color))]
-    public class BackgroundConverter : IValueConverter {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+    public class AddItemConverter : IMultiValueConverter {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {
             try {
-                bool bl = System.Convert.ToBoolean(value);
-                if (bl) return Color.FromRgb(30, 144, 255);
-                else return Color.FromArgb(0, 255, 255, 255);
-            } catch {
-                return Color.FromArgb(0, 255, 255, 255);
+                var textCount = values[0] as string;
+                var textFps = values[1] as string;
+
+                var count = int.Parse(textCount);
+                var fps = float.Parse(textFps);
+
+                if (count <= 0 || fps <= 0) return false;
+                return true;
+            } catch  {
+                return false;
             }
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) {
             return null;
         }
     }
 
-    [ValueConversion(typeof(float), typeof(string))]
-    public class FloatConverter : IValueConverter {
+    public class FPS2DeltaTimeConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-            try {
-                float bl = System.Convert.ToSingle(value);
-                if (bl < 0) return "";
-                else return bl.ToString();
-            } catch {
-                return "";
-            }
-        }
+            var text = value as string;
+            if (text == null) return "0";
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
-            return null;
-        }
-    }    
-    
-    [ValueConversion(typeof(long), typeof(string))]
-    public class LongConverter : IValueConverter {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-            try {
-                float bl = System.Convert.ToInt64(value);
-                if (bl < 0) return "";
-                else return bl.ToString();
-            } catch {
-                return "";
-            }
+            float data;
+            if (!float.TryParse(text, out data)) return "0";
+            return (1000f / data).ToString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {

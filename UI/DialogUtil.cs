@@ -42,5 +42,18 @@ namespace BallanceTASEditor.UI {
             return true;
         }
 
+        public static bool AddItemDialog(out int count, out float deltaTime) {
+            var win = new AddItem();
+            if (!(bool)win.ShowDialog()) {
+                count = 0;
+                deltaTime = 0f;
+                return false;
+            }
+
+            count = win.Output_Count;
+            deltaTime = win.Output_DeltaTime;
+            return true;
+        }
+
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BallanceTASEditor.Core;
 
 namespace BallanceTASEditor.UI {
     public class SelectionHelp {
@@ -127,29 +128,4 @@ namespace BallanceTASEditor.UI {
 
     }
 
-    public struct SelectionRange {
-        public SelectionRange(long value1, long value2) {
-            if (value1 > value2) {
-                start = value2;
-                end = value1;
-            } else {
-                start = value1;
-                end = value2;
-            }
-        }
-        public long start;
-        public long end;
-        public SelectionRange GetRelative(long refer) {
-            var res = new SelectionRange();
-            res.start = start - refer;
-            res.end = end - refer;
-            return res;
-        }
-        public bool Within(long num) {
-            return (num >= start && num <= end);
-        }
-        public long GetCount() {
-            return end - start;
-        }
-    }
 }
