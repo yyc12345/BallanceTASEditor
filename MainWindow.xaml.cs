@@ -86,6 +86,43 @@ namespace BallanceTASEditor {
             ChangeToolMode(ToolMode.Overwrite);
         }
 
+        // move btn
+
+        private void funcBtn_FastMovePrev(object sender, RoutedEventArgs e) {
+            MoveSliderManually(true, true);
+        }
+
+        private void funcBtn_MovePrev(object sender, RoutedEventArgs e) {
+            MoveSliderManually(true, false);
+        }
+
+        private void funcBtn_MoveNext(object sender, RoutedEventArgs e) {
+            MoveSliderManually(false, false);
+        }
+
+        private void funcBtn_FastMoveNext(object sender, RoutedEventArgs e) {
+            MoveSliderManually(false, true);
+        }
+
+        // move keyboard
+
+        private void funcWindow_KeyUp(object sender, KeyEventArgs e) {
+            switch(e.Key) {
+                case Key.A:
+                    MoveSliderManually(true, true);
+                    break;
+                case Key.S:
+                    MoveSliderManually(true, false);
+                    break;
+                case Key.D:
+                    MoveSliderManually(false, false);
+                    break;
+                case Key.F:
+                    MoveSliderManually(false, true);
+                    break;
+            }
+        }
+
         #endregion
 
 
@@ -149,6 +186,11 @@ namespace BallanceTASEditor {
 
                 uiStatusbar.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private void MoveSliderManually(bool isPrev, bool isFast) {
+            var step = isFast ? mViewer.GetItemCountInPage() : 1;
+            uiTASSlider.Value = Util.Clamp(uiTASSlider.Value.ToInt32() + (isPrev ? -1 : 1) * step, uiTASSlider.Minimum.ToInt32(), uiTASSlider.Maximum.ToInt32());
         }
 
     }

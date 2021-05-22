@@ -8,6 +8,19 @@ using System.Text;
 
 namespace BallanceTASEditor.Core {
     public static class Util {
+        public static Int32 ToInt32(this double value) {
+            return (Int32)Math.Floor(value);
+        }        
+        public static Int64 ToInt64(this double value) {
+            return (Int64)Math.Floor(value);
+        }
+
+        public static int Clamp(int value, int min, int max) {
+            if (value < min) return min;
+            if (value > max) return max;
+            return value;
+        }
+
         public static bool ToBool(this UInt32 num) {
             return (num != 0);
         }
@@ -29,11 +42,11 @@ namespace BallanceTASEditor.Core {
         }
 
         public static LinkedListNode<FrameData> FastGetNode(this LinkedList<FrameData> ls, LinkedListNode<FrameData> refNode, long refIndex, long targetIndex) {
-            long count = ls.Count;
-            if (targetIndex >= count || refIndex >= count) throw new Exception("Index is invalid!");
+            long count = ls.Count - 1;
+            if (targetIndex > count || refIndex > count) throw new Exception("Index is invalid!");
             var span = new StupidSortStruct[3] {
                 new StupidSortStruct() { type = 1, data = targetIndex },
-                new StupidSortStruct() { type = 2, data = count - targetIndex },
+                new StupidSortStruct() { type = 2, data = targetIndex - count },
                 new StupidSortStruct() { type = 3, data = targetIndex - refIndex }
             };
 

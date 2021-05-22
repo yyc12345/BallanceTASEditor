@@ -92,7 +92,7 @@ namespace BallanceTASEditor.Core {
             // if state is true, it mean the deleted content is placed before pointer previously.
             // so we need shift the pointer to the head of selection range.
             // and we should consider 2 situations, the full delete of LinkedList and delete from head
-            if (mPointerIndex <= absoluteRange.end) {
+            if (mPointerIndex >= absoluteRange.start) {
                 var newIndex = absoluteRange.start - 1;
                 if (newIndex < 0) {
                     // this contains 2 situation

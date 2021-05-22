@@ -76,7 +76,7 @@ namespace BallanceTASEditor.UI {
         List<FrameDataDisplay> mDataSource;
 
         private void sliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
-            long pos = Convert.ToInt64(Math.Floor(e.NewValue));
+            long pos = e.NewValue.ToInt64();
             mFile.Shift(pos);
 
             RefreshDisplay();
@@ -159,7 +159,9 @@ namespace BallanceTASEditor.UI {
             mSelectionHelp.SetMode(mode);
         }
 
-
+        public int GetItemCountInPage() {
+            return mListLength;
+        }
 
         #region data menu
 
@@ -168,6 +170,7 @@ namespace BallanceTASEditor.UI {
 
             var pos = mSelectionHelp.GetPoint();
             mFile.Add(pos, count, deltaTime, true);
+            updateSliderRange();
             RefreshDisplay();
         }
 
@@ -176,23 +179,39 @@ namespace BallanceTASEditor.UI {
 
             var pos = mSelectionHelp.GetPoint();
             mFile.Add(pos, count, deltaTime, false);
+            updateSliderRange();
             RefreshDisplay();
         }
 
         private void funcDataMenu_PasteBefore(object sender, RoutedEventArgs e) {
-            throw new NotImplementedException();
+            var data = new LinkedList<FrameData>();
+            if (ClipboardUtil.GetFrameData(data)) {
+                mFile.Insert(mSelectionHelp.GetPoint(), data, true);
+                updateSliderRange();
+                RefreshDisplay();
+            } else MessageBox.Show("Fail to paste due to unknow reason or blank clipboard!");
         }
 
         private void funcDataMenu_PasteAfter(object sender, RoutedEventArgs e) {
-            throw new NotImplementedException();
+            var data = new LinkedList<FrameData>();
+            if (ClipboardUtil.GetFrameData(data)) {
+                mFile.Insert(mSelectionHelp.GetPoint(), data, false);
+                updateSliderRange();
+                RefreshDisplay();
+            } else MessageBox.Show("Fail to paste due to unknow reason or blank clipboard!");
         }
 
         private void funcDataMenu_Delete(object sender, RoutedEventArgs e) {
-            throw new NotImplementedException();
+            mFile.Remove(mSelectionHelp.GetRange());
+            updateSliderRange();
+            RefreshDisplay();
         }
 
         private void funcDataMenu_Copy(object sender, RoutedEventArgs e) {
-            throw new NotImplementedException();
+            var data = new LinkedList<FrameData>();
+            mFile.Copy(mSelectionHelp.GetRange(), data);
+            if (!ClipboardUtil.SetFrameData(data))
+                MessageBox.Show("Fail to copy due to unknow reason!");
         }
 
         private void funcDataMenu_Unset(object sender, RoutedEventArgs e) {

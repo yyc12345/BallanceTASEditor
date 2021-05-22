@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BallanceTASEditor.UI"
         xmlns:converter="clr-namespace:BallanceTASEditor.UI"
         mc:Ignorable="d"
-        Title="Add Item" Height="200" Width="400">
+        Title="Add Item" Height="200" Width="400" WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner">
     <Window.Resources>
         <converter:AddItemConverter x:Key="conv_addItem"/>
         <converter:FPS2DeltaTimeConverter x:Key="conv_fps2DeltaTime"/>

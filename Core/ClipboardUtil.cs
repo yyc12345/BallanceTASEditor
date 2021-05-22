@@ -29,7 +29,11 @@ namespace BallanceTASEditor.Core {
                     Clipboard.SetDataObject(data, true);
                 }
                 return true;
+#if DEBUG
+            } catch (Exception e) {
+#else
             } catch {
+#endif
                 return false;
             }
         }
@@ -55,7 +59,11 @@ namespace BallanceTASEditor.Core {
                 }
 
                 return true;
+#if DEBUG
+            } catch (Exception e) {
+#else
             } catch {
+#endif
                 return false;
             }
         } 

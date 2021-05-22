@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BallanceTASEditor"
         xmlns:controls="clr-namespace:BallanceTASEditor.UI"
         mc:Ignorable="d"
-        Title="Ballance TAS Editor" Height="500" Width="800">
+        Title="Ballance TAS Editor" Height="500" Width="800" KeyUp="funcWindow_KeyUp">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -85,14 +85,14 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Margin="2" HorizontalAlignment="Center">
+                <Button x:Name="uiBtn_FastMovePrev" Grid.Column="0" Margin="2" HorizontalAlignment="Center" Click="funcBtn_FastMovePrev">
                     <Viewbox Width="16" Height="16">
                         <Canvas Width="24" Height="24">
                             <Path Fill="Black" Data="M11.5,12L20,18V6M11,18V6L2.5,12L11,18Z" />
                         </Canvas>
                     </Viewbox>
                 </Button>
-                <Button Grid.Column="1" Margin="2" HorizontalAlignment="Center">
+                <Button x:Name="uiBtn_MovePrev" Grid.Column="1" Margin="2" HorizontalAlignment="Center" Click="funcBtn_MovePrev">
                     <Viewbox Width="16" Height="16" RenderTransformOrigin="0.5,0.5">
                         <Viewbox.RenderTransform>
                             <RotateTransform Angle="-90"/>
@@ -102,7 +102,7 @@
                         </Canvas>
                     </Viewbox>
                 </Button>
-                <Button Grid.Column="2" Margin="2" HorizontalAlignment="Center">
+                <Button x:Name="uiBtn_MoveNext" Grid.Column="2" Margin="2" HorizontalAlignment="Center" Click="funcBtn_MoveNext">
                     <Viewbox Width="16" Height="16" RenderTransformOrigin="0.5,0.5">
                         <Viewbox.RenderTransform>
                             <RotateTransform Angle="-90"/>
@@ -112,7 +112,7 @@
                         </Canvas>
                     </Viewbox>
                 </Button>
-                <Button Grid.Column="3" Margin="2" HorizontalAlignment="Center">
+                <Button x:Name="uiBtn_FastMoveNext" Grid.Column="3" Margin="2" HorizontalAlignment="Center" Click="funcBtn_FastMoveNext">
                     <Viewbox Width="16" Height="16">
                         <Canvas Width="24" Height="24">
                             <Path Fill="Black" Data="M13,6V18L21.5,12M4,18L12.5,12L4,6V18Z" />
