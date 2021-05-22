@@ -151,7 +151,7 @@ namespace BallanceTASEditor.Core {
                         mMem.AddBefore(node, item.Value);
                     }
                 } else {
-                    foreach (var item in data.IterateFull()) {
+                    foreach (var item in data.IterateFullReversed()) {
                         mMem.AddAfter(node, item.Value);
                     }
                 }

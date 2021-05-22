@@ -32,6 +32,16 @@ namespace BallanceTASEditor.Core {
         //    if (index + count > list.Count) count = list.Count - index;
         //    for (int i = 0; i < count; i++) list.RemoveAt(index);
         //}
+
+        public static IEnumerable<LinkedListNode<FrameData>> IterateFullReversed(this LinkedList<FrameData> ls) {
+            var pos = ls.Last;
+
+            while (pos != null) {
+                yield return pos;
+                pos = pos.Previous;
+            }
+        }
+
         public static IEnumerable<LinkedListNode<FrameData>> IterateFull(this LinkedList<FrameData> ls) {
             var pos = ls.First;
             

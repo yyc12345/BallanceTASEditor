@@ -170,6 +170,7 @@ namespace BallanceTASEditor.UI {
 
             var pos = mSelectionHelp.GetPoint();
             mFile.Add(pos, count, deltaTime, true);
+            mSelectionHelp.Reset();
             updateSliderRange();
             RefreshDisplay();
         }
@@ -179,6 +180,7 @@ namespace BallanceTASEditor.UI {
 
             var pos = mSelectionHelp.GetPoint();
             mFile.Add(pos, count, deltaTime, false);
+            mSelectionHelp.Reset();
             updateSliderRange();
             RefreshDisplay();
         }
@@ -187,6 +189,7 @@ namespace BallanceTASEditor.UI {
             var data = new LinkedList<FrameData>();
             if (ClipboardUtil.GetFrameData(data)) {
                 mFile.Insert(mSelectionHelp.GetPoint(), data, true);
+                mSelectionHelp.Reset();
                 updateSliderRange();
                 RefreshDisplay();
             } else MessageBox.Show("Fail to paste due to unknow reason or blank clipboard!");
@@ -196,6 +199,7 @@ namespace BallanceTASEditor.UI {
             var data = new LinkedList<FrameData>();
             if (ClipboardUtil.GetFrameData(data)) {
                 mFile.Insert(mSelectionHelp.GetPoint(), data, false);
+                mSelectionHelp.Reset();
                 updateSliderRange();
                 RefreshDisplay();
             } else MessageBox.Show("Fail to paste due to unknow reason or blank clipboard!");
@@ -203,6 +207,7 @@ namespace BallanceTASEditor.UI {
 
         private void funcDataMenu_Delete(object sender, RoutedEventArgs e) {
             mFile.Remove(mSelectionHelp.GetRange());
+            mSelectionHelp.Reset();
             updateSliderRange();
             RefreshDisplay();
         }
