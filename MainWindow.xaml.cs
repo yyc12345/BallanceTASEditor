@@ -36,7 +36,7 @@ namespace BallanceTASEditor {
         }
 
         private void funcMenu_Help_About(object sender, RoutedEventArgs e) {
-            MessageBox.Show("Under MIT License\nVersion 0\nyyc12345.", "Ballance TAS Editor");
+            MessageBox.Show("Under MIT License\nVersion: 1.0 alpha\nyyc12345.", "Ballance TAS Editor");
         }
 
         private void funcMenu_File_Open(object sender, RoutedEventArgs e) {
@@ -107,6 +107,8 @@ namespace BallanceTASEditor {
         // move keyboard
 
         private void funcWindow_KeyUp(object sender, KeyEventArgs e) {
+            if (mFile == null || mViewer == null) return;
+
             switch(e.Key) {
                 case Key.A:
                     MoveSliderManually(true, true);
