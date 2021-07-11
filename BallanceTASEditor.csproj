@@ -60,6 +60,7 @@
     <Compile Include="Core\ClipboardUtil.cs" />
     <Compile Include="Core\FileOperation.cs" />
     <Compile Include="Core\KeyboardState.cs" />
+    <Compile Include="Core\LimitedStack.cs" />
     <Compile Include="UI\AddItem.xaml.cs">
       <DependentUpon>AddItem.xaml</DependentUpon>
     </Compile>

@@ -325,14 +325,26 @@ namespace BallanceTASEditor.Core.FileOperation {
                         long counter = 0;
                         if (isInsertBefore) {
                             foreach (var item in data.IterateFull()) {
-                                mMem.AddBefore(node, item.Value);
+                                if (node == null) {
+                                    // insert from tail instead
+                                    mMem.AddLast(item.Value);
+                                } else {
+                                    mMem.AddBefore(node, item.Value);
+                                }
+                                
                                 if (counter == gottenPointerPos)
                                     mPointer = node.Previous;
                                 counter++;
                             }
                         } else {
                             foreach (var item in data.IterateFullReversed()) {
-                                mMem.AddAfter(node, item.Value);
+                                if (node == null) {
+                                    // insert from head instead
+                                    mMem.AddFirst(item.Value);
+                                } else {
+                                    mMem.AddAfter(node, item.Value);
+                                }
+                                
                                 if (counter == gottenPointerPos)
                                     mPointer = node.Next;
                                 counter++;

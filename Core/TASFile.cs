@@ -1,4 +1,5 @@
-﻿using BallanceTASEditor.Core.TASStruct;
+﻿using BallanceTASEditor.Core.FileOperation;
+using BallanceTASEditor.Core.TASStruct;
 using BallanceTASEditor.UI;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,9 @@ namespace BallanceTASEditor.Core {
             fs.Dispose();
             mPointer = mMem.First;
             mPointerIndex = 0;
+
+            mRedoStack = new LimitedStack<RevocableOperation>();
+            mUndoStack = new LimitedStack<RevocableOperation>();
         }
 
         public string mFilename { get; private set; }
@@ -25,6 +29,9 @@ namespace BallanceTASEditor.Core {
         LinkedList<FrameData> mMem;
         LinkedListNode<FrameData> mPointer;
         long mPointerIndex;
+
+        LimitedStack<RevocableOperation> mRedoStack;
+        LimitedStack<RevocableOperation> mUndoStack;
 
         public bool IsEmpty() {
             return (mPointer == null);
@@ -67,6 +74,11 @@ namespace BallanceTASEditor.Core {
 
         // if isSet is null, mean flip state
         public void Set(SelectionRange field, SelectionRange absoluteRange, bool? isSet) {
+            var oper = new SetOperation(field, absoluteRange, isSet);
+            oper.Do(ref mMem, ref mPointer, ref mPointerIndex);
+            mUndoStack.Push(oper);
+            mRedoStack.Clear();
+            /*
             if (mPointer == null) return;
 
             uint offset = 0;
@@ -78,9 +90,15 @@ namespace BallanceTASEditor.Core {
                 else if (isSet == true) item.Value.SetKeyStates(offset);
                 else if (isSet == false) item.Value.UnsetKeyStates(offset);
             }
+            */
         }
 
         public void Remove(SelectionRange absoluteRange) {
+            var oper = new RemoveOperation(absoluteRange);
+            oper.Do(ref mMem, ref mPointer, ref mPointerIndex);
+            mUndoStack.Push(oper);
+            mRedoStack.Clear();
+            /*
             if (mPointer == null) return;
 
             // remove
@@ -105,9 +123,15 @@ namespace BallanceTASEditor.Core {
                     mPointerIndex = newIndex;
                 }
             }
+            */
         }
 
         public void Add(long absolutePos, long count, float deltaTime, bool isAddBefore) {
+            var oper = new AddOperation(absolutePos, count, deltaTime, isAddBefore);
+            oper.Do(ref mMem, ref mPointer, ref mPointerIndex);
+            mUndoStack.Push(oper);
+            mRedoStack.Clear();
+            /*
             if (count <= 0) return;
 
             if (mPointer == null) {
@@ -132,9 +156,15 @@ namespace BallanceTASEditor.Core {
                     }
                 }
             }
+            */
         }
 
-        public void Insert(long absolutePos, LinkedList<FrameData> data, bool isInsertBefore) {
+        public void Insert(long absolutePos, LinkedList<FrameData> data, bool isInsertBefore, bool isOverwritten) {
+            var oper = new InsertOperation(absolutePos, data, isInsertBefore, isOverwritten);
+            oper.Do(ref mMem, ref mPointer, ref mPointerIndex);
+            mUndoStack.Push(oper);
+            mRedoStack.Clear();
+            /*
             if (data.Count == 0) return;
 
             // the same process route with add function
@@ -156,6 +186,21 @@ namespace BallanceTASEditor.Core {
                     }
                 }
             }
+            */
+        }
+
+        public void Redo() {
+            if (mRedoStack.IsEmpty()) return;
+            var oper = mRedoStack.Pop();
+            oper.Do(ref mMem, ref mPointer, ref mPointerIndex);
+            mUndoStack.Push(oper);
+        }
+
+        public void Undo() {
+            if (mUndoStack.IsEmpty()) return;
+            var oper = mUndoStack.Pop();
+            oper.Undo(ref mMem, ref mPointer, ref mPointerIndex);
+            mRedoStack.Push(oper);
         }
 
         public void Copy(SelectionRange absoluteRange, LinkedList<FrameData> data) {
