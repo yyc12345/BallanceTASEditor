@@ -46,6 +46,7 @@ namespace BallanceTASEditor {
             mViewer = new TASViewer(mFile, uiTASSlider, uiTASData, uiStatusbar_Selected);
             RefreshUI(true);
             ChangeToolMode(ToolMode.Cursor);
+            mViewer.ChangeOverwrittenMode(uiMenu_Display_OverwrittenPaste.IsChecked);
         }
 
         private void funcMenu_File_Save(object sender, RoutedEventArgs e) {
@@ -71,6 +72,20 @@ namespace BallanceTASEditor {
             if (DialogUtil.InputNumber("Input new count (>=5 && <=30)", 5, 30, ref newvalue)) {
                 mViewer.ChangeListLength(newvalue);
             }
+        }
+
+        private void funcMenu_Display_OverwrittenPaste(object sender, RoutedEventArgs e) {
+            //uiMenu_Display_OverwrittenPaste.IsChecked = !uiMenu_Display_OverwrittenPaste.IsChecked;
+            if (mViewer != null)
+                mViewer.ChangeOverwrittenMode(uiMenu_Display_OverwrittenPaste.IsChecked);
+        }
+
+        private void funcMenu_Display_Redo(object sender, RoutedEventArgs e) {
+            mViewer.ProcessOperation(OperationEnum.Redo);
+        }
+
+        private void funcMenu_Display_Undo(object sender, RoutedEventArgs e) {
+            mViewer.ProcessOperation(OperationEnum.Undo);
         }
 
         // =========================== btn
@@ -173,6 +188,9 @@ namespace BallanceTASEditor {
                 uiMenu_File_Close.IsEnabled = true;
 
                 uiMenu_Display_ItemCount.IsEnabled = true;
+                uiMenu_Display_OverwrittenPaste.IsEnabled = true;
+                uiMenu_Display_Undo.IsEnabled = true;
+                uiMenu_Display_Redo.IsEnabled = true;
 
                 uiStatusbar.Visibility = Visibility.Visible;
             } else {
@@ -185,6 +203,9 @@ namespace BallanceTASEditor {
                 uiMenu_File_Close.IsEnabled = false;
 
                 uiMenu_Display_ItemCount.IsEnabled = false;
+                uiMenu_Display_OverwrittenPaste.IsEnabled = false;
+                uiMenu_Display_Undo.IsEnabled = false;
+                uiMenu_Display_Redo.IsEnabled = false;
 
                 uiStatusbar.Visibility = Visibility.Collapsed;
             }

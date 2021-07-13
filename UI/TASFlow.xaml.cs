@@ -28,6 +28,7 @@ namespace BallanceTASEditor.UI {
         }
 
         public event Action Click;
+        public event Action<OperationEnum> NewOperation;
 
         private int mItemCount;
         private List<TASFlowUIItem> mItemList;
@@ -81,7 +82,7 @@ namespace BallanceTASEditor.UI {
             if (SelectionHelp == null) return;
 
             ToolMode mode = SelectionHelp.GetToolMode();
-            bool showCursorPasteAdd = mode == ToolMode.Cursor && SelectionHelp.IsDataPartialReady();
+            bool showCursorPasteAddDeleteOne = mode == ToolMode.Cursor && SelectionHelp.IsDataPartialReady();
             bool showFill = mode == ToolMode.Fill && SelectionHelp.IsDataReady();
             bool showCursorCopyDelete = mode == ToolMode.Cursor && SelectionHelp.IsDataReady();
 
@@ -89,10 +90,12 @@ namespace BallanceTASEditor.UI {
             uiDataMenu_Unset.IsEnabled = showFill;
             uiDataMenu_Copy.IsEnabled = showCursorCopyDelete;
             uiDataMenu_Delete.IsEnabled = showCursorCopyDelete;
-            uiDataMenu_PasteAfter.IsEnabled = showCursorPasteAdd;
-            uiDataMenu_PasteBefore.IsEnabled = showCursorPasteAdd;
-            uiDataMenu_AddAfter.IsEnabled = showCursorPasteAdd;
-            uiDataMenu_AddBefore.IsEnabled = showCursorPasteAdd;
+            uiDataMenu_DeleteAfter.IsEnabled = showCursorPasteAddDeleteOne;
+            uiDataMenu_DeleteBefore.IsEnabled = showCursorPasteAddDeleteOne;
+            uiDataMenu_PasteAfter.IsEnabled = showCursorPasteAddDeleteOne;
+            uiDataMenu_PasteBefore.IsEnabled = showCursorPasteAddDeleteOne;
+            uiDataMenu_AddAfter.IsEnabled = showCursorPasteAddDeleteOne;
+            uiDataMenu_AddBefore.IsEnabled = showCursorPasteAddDeleteOne;
         }
 
         public void RefreshSelectionHighlight() {
@@ -166,6 +169,50 @@ namespace BallanceTASEditor.UI {
             if (SelectionHelp.GetToolMode() == ToolMode.Overwrite)
                 Click?.Invoke();
         }
+
+        #region menu operation
+
+        private void uiDataMenu_Set_Click(object sender, RoutedEventArgs e) {
+            NewOperation?.Invoke(OperationEnum.Set);
+        }
+
+        private void uiDataMenu_Unset_Click(object sender, RoutedEventArgs e) {
+            NewOperation?.Invoke(OperationEnum.Unset);
+        }
+
+        private void uiDataMenu_Copy_Click(object sender, RoutedEventArgs e) {
+            NewOperation?.Invoke(OperationEnum.Copy);
+        }
+
+        private void uiDataMenu_PasteAfter_Click(object sender, RoutedEventArgs e) {
+            NewOperation?.Invoke(OperationEnum.PasteAfter);
+        }
+
+        private void uiDataMenu_PasteBefore_Click(object sender, RoutedEventArgs e) {
+            NewOperation?.Invoke(OperationEnum.PasteBefore);
+        }
+
+        private void uiDataMenu_Delete_Click(object sender, RoutedEventArgs e) {
+            NewOperation?.Invoke(OperationEnum.Delete);
+        }
+
+        private void uiDataMenu_DeleteAfter_Click(object sender, RoutedEventArgs e) {
+            NewOperation?.Invoke(OperationEnum.DeleteAfter);
+        }
+
+        private void uiDataMenu_DeleteBefore_Click(object sender, RoutedEventArgs e) {
+            NewOperation?.Invoke(OperationEnum.DeleteBefore);
+        }
+
+        private void uiDataMenu_AddAfter_Click(object sender, RoutedEventArgs e) {
+            NewOperation?.Invoke(OperationEnum.AddAfter);
+        }
+
+        private void uiDataMenu_AddBefore_Click(object sender, RoutedEventArgs e) {
+            NewOperation?.Invoke(OperationEnum.AddBefore);
+        }
+
+        #endregion
 
     }
 

@@ -72,6 +72,12 @@ namespace BallanceTASEditor.UI {
             SetMode(mMode);
         }
 
+        // onnly used for delete prev one / next one shift.
+        public void ShiftTo(bool toNext) {
+            if (!IsDataPartialReady()) throw new Exception("Shift operation with wrong condition.");
+            FirstClick(GetPoint() + (toNext ? 1 : -1), mStartField);
+        }
+
         public SelectionRange GetRange() {
             if (mMode == ToolMode.Overwrite) throw new Exception("Read with wrong mode.");
             if (!(mIsStartConfirmed && mIsEndConfirmed)) throw new Exception("Data is not ready to read");

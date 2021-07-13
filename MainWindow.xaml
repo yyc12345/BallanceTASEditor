@@ -25,7 +25,10 @@
                 <MenuItem x:Name="uiMenu_File_Close" Header="Close" Click="funcMenu_File_Close"/>
             </MenuItem>
             <MenuItem Header="Display">
+                <MenuItem x:Name="uiMenu_Display_Undo" Header="Undo" Click="funcMenu_Display_Undo"/>
+                <MenuItem x:Name="uiMenu_Display_Redo" Header="Redo" Click="funcMenu_Display_Redo"/>
                 <MenuItem x:Name="uiMenu_Display_ItemCount" Header="Item Count" Click="funcMenu_Display_ItemCount"/>
+                <MenuItem x:Name="uiMenu_Display_OverwrittenPaste" Header="Overwritten Paste" IsCheckable="True" Checked="funcMenu_Display_OverwrittenPaste" Unchecked="funcMenu_Display_OverwrittenPaste"/>
             </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem x:Name="uiMenu_Help_ReportBugs" Header="Report bugs" Click="funcMenu_Help_ReportBugs"/>

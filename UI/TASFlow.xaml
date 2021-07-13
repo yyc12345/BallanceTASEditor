@@ -9,17 +9,19 @@
     <Grid x:Name="uiCoreWindow" Background="#ffffff">
         <Grid.ContextMenu>
             <ContextMenu>
-                <MenuItem x:Name="uiDataMenu_Set" Header="Set"/>
-                <MenuItem x:Name="uiDataMenu_Unset" Header="Unset"/>
+                <MenuItem x:Name="uiDataMenu_Set" Header="Set" Click="uiDataMenu_Set_Click"/>
+                <MenuItem x:Name="uiDataMenu_Unset" Header="Unset" Click="uiDataMenu_Unset_Click"/>
                 <Separator/>
-                <MenuItem x:Name="uiDataMenu_Copy" Header="Copy"/>
-                <MenuItem x:Name="uiDataMenu_Delete" Header="Delete"/>
+                <MenuItem x:Name="uiDataMenu_Copy" Header="Copy" Click="uiDataMenu_Copy_Click"/>
+                <MenuItem x:Name="uiDataMenu_PasteAfter" Header="Paste after this" Click="uiDataMenu_PasteAfter_Click"/>
+                <MenuItem x:Name="uiDataMenu_PasteBefore" Header="Paste before this" Click="uiDataMenu_PasteBefore_Click"/>
                 <Separator/>
-                <MenuItem x:Name="uiDataMenu_PasteAfter" Header="Paste after this"/>
-                <MenuItem x:Name="uiDataMenu_PasteBefore" Header="Paste before this"/>
+                <MenuItem x:Name="uiDataMenu_Delete" Header="Delete" Click="uiDataMenu_Delete_Click"/>
+                <MenuItem x:Name="uiDataMenu_DeleteAfter" Header="Delete next frame" Click="uiDataMenu_DeleteAfter_Click"/>
+                <MenuItem x:Name="uiDataMenu_DeleteBefore" Header="Delete last frame" Click="uiDataMenu_DeleteBefore_Click"/>
                 <Separator/>
-                <MenuItem x:Name="uiDataMenu_AddAfter" Header="Add blank item after this"/>
-                <MenuItem x:Name="uiDataMenu_AddBefore" Header="Add blank item before this"/>
+                <MenuItem x:Name="uiDataMenu_AddAfter" Header="Add blank item after this" Click="uiDataMenu_AddAfter_Click"/>
+                <MenuItem x:Name="uiDataMenu_AddBefore" Header="Add blank item before this" Click="uiDataMenu_AddBefore_Click"/>
             </ContextMenu>
         </Grid.ContextMenu>
         

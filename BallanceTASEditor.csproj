@@ -64,6 +64,7 @@
     <Compile Include="UI\AddItem.xaml.cs">
       <DependentUpon>AddItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\OperationEnum.cs" />
     <Compile Include="UI\SelectionHelp.cs" />
     <Compile Include="UI\StyleConverter.cs" />
     <Compile Include="UI\TASFlow.xaml.cs">

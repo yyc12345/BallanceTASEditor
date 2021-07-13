@@ -28,20 +28,14 @@ namespace BallanceTASEditor.UI {
             INVALID_FRAME_DATA = new FrameData(-1f, 0);
             mDataSource = new List<FrameDataDisplay>();
             mListLength = 0;
+            mOverwrittenPaste = false;
 
             // bind event and source
             mDataGrid.DataSources = mDataSource;
             mDataGrid.SelectionHelp = mSelectionHelp;
 
-            mDataGrid.uiDataMenu_Set.Click += funcDataMenu_Set;
-            mDataGrid.uiDataMenu_Unset.Click += funcDataMenu_Unset;
-            mDataGrid.uiDataMenu_Copy.Click += funcDataMenu_Copy;
-            mDataGrid.uiDataMenu_Delete.Click += funcDataMenu_Delete;
-            mDataGrid.uiDataMenu_PasteAfter.Click += funcDataMenu_PasteAfter;
-            mDataGrid.uiDataMenu_PasteBefore.Click += funcDataMenu_PasteBefore;
-            mDataGrid.uiDataMenu_AddAfter.Click += funcDataMenu_AddAfter;
-            mDataGrid.uiDataMenu_AddBefore.Click += funcDataMenu_AddBefore;
             mDataGrid.Click += funcDataMenu_Click;
+            mDataGrid.NewOperation += funcDataMenu_NewOperation;
 
             mSlider.ValueChanged += sliderValueChanged;
 
@@ -52,15 +46,8 @@ namespace BallanceTASEditor.UI {
         public void Dispose() {
             mDataGrid.DataSources = null;
 
-            mDataGrid.uiDataMenu_Set.Click -= funcDataMenu_Set;
-            mDataGrid.uiDataMenu_Unset.Click -= funcDataMenu_Unset;
-            mDataGrid.uiDataMenu_Copy.Click -= funcDataMenu_Copy;
-            mDataGrid.uiDataMenu_Delete.Click -= funcDataMenu_Delete;
-            mDataGrid.uiDataMenu_PasteAfter.Click -= funcDataMenu_PasteAfter;
-            mDataGrid.uiDataMenu_PasteBefore.Click -= funcDataMenu_PasteBefore;
-            mDataGrid.uiDataMenu_AddAfter.Click -= funcDataMenu_AddAfter;
-            mDataGrid.uiDataMenu_AddBefore.Click -= funcDataMenu_AddBefore;
             mDataGrid.Click -= funcDataMenu_Click;
+            mDataGrid.NewOperation -= funcDataMenu_NewOperation;
 
             mSlider.ValueChanged -= sliderValueChanged;
         }
@@ -74,6 +61,7 @@ namespace BallanceTASEditor.UI {
         SelectionHelp mSelectionHelp;
         int mListLength;
         List<FrameDataDisplay> mDataSource;
+        bool mOverwrittenPaste;
 
         private void sliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
             long pos = e.NewValue.ToInt64();
@@ -123,6 +111,10 @@ namespace BallanceTASEditor.UI {
             }
         }
 
+        public void ChangeOverwrittenMode(bool isOverwritten) {
+            mOverwrittenPaste = isOverwritten;
+        }
+
         public void ChangeListLength(int newLen) {
             if (newLen < 5 || newLen > 30) return;
             int offset = newLen - mListLength;
@@ -154,7 +146,7 @@ namespace BallanceTASEditor.UI {
             mDataGrid.RefreshDataSources();
             mDataGrid.RefreshSelectionHighlight();
         }
-    
+
         public void ChangeToolMode(ToolMode mode) {
             mSelectionHelp.SetMode(mode);
         }
@@ -163,77 +155,93 @@ namespace BallanceTASEditor.UI {
             return mListLength;
         }
 
+        public void ProcessOperation(OperationEnum oper) {
+            switch (oper) {
+                case OperationEnum.Set:
+                case OperationEnum.Unset: {
+                        mFile.Set(mSelectionHelp.GetFieldRange(), mSelectionHelp.GetRange(), oper == OperationEnum.Set);
+                        RefreshDisplay();
+                    }
+                    break;
+                case OperationEnum.Copy: {
+                        var data = new LinkedList<FrameData>();
+                        mFile.Copy(mSelectionHelp.GetRange(), data);
+                        if (!ClipboardUtil.SetFrameData(data))
+                            MessageBox.Show("Fail to copy due to unknow reason!");
+                    }
+                    break;
+                case OperationEnum.PasteAfter:
+                case OperationEnum.PasteBefore: {
+                        var data = new LinkedList<FrameData>();
+                        if (ClipboardUtil.GetFrameData(data)) {
+                            mFile.Insert(mSelectionHelp.GetPoint(), data, oper == OperationEnum.PasteBefore, mOverwrittenPaste);
+                            mSelectionHelp.Reset();
+                            updateSliderRange();
+                            RefreshDisplay();
+                        } else MessageBox.Show("Fail to paste due to unknow reason or blank clipboard!");
+                    }
+                    break;
+                case OperationEnum.Delete: {
+                        mFile.Remove(mSelectionHelp.GetRange());
+                        mSelectionHelp.Reset();
+                        updateSliderRange();
+                        RefreshDisplay();
+                    }
+                    break;
+                case OperationEnum.DeleteAfter:
+                case OperationEnum.DeleteBefore: {
+                        var pos = mSelectionHelp.GetPoint();
+                        pos += oper == OperationEnum.DeleteBefore ? -1 : 1;
+                        if (pos < 0 || pos > mFile.mFrameCount) return;
+                        mFile.Remove(new SelectionRange(pos, pos));
+
+                        // only delete before need shift selection
+                        if (oper == OperationEnum.DeleteBefore)
+                            mSelectionHelp.ShiftTo(false);
+
+                        updateSliderRange();
+                        RefreshDisplay();
+                    }
+                    break;
+                case OperationEnum.AddAfter:
+                case OperationEnum.AddBefore: {
+                        if (!DialogUtil.AddItemDialog(out int count, out float deltaTime)) return;
+
+                        var pos = mSelectionHelp.GetPoint();
+                        mFile.Add(pos, count, deltaTime, oper == OperationEnum.AddBefore);
+                        mSelectionHelp.Reset();
+                        updateSliderRange();
+                        RefreshDisplay();
+                    }
+                    break;
+                case OperationEnum.Undo: {
+                        mFile.Undo();
+                        mSelectionHelp.Reset();
+                        updateSliderRange();
+                        RefreshDisplay();
+                    }
+                    break;
+                case OperationEnum.Redo: {
+                        mFile.Redo();
+                        mSelectionHelp.Reset();
+                        updateSliderRange();
+                        RefreshDisplay();
+                    }
+                    break;
+            }
+        }
+
         #region data menu
-
-        private void funcDataMenu_AddBefore(object sender, RoutedEventArgs e) {
-            if (!DialogUtil.AddItemDialog(out int count, out float deltaTime)) return;
-
-            var pos = mSelectionHelp.GetPoint();
-            mFile.Add(pos, count, deltaTime, true);
-            mSelectionHelp.Reset();
-            updateSliderRange();
-            RefreshDisplay();
-        }
-
-        private void funcDataMenu_AddAfter(object sender, RoutedEventArgs e) {
-            if (!DialogUtil.AddItemDialog(out int count, out float deltaTime)) return;
-
-            var pos = mSelectionHelp.GetPoint();
-            mFile.Add(pos, count, deltaTime, false);
-            mSelectionHelp.Reset();
-            updateSliderRange();
-            RefreshDisplay();
-        }
-
-        private void funcDataMenu_PasteBefore(object sender, RoutedEventArgs e) {
-            var data = new LinkedList<FrameData>();
-            if (ClipboardUtil.GetFrameData(data)) {
-                mFile.Insert(mSelectionHelp.GetPoint(), data, true);
-                mSelectionHelp.Reset();
-                updateSliderRange();
-                RefreshDisplay();
-            } else MessageBox.Show("Fail to paste due to unknow reason or blank clipboard!");
-        }
-
-        private void funcDataMenu_PasteAfter(object sender, RoutedEventArgs e) {
-            var data = new LinkedList<FrameData>();
-            if (ClipboardUtil.GetFrameData(data)) {
-                mFile.Insert(mSelectionHelp.GetPoint(), data, false);
-                mSelectionHelp.Reset();
-                updateSliderRange();
-                RefreshDisplay();
-            } else MessageBox.Show("Fail to paste due to unknow reason or blank clipboard!");
-        }
-
-        private void funcDataMenu_Delete(object sender, RoutedEventArgs e) {
-            mFile.Remove(mSelectionHelp.GetRange());
-            mSelectionHelp.Reset();
-            updateSliderRange();
-            RefreshDisplay();
-        }
-
-        private void funcDataMenu_Copy(object sender, RoutedEventArgs e) {
-            var data = new LinkedList<FrameData>();
-            mFile.Copy(mSelectionHelp.GetRange(), data);
-            if (!ClipboardUtil.SetFrameData(data))
-                MessageBox.Show("Fail to copy due to unknow reason!");
-        }
-
-        private void funcDataMenu_Unset(object sender, RoutedEventArgs e) {
-            mFile.Set(mSelectionHelp.GetFieldRange(), mSelectionHelp.GetRange(), false);
-            RefreshDisplay();
-        }
-
-        private void funcDataMenu_Set(object sender, RoutedEventArgs e) {
-            mFile.Set(mSelectionHelp.GetFieldRange(), mSelectionHelp.GetRange(), true);
-            RefreshDisplay();
-        }
 
         private void funcDataMenu_Click() {
             var data = mSelectionHelp.GetPoint();
             var field = (int)mSelectionHelp.GetPointField();
             mFile.Set(new SelectionRange(field, field), new SelectionRange(data, data), null);
             RefreshDisplay();
+        }
+
+        private void funcDataMenu_NewOperation(OperationEnum obj) {
+            ProcessOperation(obj);
         }
 
         #endregion
