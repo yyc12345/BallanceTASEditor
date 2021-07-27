@@ -89,7 +89,7 @@ namespace BallanceTASEditor.Core.FileOperation {
             removedItems.Clear();
             oldPointer = mPointer;
             oldPointerIndex = mPointerIndex;
-            removeStartNode = absoluteRange.start == 1 ? null : mMem.FastGetNode(mPointer, mPointerIndex, absoluteRange.start - 1);
+            removeStartNode = absoluteRange.start == 0 ? null : mMem.FastGetNode(mPointer, mPointerIndex, absoluteRange.start - 1);
 
             // find proper pointer after remove first. but we do not apply it in there.
             // if state is true, it mean the deleted content is placed before pointer previously. we should consider pointer data and we should correct them.
@@ -100,25 +100,25 @@ namespace BallanceTASEditor.Core.FileOperation {
                 // otherwise we only need to minus index with the length of removed content.
                 if (absoluteRange.Within(mPointerIndex)) {
                     // this contains 3 situation
-                    // if full delete, mPointer is null and mPointerIndex is invalid(with wrong data: 0)
+                    // if full delete, mPointer is null and mPointerIndex is invalid(with wrong data: -1)
                     // if delete from head, mPointer and mPointerIndex all are valid. but it is the tail of removed content
                     // otherwise, just find the head of removed content and shift to it.
-                    if (absoluteRange.start == 1 && absoluteRange.end == mMem.Count) {
+                    if (absoluteRange.start == 0 && absoluteRange.end == mMem.Count - 1) {
                         // fully remove
                         newPointer = null;
-                        newPointerIndex = 0;
-                    } else if (absoluteRange.start == 1) {
+                        newPointerIndex = -1;
+                    } else if (absoluteRange.start == 0) {
                         // remove from head
-                        newPointerIndex = absoluteRange.end + 1;
-                        newPointer = mMem.FastGetNode(mPointer, mPointerIndex, newPointerIndex);
+                        newPointerIndex = 0;
+                        newPointer = mMem.FastGetNode(mPointer, mPointerIndex, absoluteRange.end + 1);
                     } else {
                         // simple remove
                         newPointerIndex = absoluteRange.start - 1;
-                        newPointer = mMem.FastGetNode(mPointer, mPointerIndex, newPointerIndex);
+                        newPointer = mMem.FastGetNode(mPointer, mPointerIndex, absoluteRange.start - 1);
                     }
                 } else {
                     newPointer = mPointer;
-                    newPointerIndex = mPointerIndex - absoluteRange.GetCount() + 1;
+                    newPointerIndex = mPointerIndex - absoluteRange.GetCount();
                 }
             } else {
                 // not affected situation
@@ -128,8 +128,8 @@ namespace BallanceTASEditor.Core.FileOperation {
 
             // the real remove operation
             foreach (var item in mMem.IterateWithSelectionRange(absoluteRange, mPointer, mPointerIndex)) {
-                removedItems.AddLast(item); // backups node first;
                 mMem.Remove(item);
+                removedItems.AddLast(item); // backups node;
             }
 
             // apply gotten new pointer
@@ -140,10 +140,12 @@ namespace BallanceTASEditor.Core.FileOperation {
 
         public override void Undo(ref LinkedList<FrameData> mMem, ref LinkedListNode<FrameData> mPointer, ref long mPointerIndex) {
             base.Undo(ref mMem, ref mPointer, ref mPointerIndex);
-            if (mPointer == null) return;
+            // may recovered from empty list
+            //if (mPointer == null) return;
 
             // re-insert data
             foreach (var item in removedItems.IterateFullReversed()) {
+                removedItems.Remove(item);
                 if (removeStartNode == null) {
                     // insert at first
                     mMem.AddFirst(item);
@@ -395,11 +397,13 @@ namespace BallanceTASEditor.Core.FileOperation {
                 // if we use overwrite mode, we need re-add lost data
                 if (isOverwritten) {
                     if (isInsertBefore) {
-                        foreach (var item in data.IterateFull()) {
+                        foreach (var item in oldItems.IterateFull()) {
+                            oldItems.Remove(item);
                             mMem.AddBefore(addStartNode, item);
                         }
                     } else {
-                        foreach (var item in data.IterateFullReversed()) {
+                        foreach (var item in oldItems.IterateFullReversed()) {
+                            oldItems.Remove(item);
                             mMem.AddAfter(addStartNode, item);
                         }
                     }

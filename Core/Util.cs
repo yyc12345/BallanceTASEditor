@@ -33,21 +33,27 @@ namespace BallanceTASEditor.Core {
         //    for (int i = 0; i < count; i++) list.RemoveAt(index);
         //}
 
+        // remove safety. because it store the next node.
         public static IEnumerable<LinkedListNode<FrameData>> IterateFullReversed(this LinkedList<FrameData> ls) {
             var pos = ls.Last;
+            LinkedListNode<FrameData> cacheNextNode;
 
             while (pos != null) {
+                cacheNextNode = pos.Previous;
                 yield return pos;
-                pos = pos.Previous;
+                pos = cacheNextNode;
             }
         }
 
+        // remove safety. because it store the next node.
         public static IEnumerable<LinkedListNode<FrameData>> IterateFull(this LinkedList<FrameData> ls) {
             var pos = ls.First;
+            LinkedListNode<FrameData> cacheNextNode;
             
             while(pos != null) {
+                cacheNextNode = pos.Next;
                 yield return pos;
-                pos = pos.Next;
+                pos = cacheNextNode;
             }
         }
 
