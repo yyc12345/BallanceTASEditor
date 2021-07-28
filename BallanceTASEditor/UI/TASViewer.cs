@@ -71,10 +71,8 @@ namespace BallanceTASEditor.UI {
         }
 
         private void updateSliderRange() {
-            long newSize = mFile.mFrameCount - 1;
-            if (mSlider.Value > newSize)
-                mSlider.Value = newSize;
-            mSlider.Maximum = newSize;
+            mSlider.Maximum = mFile.mFrameCount - 1;
+            mSlider.Value = mFile.GetPointerIndex();
         }
 
         private void funcSelectionHelp_SelectionChanged() {

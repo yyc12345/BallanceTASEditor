@@ -126,6 +126,13 @@ namespace BallanceTASEditor.Core.Tests {
         [DataRow("1,2,3,4,5", 2, "4;4;6,7,8,9,4,5,", 2, "6,7,8,9", true, true)]
         [DataRow("1,2,3,4,5", 2, "2;1;1,2,6,7,8,9,", 2, "6,7,8,9", false, true)]
 
+        [DataRow("1,2,3,4,5", 4, "5;4;1,6,7,4,5,", 2, "6,7", true, true)]
+        [DataRow("1,2,3,4,5", 4, "5;4;1,2,6,7,5,", 2, "6,7", false, true)]
+        [DataRow("1,2,3,4,5", 4, "5;4;6,7,8,4,5,", 2, "6,7,8", true, true)]
+        [DataRow("1,2,3,4,5", 4, "2;1;1,2,6,7,8,", 2, "6,7,8", false, true)]
+        [DataRow("1,2,3,4,5", 4, "5;5;6,7,8,9,4,5,", 2, "6,7,8,9", true, true)]
+        [DataRow("1,2,3,4,5", 4, "2;1;1,2,6,7,8,9,", 2, "6,7,8,9", false, true)]
+
         [DataRow("1,2,3,4,5", 2, "3;5;1,2,6,7,8,3,4,5,", 2, "6,7,8", true, false)]
         [DataRow("1,2,3,4,5", 2, "3;2;1,2,3,6,7,8,4,5,", 2, "6,7,8", false, false)]
         public void InsertTest(string originStr, long prevShift, string expectedStr, long absolutePos, string insertedData, bool isInsertBefore, bool isOverwritten) {
