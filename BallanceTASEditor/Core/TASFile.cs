@@ -18,7 +18,7 @@ namespace BallanceTASEditor.Core {
             fs.Close();
             fs.Dispose();
             mPointer = mMem.First;
-            mPointerIndex = 0;
+            mPointerIndex = mPointer == null ? -1 : 0;
 
             mRedoStack = new LimitedStack<RevocableOperation>();
             mUndoStack = new LimitedStack<RevocableOperation>();
@@ -52,7 +52,7 @@ namespace BallanceTASEditor.Core {
         public void Get(List<FrameDataDisplay> container, int count) {
             // no item. clean container
             if (mPointer == null) {
-                for(int j = 0; j < count; j++) {
+                for (int j = 0; j < count; j++) {
                     container[j].isEnable = false;
                 }
                 return;
@@ -62,12 +62,12 @@ namespace BallanceTASEditor.Core {
             var cachePointer = mPointer;
             var startIndex = mPointerIndex;
             int i;
-            for(i = 0; i < count && cachePointer != null; i++, startIndex++) {
+            for (i = 0; i < count && cachePointer != null; i++, startIndex++) {
                 container[i].Reload(startIndex, cachePointer.Value);
                 container[i].isEnable = true;
                 cachePointer = cachePointer.Next;
             }
-            for(; i < count; i++) {
+            for (; i < count; i++) {
                 container[i].isEnable = false;
             }
         }
@@ -222,5 +222,34 @@ namespace BallanceTASEditor.Core {
             mFilename = newfile;
             Save();
         }
+
+
+#if DEBUG
+        // following code only should be used in debug mode and served for testbench
+        public TASFile(LinkedList<FrameData> items) {
+            mFilename = "";
+            mMem = items;
+            mPointer = mMem.First;
+            mPointerIndex = mPointer == null ? -1 : 0;
+
+            mRedoStack = new LimitedStack<RevocableOperation>();
+            mUndoStack = new LimitedStack<RevocableOperation>();
+        }
+
+        public string Output2TestString() {
+            StringBuilder sb = new StringBuilder();
+
+            if (mPointer == null) sb.Append("null;");
+            else sb.Append($"{mPointer.Value.keystates.ToString()};");
+            sb.Append($"{mPointerIndex};");
+
+            foreach (var item in mMem.IterateFull()) {
+                sb.Append(item.Value.keystates.ToString());
+                sb.Append(",");
+            }
+            return sb.ToString();
+        }
+#endif
+
     }
 }

@@ -29,6 +29,7 @@ namespace BallanceTASEditor.Core.FileOperation {
         private bool? isSet;
 
         private uint internalOffset;
+        private List<uint> changedItems;
 
         public SetOperation(SelectionRange _field, SelectionRange _absoluteRange, bool? _isSet) : base() {
             field = _field;
@@ -40,13 +41,19 @@ namespace BallanceTASEditor.Core.FileOperation {
             for (int i = (int)field.start; i <= (int)field.end; i++) {
                 internalOffset |= ConstValue.Mapping[(FrameDataField)i];
             }
+
+            changedItems = new List<uint>();
         }
 
         public override void Do(ref LinkedList<FrameData> mMem, ref LinkedListNode<FrameData> mPointer, ref long mPointerIndex) {
             base.Do(ref mMem, ref mPointer, ref mPointerIndex);
             if (mPointer == null) return;
 
+            changedItems.Clear();
             foreach (var item in mMem.IterateWithSelectionRange(absoluteRange, mPointer, mPointerIndex)) {
+                // backup item first
+                changedItems.Add(item.Value.keystates);
+
                 if (isSet == null) item.Value.ReverseKeyStates(internalOffset);
                 else if (isSet == true) item.Value.SetKeyStates(internalOffset);
                 else if (isSet == false) item.Value.UnsetKeyStates(internalOffset);
@@ -57,11 +64,11 @@ namespace BallanceTASEditor.Core.FileOperation {
             base.Undo(ref mMem, ref mPointer, ref mPointerIndex);
             if (mPointer == null) return;
 
+            int counter = 0;
             foreach (var item in mMem.IterateWithSelectionRange(absoluteRange, mPointer, mPointerIndex)) {
-                // just like do operation, but switch set and unset operation
-                if (isSet == null) item.Value.ReverseKeyStates(internalOffset);
-                else if (isSet == true) item.Value.UnsetKeyStates(internalOffset);
-                else if (isSet == false) item.Value.SetKeyStates(internalOffset);
+                // restore data
+                item.Value.keystates = changedItems[counter];
+                counter++;
             }
         }
     }
@@ -93,7 +100,7 @@ namespace BallanceTASEditor.Core.FileOperation {
 
             // find proper pointer after remove first. but we do not apply it in there.
             // if state is true, it mean the deleted content is placed before pointer previously. we should consider pointer data and we should correct them.
-            LinkedListNode <FrameData> newPointer;
+            LinkedListNode<FrameData> newPointer;
             long newPointerIndex;
             if (mPointerIndex >= absoluteRange.start) {
                 // if point within removed content, we need to shift it to the head of removed content, 
@@ -215,7 +222,8 @@ namespace BallanceTASEditor.Core.FileOperation {
 
                 // if the items are added before pointer, the index should add with the count of added items
                 // but pointer don't need to be shifted.
-                if (mPointerIndex > absolutePos)
+                if ((isAddBefore && mPointerIndex >= absolutePos) ||
+                    (!isAddBefore && mPointerIndex > absolutePos))
                     mPointerIndex += count;
             }
         }
@@ -245,7 +253,7 @@ namespace BallanceTASEditor.Core.FileOperation {
             mPointerIndex = oldPointerIndex;
         }
     }
-    
+
     public class InsertOperation : RevocableOperation {
         private long absolutePos;
         private LinkedList<FrameData> data;
@@ -253,9 +261,16 @@ namespace BallanceTASEditor.Core.FileOperation {
         private bool isOverwritten;
 
         private LinkedListNode<FrameData> addStartNode;
-        private LinkedList<FrameData> oldItems;
+        private bool isBlankList;
         private LinkedListNode<FrameData> oldPointer;
         private long oldPointerIndex;
+
+        // because insert including remove oeration(overwritten mode)
+        // so we need include this for code re-use
+        private RemoveOperation internalRemoveOper;
+
+        private const long LINKEDLIST_HEAD = -1;
+        private const long LINKEDLIST_TAIL = -2;
 
         public InsertOperation(long _absolutePos, LinkedList<FrameData> _data, bool _isInsertBefore, bool _isOverwritten) : base() {
             absolutePos = _absolutePos;
@@ -263,22 +278,22 @@ namespace BallanceTASEditor.Core.FileOperation {
             isInsertBefore = _isInsertBefore;
             isOverwritten = _isOverwritten;
 
-            oldItems = new LinkedList<FrameData>();
         }
 
         public override void Do(ref LinkedList<FrameData> mMem, ref LinkedListNode<FrameData> mPointer, ref long mPointerIndex) {
             base.Do(ref mMem, ref mPointer, ref mPointerIndex);
             if (data.Count == 0) return;
 
-            // init backups list and backups 2 data
-            oldItems.Clear();
-            oldPointer = mPointer;
-            oldPointerIndex = mPointerIndex;
+            // because this oper have internal oper, so we need backup data after potential remove oper
+            // so in there, no object need to be backuped
 
             // if the list is blank, overwritten is invalid, just normal add them.
             if (mPointer == null) {
-                // backups start pointer
+                // backups
+                oldPointer = mPointer;
+                oldPointerIndex = mPointerIndex;
                 addStartNode = null;
+                isBlankList = true;
 
                 foreach (var item in data.IterateFull()) {
                     mMem.AddFirst(item.Value);
@@ -287,6 +302,12 @@ namespace BallanceTASEditor.Core.FileOperation {
                 mPointerIndex = 0;
             } else {
                 LinkedListNode<FrameData> node = mMem.FastGetNode(mPointer, mPointerIndex, absolutePos);
+
+                // absolutePos is class member and shouldn't be changed.
+                // but in overwritten mode, this value need to be changed so we create a temp value in there
+                // to instead the fucntion of original variable
+                var modifiedAbsolutePos = absolutePos;
+
                 // if list is not a blank list, we should consider overwritten
                 // if in overwritten mode, we need to overwrite data from selected item.
                 // otherwise, not in overwritten mode, just normally add them just like add operation.
@@ -294,83 +315,80 @@ namespace BallanceTASEditor.Core.FileOperation {
                     // in overwritten mode, if follwoing item is not enough to fufill the count of overwritten data
                     // normally add them
                     // we use delete and add method to do this
-                    // another protential dangerous spot is pointer can be overwritten, its dangerous,
-                    // so we need create a backup pos to store its relative postion and in add stage set pointer to the new data.
+
+                    // now, try init internal remove oper if in overwritten mode
+                    // first, we need compare the length of remained item located in mMem and the length of added item
+                    // then construct remove oper
+                    long remainLength;
+                    if (isInsertBefore) remainLength = absolutePos + 1;
+                    else remainLength = mMem.Count - absolutePos;
+
+                    long dataLength = data.Count;
+                    long expectedLength = dataLength > remainLength ? remainLength : dataLength;
+                    long expectedPos;
+                    if (isInsertBefore) expectedPos = absolutePos - expectedLength + 1;
+                    else expectedPos = absolutePos + expectedLength - 1;
+
+                    if (isInsertBefore)
+                        internalRemoveOper = new RemoveOperation(new SelectionRange(expectedPos, absolutePos));
+                    else
+                        internalRemoveOper = new RemoveOperation(new SelectionRange(absolutePos, expectedPos));
                     
-                    var backupsNode = isInsertBefore ? node.Next : node.Previous;
-                    // backups start pointer
-                    addStartNode = backupsNode;
-
-                    long gottenPointerPos = -1;
-                    for(long i = 0; i < data.Count; i++) {
-                        if (node == null) break;
-                        if (node == mPointer) gottenPointerPos = i;
-                        mMem.Remove(node);
-
-                        // backup and shift to next
-                        if (isInsertBefore) {
-                            oldItems.AddFirst(node);
-                            node = node.Previous;
-                        } else {
-                            oldItems.AddLast(node);
-                            node = node.Next;
-                        }
-                    }
-
-                    node = backupsNode;
-                    if (node == null) {
-                        foreach (var item in data.IterateFullReversed()) {
-                            // add from head
-                            mMem.AddFirst(item);
-                        }
-                    } else {
-                        long counter = 0;
-                        if (isInsertBefore) {
-                            foreach (var item in data.IterateFull()) {
-                                if (node == null) {
-                                    // insert from tail instead
-                                    mMem.AddLast(item.Value);
-                                } else {
-                                    mMem.AddBefore(node, item.Value);
-                                }
-                                
-                                if (counter == gottenPointerPos)
-                                    mPointer = node.Previous;
-                                counter++;
-                            }
-                        } else {
-                            foreach (var item in data.IterateFullReversed()) {
-                                if (node == null) {
-                                    // insert from head instead
-                                    mMem.AddFirst(item.Value);
-                                } else {
-                                    mMem.AddAfter(node, item.Value);
-                                }
-                                
-                                if (counter == gottenPointerPos)
-                                    mPointer = node.Next;
-                                counter++;
-                            }
-                        }
-                    }
-
-                } else {
-                    // backups start pointer
-                    addStartNode = node;
+                    node = isInsertBefore ? node.Next : node.Previous;
+                    internalRemoveOper.Do(ref mMem, ref mPointer, ref mPointerIndex);
+                    // now, we can treat it as normal insert(without overwritten)
+                    // but with one exception: absolutePos
+                    // we need re calc absolutePos bucause we have called remove oper
 
                     if (isInsertBefore) {
-                        foreach (var item in data.IterateFull()) {
-                            mMem.AddBefore(node, item.Value);
-                        }
+                        if (node == null)
+                            modifiedAbsolutePos = LINKEDLIST_TAIL;
+                        else
+                            modifiedAbsolutePos = absolutePos + 1 - expectedLength;
                     } else {
-                        foreach (var item in data.IterateFullReversed()) {
-                            mMem.AddAfter(node, item.Value);
-                        }
+                        if (node == null)
+                            modifiedAbsolutePos = LINKEDLIST_HEAD;
+                        else
+                            modifiedAbsolutePos -= 1;
                     }
-                    if (mPointerIndex > absolutePos)
-                        mPointerIndex += data.Count;
+
+                }
+                // backups
+                oldPointer = mPointer;
+                oldPointerIndex = mPointerIndex;
+                addStartNode = node;
+                isBlankList = false;
+
+                if (isInsertBefore) {
+                    foreach (var item in data.IterateFull()) {
+                        if (node == null)
+                            mMem.AddLast(item.Value);
+                        else
+                            mMem.AddBefore(node, item.Value);
+                    }
+                } else {
+                    foreach (var item in data.IterateFullReversed()) {
+                        if (node == null)
+                            mMem.AddFirst(item.Value);
+                        else
+                            mMem.AddAfter(node, item.Value);
+                    }
                 }
 
+                if (modifiedAbsolutePos != LINKEDLIST_TAIL && modifiedAbsolutePos != LINKEDLIST_HEAD) {
+                    if ((isInsertBefore && mPointerIndex >= modifiedAbsolutePos) ||
+                        (!isInsertBefore && mPointerIndex > modifiedAbsolutePos))
+                        mPointerIndex += data.Count;
+                }
+                else if (modifiedAbsolutePos == LINKEDLIST_HEAD)
+                    mPointerIndex += data.Count;
+
+                // remove have chance to remove entire list
+                // so we need restore pointer in that situation
+                if (mPointer == null) {
+                    mPointer = mMem.First;
+                    mPointerIndex = mPointer == null ? -1 : 0;
+                }
             }
         }
 
@@ -378,41 +396,41 @@ namespace BallanceTASEditor.Core.FileOperation {
             base.Undo(ref mMem, ref mPointer, ref mPointerIndex);
             if (data.Count == 0) return;
 
-            if (addStartNode == null) {
+            if (isBlankList) {
                 // original state is blank
                 // just clear mmem is ok
                 mMem.Clear();
+
+                // re-set pointer
+                mPointer = oldPointer;
+                mPointerIndex = oldPointerIndex;
             } else {
                 // in overwrite or not in overwrite mode, we all need to remove inserted data first
                 if (isInsertBefore) {
                     for (long i = 0; i < data.Count; i++) {
-                        mMem.Remove(addStartNode.Previous);
+                        if (addStartNode == null)
+                            mMem.RemoveLast();
+                        else
+                            mMem.Remove(addStartNode.Previous);
                     }
                 } else {
                     for (long i = 0; i < data.Count; i++) {
-                        mMem.Remove(addStartNode.Next);
+                        if (addStartNode == null)
+                            mMem.RemoveFirst();
+                        else
+                            mMem.Remove(addStartNode.Next);
                     }
                 }
+
+                // re-set pointer
+                mPointer = oldPointer;
+                mPointerIndex = oldPointerIndex;
 
                 // if we use overwrite mode, we need re-add lost data
                 if (isOverwritten) {
-                    if (isInsertBefore) {
-                        foreach (var item in oldItems.IterateFull()) {
-                            oldItems.Remove(item);
-                            mMem.AddBefore(addStartNode, item);
-                        }
-                    } else {
-                        foreach (var item in oldItems.IterateFullReversed()) {
-                            oldItems.Remove(item);
-                            mMem.AddAfter(addStartNode, item);
-                        }
-                    }
+                    internalRemoveOper.Undo(ref mMem, ref mPointer, ref mPointerIndex);
                 }
             }
-
-            // re-set pointer
-            mPointer = oldPointer;
-            mPointerIndex = oldPointerIndex;
         }
     }
 

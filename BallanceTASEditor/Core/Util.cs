@@ -149,7 +149,7 @@ namespace BallanceTASEditor.Core {
             return (num >= start && num <= end);
         }
         public long GetCount() {
-            return end - start;
+            return end - start + 1;
         }
     }
 
