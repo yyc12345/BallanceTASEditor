@@ -6,24 +6,15 @@ using System.Linq;
 using System.Text;
 
 namespace BallanceTASEditor.Core.TASStruct {
-    public class FrameDataDisplay : INotifyPropertyChanged {
+    public class FrameDataDisplay {
         public FrameDataDisplay(long index, FrameData fd) {
             isEnable = true;
             Reload(index, fd);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged(String propertyName) {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         public void Reload(long index, FrameData fd) {
             this.index = index;
             this.deltaTime = fd.deltaTime;
-
-            OnPropertyChanged("index");
-            OnPropertyChanged("deltaTime");
-
             this.keystates = fd.keystates;
         }
 
@@ -55,16 +46,6 @@ namespace BallanceTASEditor.Core.TASStruct {
                 key_q = (value & (1 << 6)).ToBool();
                 key_esc = (value & (1 << 7)).ToBool();
                 key_enter = (value & (1 << 8)).ToBool();
-
-                OnPropertyChanged("key_up");
-                OnPropertyChanged("key_down");
-                OnPropertyChanged("key_left");
-                OnPropertyChanged("key_right");
-                OnPropertyChanged("key_shift");
-                OnPropertyChanged("key_space");
-                OnPropertyChanged("key_q");
-                OnPropertyChanged("key_esc");
-                OnPropertyChanged("key_enter");
             }
         }
         public bool key_up { get; set; }
