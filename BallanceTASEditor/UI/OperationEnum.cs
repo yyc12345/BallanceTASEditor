@@ -7,6 +7,7 @@ namespace BallanceTASEditor.UI {
     public enum OperationEnum {
         Set,
         Unset,
+        Cut,
         Copy,
         PasteAfter,
         PasteBefore,

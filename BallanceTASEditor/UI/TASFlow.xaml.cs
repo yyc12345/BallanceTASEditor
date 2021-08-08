@@ -88,6 +88,7 @@ namespace BallanceTASEditor.UI {
 
             uiDataMenu_Set.IsEnabled = showFill;
             uiDataMenu_Unset.IsEnabled = showFill;
+            uiDataMenu_Cut.IsEnabled = showCursorCopyDelete;
             uiDataMenu_Copy.IsEnabled = showCursorCopyDelete;
             uiDataMenu_Delete.IsEnabled = showCursorCopyDelete;
             uiDataMenu_DeleteAfter.IsEnabled = showCursorPasteAddDeleteOne;
@@ -178,6 +179,10 @@ namespace BallanceTASEditor.UI {
 
         private void uiDataMenu_Unset_Click(object sender, RoutedEventArgs e) {
             NewOperation?.Invoke(OperationEnum.Unset);
+        }
+
+        private void uiDataMenu_Cut_Click(object sender, RoutedEventArgs e) {
+            NewOperation?.Invoke(OperationEnum.Cut);
         }
 
         private void uiDataMenu_Copy_Click(object sender, RoutedEventArgs e) {

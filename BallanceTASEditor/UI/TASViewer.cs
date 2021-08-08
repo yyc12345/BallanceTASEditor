@@ -161,6 +161,25 @@ namespace BallanceTASEditor.UI {
                         RefreshDisplay();
                     }
                     break;
+                case OperationEnum.Cut: {
+                        // cut is a hybrid operation, first, do copy
+                        // then delete selected item
+                        // due to copy is not affect TASFile and only delete oper affect it
+                        // so this is a revocable oper
+                        var data = new LinkedList<FrameData>();
+                        mFile.Copy(mSelectionHelp.GetRange(), data);
+                        if (!ClipboardUtil.SetFrameData(data)) {
+                            MessageBox.Show("Fail to cut due to unknow reason!");
+                            break;  // if fail to cut, do not delete selected items.
+                        }
+
+                        // do delete
+                        mFile.Remove(mSelectionHelp.GetRange());
+                        mSelectionHelp.Reset();
+                        updateSliderRange();
+                        RefreshDisplay();
+                    }
+                    break;
                 case OperationEnum.Copy: {
                         var data = new LinkedList<FrameData>();
                         mFile.Copy(mSelectionHelp.GetRange(), data);

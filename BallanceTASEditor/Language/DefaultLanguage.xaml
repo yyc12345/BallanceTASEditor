@@ -1,0 +1,55 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:BallanceTASEditor.Language"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <!-- ui data-->
+    <sys:String x:Key="ui_MainWindow_Title">Ballance TAS Editor</sys:String>
+    
+    <sys:String x:Key="ui_MainWindow_Menu_File">File</sys:String>
+    <sys:String x:Key="ui_MainWindow_Menu_File_Open">Open</sys:String>
+    <sys:String x:Key="ui_MainWindow_Menu_File_Save">Save</sys:String>
+    <sys:String x:Key="ui_MainWindow_Menu_File_SaveAs">Save As ...</sys:String>
+    <sys:String x:Key="ui_MainWindow_Menu_File_Close">Close</sys:String>
+
+    <sys:String x:Key="ui_MainWindow_Menu_Display">Edit</sys:String>
+    <sys:String x:Key="ui_MainWindow_Menu_Display_Undo">Undo</sys:String>
+    <sys:String x:Key="ui_MainWindow_Menu_Display_Redo">Redo</sys:String>
+    <sys:String x:Key="ui_MainWindow_Menu_Display_ItemCount">Item Count</sys:String>
+    <sys:String x:Key="ui_MainWindow_Menu_Display_OverwrittenPaste">Overwritten Paste</sys:String>
+
+    <sys:String x:Key="ui_MainWindow_Menu_Help">Help</sys:String>
+    <sys:String x:Key="ui_MainWindow_Menu_Help_ReportBugs">Report Bugs</sys:String>
+    <sys:String x:Key="ui_MainWindow_Menu_Help_About">About</sys:String>
+
+    <sys:String x:Key="ui_MainWindow_EditorNote">Open a TAS file for editing</sys:String>
+    
+    <sys:String x:Key="ui_MainWindow_Tools_Cursor">Select mode</sys:String>
+    <sys:String x:Key="ui_MainWindow_Tools_Fill">Fill mode</sys:String>
+    <sys:String x:Key="ui_MainWindow_Tools_Overwritten">Draw mode</sys:String>
+
+    <sys:String x:Key="ui_MainWindow_StatusBar_Mode_Cursor">Select mode</sys:String>
+    <sys:String x:Key="ui_MainWindow_StatusBar_Mode_Fill">Fill mode</sys:String>
+    <sys:String x:Key="ui_MainWindow_StatusBar_Mode_Overwritten">Draw mode</sys:String>
+    <sys:String xml:space="preserve" x:Key="ui_MainWindow_StatusBar_Selected">Selected: </sys:String>
+
+
+    <sys:String x:Key="ui_TASFlow_Sheet_Frame">Frame</sys:String>
+    <sys:String x:Key="ui_TASFlow_Sheet_DeltaTime">Delta Time</sys:String>
+
+    <sys:String x:Key="ui_TASFlow_Menu_Set">Set</sys:String>
+    <sys:String x:Key="ui_TASFlow_Menu_Unset">Unset</sys:String>
+    <sys:String x:Key="ui_TASFlow_Menu_Cut">Cut</sys:String>
+    <sys:String x:Key="ui_TASFlow_Menu_Copy">Copy</sys:String>
+    <sys:String x:Key="ui_TASFlow_Menu_PasteAfter">Paste after this</sys:String>
+    <sys:String x:Key="ui_TASFlow_Menu_PasterBefore">Paste before this</sys:String>
+    <sys:String x:Key="ui_TASFlow_Menu_Delete">Delete</sys:String>
+    <sys:String x:Key="ui_TASFlow_Menu_DeleteAfter">Delete next frame</sys:String>
+    <sys:String x:Key="ui_TASFlow_Menu_DeleteBefore">Delete last frame</sys:String>
+    <sys:String x:Key="ui_TASFlow_Menu_AddAfter">Add blank item after this</sys:String>
+    <sys:String x:Key="ui_TASFlow_Menu_AddBefore">Add blank item before this</sys:String>
+    
+    <!-- code data-->
+    
+    
+
+</ResourceDictionary>

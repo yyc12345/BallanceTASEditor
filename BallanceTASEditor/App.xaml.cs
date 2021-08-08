@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,17 @@ namespace BallanceTASEditor {
                 }
             };
 #endif
+
+            // init configure manager
+            GlobalVariable.configManager = new Core.ConfigManager("ballance-tas-editor.cfg", new Dictionary<string, string>() {
+                {"Language", CultureInfo.CurrentCulture.ThreeLetterWindowsLanguageName},
+                {"ItemCount", "15"},
+                {"IsHorizonLayout", "True"}
+            });
+
+            // init i18n
+            Core.I18NProcessor.ChangeLanguage(GlobalVariable.configManager.Configuration["Language"]);
+
         }
 
         private void UncatchedErrorHandle(string message, string stackTrace) {
@@ -50,7 +62,10 @@ namespace BallanceTASEditor {
                 ;//skip
             }
 
-            MessageBox.Show("A fatal error occurs. The application should exit. Please send the error log, reproduce step and corresponding TAS file(is possible) to use to help fixing this problem.", "Ballance TAS Editor", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show("A fatal error occurs. The application should exit. Please send the error log, reproduce step and corresponding TAS file(if possible) to developer to help fixing this problem.",
+                "Ballance TAS Editor",
+                MessageBoxButton.OK, MessageBoxImage.Error
+            );
             App.Current.Shutdown();
         }
 

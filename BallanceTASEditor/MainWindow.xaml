@@ -7,7 +7,7 @@
         xmlns:controls="clr-namespace:BallanceTASEditor.UI"
         xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
         mc:Ignorable="d"
-        Title="Ballance TAS Editor" Height="500" Width="800" KeyUp="funcWindow_KeyUp"
+        Title="{DynamicResource ui_MainWindow_Title}" Height="500" Width="800" KeyUp="funcWindow_KeyUp"
         input:InputMethod.IsInputMethodEnabled="False">
 
     <Grid>
@@ -18,25 +18,25 @@
         </Grid.RowDefinitions>
 
         <Menu Grid.Row="0">
-            <MenuItem Header="File">
-                <MenuItem x:Name="uiMenu_File_Open" Header="Open" Click="funcMenu_File_Open"/>
-                <MenuItem x:Name="uiMenu_File_Save" Header="Save" Click="funcMenu_File_Save"/>
-                <MenuItem x:Name="uiMenu_File_SaveAs" Header="Save As..." Click="funcMenu_File_SaveAs"/>
-                <MenuItem x:Name="uiMenu_File_Close" Header="Close" Click="funcMenu_File_Close"/>
+            <MenuItem Header="{DynamicResource ui_MainWindow_Menu_File}">
+                <MenuItem x:Name="uiMenu_File_Open" Header="{DynamicResource ui_MainWindow_Menu_File_Open}" Click="funcMenu_File_Open" InputGestureText="Ctrl + O"/>
+                <MenuItem x:Name="uiMenu_File_Save" Header="{DynamicResource ui_MainWindow_Menu_File_Save}" Click="funcMenu_File_Save" InputGestureText="Ctrl + S"/>
+                <MenuItem x:Name="uiMenu_File_SaveAs" Header="{DynamicResource ui_MainWindow_Menu_File_SaveAs}" Click="funcMenu_File_SaveAs"/>
+                <MenuItem x:Name="uiMenu_File_Close" Header="{DynamicResource ui_MainWindow_Menu_File_Close}" Click="funcMenu_File_Close"/>
             </MenuItem>
-            <MenuItem Header="Display">
-                <MenuItem x:Name="uiMenu_Display_Undo" Header="Undo" Click="funcMenu_Display_Undo"/>
-                <MenuItem x:Name="uiMenu_Display_Redo" Header="Redo" Click="funcMenu_Display_Redo"/>
-                <MenuItem x:Name="uiMenu_Display_ItemCount" Header="Item Count" Click="funcMenu_Display_ItemCount"/>
-                <MenuItem x:Name="uiMenu_Display_OverwrittenPaste" Header="Overwritten Paste" IsCheckable="True" Checked="funcMenu_Display_OverwrittenPaste" Unchecked="funcMenu_Display_OverwrittenPaste"/>
+            <MenuItem Header="{DynamicResource ui_MainWindow_Menu_Display}">
+                <MenuItem x:Name="uiMenu_Display_Undo" Header="{DynamicResource ui_MainWindow_Menu_Display_Undo}" Click="funcMenu_Display_Undo" InputGestureText="Ctrl + Z"/>
+                <MenuItem x:Name="uiMenu_Display_Redo" Header="{DynamicResource ui_MainWindow_Menu_Display_Redo}" Click="funcMenu_Display_Redo" InputGestureText="Ctrl + Y"/>
+                <MenuItem x:Name="uiMenu_Display_ItemCount" Header="{DynamicResource ui_MainWindow_Menu_Display_ItemCount}" Click="funcMenu_Display_ItemCount"/>
+                <MenuItem x:Name="uiMenu_Display_OverwrittenPaste" Header="{DynamicResource ui_MainWindow_Menu_Display_OverwrittenPaste}" IsCheckable="True" Checked="funcMenu_Display_OverwrittenPaste" Unchecked="funcMenu_Display_OverwrittenPaste"/>
             </MenuItem>
-            <MenuItem Header="Help">
-                <MenuItem x:Name="uiMenu_Help_ReportBugs" Header="Report bugs" Click="funcMenu_Help_ReportBugs"/>
-                <MenuItem x:Name="uiMenu_Help_About" Header="About" Click="funcMenu_Help_About"/>
+            <MenuItem Header="{DynamicResource ui_MainWindow_Menu_Help}">
+                <MenuItem x:Name="uiMenu_Help_ReportBugs" Header="{DynamicResource ui_MainWindow_Menu_Help_ReportBugs}" Click="funcMenu_Help_ReportBugs"/>
+                <MenuItem x:Name="uiMenu_Help_About" Header="{DynamicResource ui_MainWindow_Menu_Help_About}" Click="funcMenu_Help_About"/>
             </MenuItem>
         </Menu>
 
-        <TextBlock x:Name="uiEditorNote" Grid.Row="1" Text="Open a TAS file for editing" Opacity="0.5" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"/>
+        <TextBlock x:Name="uiEditorNote" Grid.Row="1" Text="{DynamicResource ui_MainWindow_EditorNote}" Opacity="0.5" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"/>
 
         <Grid x:Name="uiEditorPanel" Grid.Row="1">
             <Grid.RowDefinitions>
@@ -53,7 +53,7 @@
                                 <Path Fill="Black" Data="M10.07,14.27C10.57,14.03 11.16,14.25 11.4,14.75L13.7,19.74L15.5,18.89L13.19,13.91C12.95,13.41 13.17,12.81 13.67,12.58L13.95,12.5L16.25,12.05L8,5.12V15.9L9.82,14.43L10.07,14.27M13.64,21.97C13.14,22.21 12.54,22 12.31,21.5L10.13,16.76L7.62,18.78C7.45,18.92 7.24,19 7,19A1,1 0 0,1 6,18V3A1,1 0 0,1 7,2C7.24,2 7.47,2.09 7.64,2.23L7.65,2.22L19.14,11.86C19.57,12.22 19.62,12.85 19.27,13.27C19.12,13.45 18.91,13.57 18.7,13.61L15.54,14.23L17.74,18.96C18,19.46 17.76,20.05 17.26,20.28L13.64,21.97Z" />
                             </Canvas>
                         </Viewbox>
-                        <TextBlock Text="Select mode" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource ui_MainWindow_Tools_Cursor}" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
                 <Button x:Name="uiBtn_Fill" Margin="5" Padding="5" Click="funcBtn_Fill">
@@ -63,7 +63,7 @@
                                 <Path Fill="Black" Data="M19,11.5C19,11.5 17,13.67 17,15A2,2 0 0,0 19,17A2,2 0 0,0 21,15C21,13.67 19,11.5 19,11.5M5.21,10L10,5.21L14.79,10M16.56,8.94L7.62,0L6.21,1.41L8.59,3.79L3.44,8.94C2.85,9.5 2.85,10.47 3.44,11.06L8.94,16.56C9.23,16.85 9.62,17 10,17C10.38,17 10.77,16.85 11.06,16.56L16.56,11.06C17.15,10.47 17.15,9.5 16.56,8.94Z" />
                             </Canvas>
                         </Viewbox>
-                        <TextBlock Text="Fill mode" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource ui_MainWindow_Tools_Fill}" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
                 <Button x:Name="uiBtn_Overwrite" Margin="5" Padding="5" Click="funcBtn_Overwrite">
@@ -73,7 +73,7 @@
                                 <Path Fill="Black" Data="M18.62,1.5C18.11,1.5 17.6,1.69 17.21,2.09L10.75,8.55L14.95,12.74L21.41,6.29C22.2,5.5 22.2,4.24 21.41,3.46L20.04,2.09C19.65,1.69 19.14,1.5 18.62,1.5M9.8,9.5L3.23,16.07L3.93,16.77C3.4,17.24 2.89,17.78 2.38,18.29C1.6,19.08 1.6,20.34 2.38,21.12C3.16,21.9 4.42,21.9 5.21,21.12C5.72,20.63 6.25,20.08 6.73,19.58L7.43,20.27L14,13.7" />
                             </Canvas>
                         </Viewbox>
-                        <TextBlock Text="Draw mode" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource ui_MainWindow_Tools_Overwritten}" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
             </StackPanel>
@@ -133,11 +133,11 @@
         </Grid>
 
         <StatusBar x:Name="uiStatusbar" Grid.Row="2">
-            <TextBlock x:Name="uiStatusbar_Mode_Cursor" Text="Select mode"/>
-            <TextBlock x:Name="uiStatusbar_Mode_Fill" Text="Fill mode"/>
-            <TextBlock x:Name="uiStatusbar_Mode_Overwrite" Text="Draw mode"/>
+            <TextBlock x:Name="uiStatusbar_Mode_Cursor" Text="{DynamicResource ui_MainWindow_StatusBar_Mode_Cursor}"/>
+            <TextBlock x:Name="uiStatusbar_Mode_Fill" Text="{DynamicResource ui_MainWindow_StatusBar_Mode_Fill}"/>
+            <TextBlock x:Name="uiStatusbar_Mode_Overwrite" Text="{DynamicResource ui_MainWindow_StatusBar_Mode_Overwritten}"/>
             <Separator/>
-            <TextBlock Text="Selected: "/>
+            <TextBlock Text="{DynamicResource ui_MainWindow_StatusBar_Selected}"/>
             <TextBlock x:Name="uiStatusbar_Selected" Text="-"/>
         </StatusBar>
 

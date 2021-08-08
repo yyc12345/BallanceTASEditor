@@ -1,0 +1,55 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:BallanceTASEditor.Language"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <!-- ui data-->
+    <sys:String x:Key="ui_MainWindow_Title">Ballance TAS 编辑器</sys:String>
+
+    <sys:String x:Key="ui_MainWindow_Menu_File">文件</sys:String>
+    <sys:String x:Key="ui_MainWindow_Menu_File_Open">打开</sys:String>
+    <sys:String x:Key="ui_MainWindow_Menu_File_Save">保存</sys:String>
+    <sys:String x:Key="ui_MainWindow_Menu_File_SaveAs">另存为...</sys:String>
+    <sys:String x:Key="ui_MainWindow_Menu_File_Close">关闭</sys:String>
+
+    <sys:String x:Key="ui_MainWindow_Menu_Display">编辑</sys:String>
+    <sys:String x:Key="ui_MainWindow_Menu_Display_Undo">撤销</sys:String>
+    <sys:String x:Key="ui_MainWindow_Menu_Display_Redo">重做</sys:String>
+    <sys:String x:Key="ui_MainWindow_Menu_Display_ItemCount">项个数</sys:String>
+    <sys:String x:Key="ui_MainWindow_Menu_Display_OverwrittenPaste">覆盖式粘贴</sys:String>
+
+    <sys:String x:Key="ui_MainWindow_Menu_Help">帮助</sys:String>
+    <sys:String x:Key="ui_MainWindow_Menu_Help_ReportBugs">汇报漏洞</sys:String>
+    <sys:String x:Key="ui_MainWindow_Menu_Help_About">关于</sys:String>
+
+    <sys:String x:Key="ui_MainWindow_EditorNote">打开一个 TAS 文件以编辑</sys:String>
+
+    <sys:String x:Key="ui_MainWindow_Tools_Cursor">选择模式</sys:String>
+    <sys:String x:Key="ui_MainWindow_Tools_Fill">填充模式</sys:String>
+    <sys:String x:Key="ui_MainWindow_Tools_Overwritten">画笔模式</sys:String>
+
+    <sys:String x:Key="ui_MainWindow_StatusBar_Mode_Cursor">选择模式</sys:String>
+    <sys:String x:Key="ui_MainWindow_StatusBar_Mode_Fill">填充模式</sys:String>
+    <sys:String x:Key="ui_MainWindow_StatusBar_Mode_Overwritten">画笔模式</sys:String>
+    <sys:String x:Key="ui_MainWindow_StatusBar_Selected">已选择：</sys:String>
+
+
+    <sys:String x:Key="ui_TASFlow_Sheet_Frame">帧</sys:String>
+    <sys:String x:Key="ui_TASFlow_Sheet_DeltaTime">间隔时间</sys:String>
+
+    <sys:String x:Key="ui_TASFlow_Menu_Set">设置</sys:String>
+    <sys:String x:Key="ui_TASFlow_Menu_Unset">不设置</sys:String>
+    <sys:String x:Key="ui_TASFlow_Menu_Cut">剪切</sys:String>
+    <sys:String x:Key="ui_TASFlow_Menu_Copy">复制</sys:String>
+    <sys:String x:Key="ui_TASFlow_Menu_PasteAfter">粘贴于后方</sys:String>
+    <sys:String x:Key="ui_TASFlow_Menu_PasterBefore">粘贴于前方</sys:String>
+    <sys:String x:Key="ui_TASFlow_Menu_Delete">删除</sys:String>
+    <sys:String x:Key="ui_TASFlow_Menu_DeleteAfter">向后删除</sys:String>
+    <sys:String x:Key="ui_TASFlow_Menu_DeleteBefore">向前删除</sys:String>
+    <sys:String x:Key="ui_TASFlow_Menu_AddAfter">在后方添加新项</sys:String>
+    <sys:String x:Key="ui_TASFlow_Menu_AddBefore">在前方添加新项</sys:String>
+
+    <!-- code data-->
+
+
+
+</ResourceDictionary>

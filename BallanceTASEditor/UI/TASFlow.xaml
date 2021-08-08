@@ -9,19 +9,20 @@
     <Grid x:Name="uiCoreWindow" Background="#ffffff">
         <Grid.ContextMenu>
             <ContextMenu>
-                <MenuItem x:Name="uiDataMenu_Set" Header="Set" Click="uiDataMenu_Set_Click"/>
-                <MenuItem x:Name="uiDataMenu_Unset" Header="Unset" Click="uiDataMenu_Unset_Click"/>
+                <MenuItem x:Name="uiDataMenu_Set" Header="{DynamicResource ui_TASFlow_Menu_Set}" Click="uiDataMenu_Set_Click"/>
+                <MenuItem x:Name="uiDataMenu_Unset" Header="{DynamicResource ui_TASFlow_Menu_Unset}" Click="uiDataMenu_Unset_Click"/>
                 <Separator/>
-                <MenuItem x:Name="uiDataMenu_Copy" Header="Copy" Click="uiDataMenu_Copy_Click"/>
-                <MenuItem x:Name="uiDataMenu_PasteAfter" Header="Paste after this" Click="uiDataMenu_PasteAfter_Click"/>
-                <MenuItem x:Name="uiDataMenu_PasteBefore" Header="Paste before this" Click="uiDataMenu_PasteBefore_Click"/>
+                <MenuItem x:Name="uiDataMenu_Cut" Header="{DynamicResource ui_TASFlow_Menu_Cut}" Click="uiDataMenu_Cut_Click" InputGestureText="Ctrl + X"/>
+                <MenuItem x:Name="uiDataMenu_Copy" Header="{DynamicResource ui_TASFlow_Menu_Copy}" Click="uiDataMenu_Copy_Click" InputGestureText="Ctrl + C"/>
+                <MenuItem x:Name="uiDataMenu_PasteAfter" Header="{DynamicResource ui_TASFlow_Menu_PasteAfter}" Click="uiDataMenu_PasteAfter_Click"/>
+                <MenuItem x:Name="uiDataMenu_PasteBefore" Header="{DynamicResource ui_TASFlow_Menu_PasterBefore}" Click="uiDataMenu_PasteBefore_Click"/>
                 <Separator/>
-                <MenuItem x:Name="uiDataMenu_Delete" Header="Delete" Click="uiDataMenu_Delete_Click"/>
-                <MenuItem x:Name="uiDataMenu_DeleteAfter" Header="Delete next frame" Click="uiDataMenu_DeleteAfter_Click"/>
-                <MenuItem x:Name="uiDataMenu_DeleteBefore" Header="Delete last frame" Click="uiDataMenu_DeleteBefore_Click"/>
+                <MenuItem x:Name="uiDataMenu_Delete" Header="{DynamicResource ui_TASFlow_Menu_Delete}" Click="uiDataMenu_Delete_Click"/>
+                <MenuItem x:Name="uiDataMenu_DeleteAfter" Header="{DynamicResource ui_TASFlow_Menu_DeleteAfter}" Click="uiDataMenu_DeleteAfter_Click" InputGestureText="Del"/>
+                <MenuItem x:Name="uiDataMenu_DeleteBefore" Header="{DynamicResource ui_TASFlow_Menu_PasterBefore}" Click="uiDataMenu_DeleteBefore_Click" InputGestureText="Backspace"/>
                 <Separator/>
-                <MenuItem x:Name="uiDataMenu_AddAfter" Header="Add blank item after this" Click="uiDataMenu_AddAfter_Click"/>
-                <MenuItem x:Name="uiDataMenu_AddBefore" Header="Add blank item before this" Click="uiDataMenu_AddBefore_Click"/>
+                <MenuItem x:Name="uiDataMenu_AddAfter" Header="{DynamicResource ui_TASFlow_Menu_AddAfter}" Click="uiDataMenu_AddAfter_Click"/>
+                <MenuItem x:Name="uiDataMenu_AddBefore" Header="{DynamicResource ui_TASFlow_Menu_AddBefore}" Click="uiDataMenu_AddBefore_Click"/>
             </ContextMenu>
         </Grid.ContextMenu>
         
@@ -44,8 +45,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="1" Text="Frame"/>
-        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="2" Text="Delta Time"/>
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="1" Text="{DynamicResource ui_TASFlow_Sheet_Frame}"/>
+        <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="2" Text="{DynamicResource ui_TASFlow_Sheet_DeltaTime}"/>
         <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="3" Text="^"/>
         <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="4" Text="v"/>
         <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="5" Text="&lt;"/>
