@@ -29,13 +29,13 @@ namespace BallanceTASEditor {
 
             // init configure manager
             GlobalVariable.configManager = new Core.ConfigManager("ballance-tas-editor.cfg", new Dictionary<string, string>() {
-                {"Language", CultureInfo.CurrentCulture.ThreeLetterWindowsLanguageName},
-                {"ItemCount", "15"},
-                {"IsHorizonLayout", "True"}
+                {Core.ConfigManager.CfgNode_Language, CultureInfo.CurrentCulture.ThreeLetterWindowsLanguageName},
+                {Core.ConfigManager.CfgNode_ItemCount, "15"},
+                {Core.ConfigManager.CfgNode_IsHorizonLayout, "True"}
             });
 
             // init i18n
-            Core.I18NProcessor.ChangeLanguage(GlobalVariable.configManager.Configuration["Language"]);
+            Core.I18NProcessor.ChangeLanguage(GlobalVariable.configManager.Configuration[Core.ConfigManager.CfgNode_Language]);
 
         }
 

@@ -8,8 +8,31 @@
         xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
         mc:Ignorable="d"
         Title="{DynamicResource ui_MainWindow_Title}" Height="500" Width="800" KeyUp="funcWindow_KeyUp"
-        input:InputMethod.IsInputMethodEnabled="False">
+        input:InputMethod.IsInputMethodEnabled="False" MouseWheel="funcWindow_MouseWheel">
 
+    <!-- shortcut defination-->
+    <Window.Resources>
+        <RoutedUICommand x:Key="commandMenu_File_Open"/>
+        <RoutedUICommand x:Key="commandMenu_File_Save"/>
+        <RoutedUICommand x:Key="commandMenu_Display_Undo"/>
+        <RoutedUICommand x:Key="commandMenu_Display_Redo"/>
+    </Window.Resources>
+
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+O" Command="{StaticResource commandMenu_File_Open}"/>
+        <KeyBinding Gesture="Ctrl+S" Command="{StaticResource commandMenu_File_Save}"/>
+        <KeyBinding Gesture="Ctrl+Z" Command="{StaticResource commandMenu_Display_Undo}"/>
+        <KeyBinding Gesture="Ctrl+Y" Command="{StaticResource commandMenu_Display_Redo}"/>
+    </Window.InputBindings>
+
+    <Window.CommandBindings>
+        <CommandBinding Command="{StaticResource commandMenu_File_Open}" Executed="funcCommand_Menu_File_Open" CanExecute="funcCanExeCmd_Menu_File_Open"/>
+        <CommandBinding Command="{StaticResource commandMenu_File_Save}" Executed="funcCommand_Menu_File_Save" CanExecute="funcCanExeCmd_Menu_File_Save"/>
+        <CommandBinding Command="{StaticResource commandMenu_Display_Undo}" Executed="funcCommand_Menu_Display_Undo" CanExecute="funcCanExeCmd_Menu_Display_Undo"/>
+        <CommandBinding Command="{StaticResource commandMenu_Display_Redo}" Executed="funcCommand_Menu_Display_Redo" CanExecute="funcCanExeCmd_Menu_Display_Redo"/>
+    </Window.CommandBindings>
+
+    <!-- real ui elements-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -78,8 +101,59 @@
                 </Button>
             </StackPanel>
 
-            <controls:TASFlow x:Name="uiTASData" Grid.Row="1" Margin="5" BorderThickness="1" BorderBrush="Gray">
-            </controls:TASFlow>
+            <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="1" Margin="5" Background="#ffffff">
+                <Grid x:Name="uiTASData">
+                    <Grid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem x:Name="uiDataMenu_Set" Header="{DynamicResource ui_TASFlow_Menu_Set}" Click="uiDataMenu_Set_Click"/>
+                            <MenuItem x:Name="uiDataMenu_Unset" Header="{DynamicResource ui_TASFlow_Menu_Unset}" Click="uiDataMenu_Unset_Click"/>
+                            <Separator/>
+                            <MenuItem x:Name="uiDataMenu_Cut" Header="{DynamicResource ui_TASFlow_Menu_Cut}" Click="uiDataMenu_Cut_Click" InputGestureText="Ctrl + X"/>
+                            <MenuItem x:Name="uiDataMenu_Copy" Header="{DynamicResource ui_TASFlow_Menu_Copy}" Click="uiDataMenu_Copy_Click" InputGestureText="Ctrl + C"/>
+                            <MenuItem x:Name="uiDataMenu_PasteAfter" Header="{DynamicResource ui_TASFlow_Menu_PasteAfter}" Click="uiDataMenu_PasteAfter_Click"/>
+                            <MenuItem x:Name="uiDataMenu_PasteBefore" Header="{DynamicResource ui_TASFlow_Menu_PasterBefore}" Click="uiDataMenu_PasteBefore_Click"/>
+                            <Separator/>
+                            <MenuItem x:Name="uiDataMenu_Delete" Header="{DynamicResource ui_TASFlow_Menu_Delete}" Click="uiDataMenu_Delete_Click"/>
+                            <MenuItem x:Name="uiDataMenu_DeleteAfter" Header="{DynamicResource ui_TASFlow_Menu_DeleteAfter}" Click="uiDataMenu_DeleteAfter_Click" InputGestureText="Del"/>
+                            <MenuItem x:Name="uiDataMenu_DeleteBefore" Header="{DynamicResource ui_TASFlow_Menu_PasterBefore}" Click="uiDataMenu_DeleteBefore_Click" InputGestureText="Backspace"/>
+                            <Separator/>
+                            <MenuItem x:Name="uiDataMenu_AddAfter" Header="{DynamicResource ui_TASFlow_Menu_AddAfter}" Click="uiDataMenu_AddAfter_Click"/>
+                            <MenuItem x:Name="uiDataMenu_AddBefore" Header="{DynamicResource ui_TASFlow_Menu_AddBefore}" Click="uiDataMenu_AddBefore_Click"/>
+                        </ContextMenu>
+                    </Grid.ContextMenu>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="1" Text="{DynamicResource ui_TASFlow_Sheet_Frame}"/>
+                    <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="2" Text="{DynamicResource ui_TASFlow_Sheet_DeltaTime}"/>
+                    <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="3" Text="^"/>
+                    <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="4" Text="v"/>
+                    <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="5" Text="&lt;"/>
+                    <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="6" Text="&gt;"/>
+                    <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="7" Text="shift"/>
+                    <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="8" Text="space"/>
+                    <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="9" Text="q"/>
+                    <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="10" Text="esc"/>
+                    <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="11" Text="enter"/>
+                </Grid>
+            </Border>
 
             <Grid Grid.Row="2" Margin="5">
                 <Grid.ColumnDefinitions>
@@ -123,13 +197,11 @@
                             <Path Fill="Black" Data="M13,6V18L21.5,12M4,18L12.5,12L4,6V18Z" />
                         </Canvas>
                     </Viewbox>
-                </Button>                
+                </Button>
                 <Slider x:Name="uiTASSlider" Margin="5,0,0,0" Grid.Column="4" SmallChange="1" LargeChange="10" Maximum="1" VerticalAlignment="Center">
                 </Slider>
 
             </Grid>
-
-
         </Grid>
 
         <StatusBar x:Name="uiStatusbar" Grid.Row="2">

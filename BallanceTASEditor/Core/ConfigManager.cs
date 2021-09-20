@@ -20,6 +20,10 @@ namespace BallanceTASEditor.Core {
         string _defaultValue;
         public Dictionary<string, string> Configuration;
 
+        public static readonly string CfgNode_Language = "Language";
+        public static readonly string CfgNode_ItemCount = "ItemCount";
+        public static readonly string CfgNode_IsHorizonLayout = "IsHorizonLayout";
+
         Dictionary<string, string> Read() {
             if (!File.Exists(Path.Combine(Environment.CurrentDirectory, _fileName)))
                 Init();

@@ -10,15 +10,13 @@ using System.Windows;
 
 namespace BallanceTASEditor.UI {
     public class TASViewer : IDisposable {
-        public TASViewer(TASFile file, Slider slider, TASFlow datagrid, TextBlock statusbar) {
+        public TASViewer(TASFile file, TASSlider slider, TASFlow datagrid) {
             mFile = file;
             mSlider = slider;
             mDataGrid = datagrid;
-            mStatusbar = statusbar;
 
             // restore slider
-            mSlider.Minimum = 0;
-            updateSliderRange();
+            mSlider.UpdateRange(mFile);
 
             // init selection
             mSelectionHelp = new SelectionHelp();
@@ -35,86 +33,81 @@ namespace BallanceTASEditor.UI {
             mDataGrid.SelectionHelp = mSelectionHelp;
 
             mDataGrid.Click += funcDataMenu_Click;
-            mDataGrid.NewOperation += funcDataMenu_NewOperation;
-
-            mSlider.ValueChanged += sliderValueChanged;
+            mSlider.ValueChanged += funcSlider_ValueChanged;
 
             // display data
-            ChangeListLength(DATA_LIST_LENGTH);
+            ChangeListLength(int.Parse(GlobalVariable.configManager.Configuration[ConfigManager.CfgNode_ItemCount]));
         }
 
         public void Dispose() {
             mDataGrid.DataSources = null;
 
             mDataGrid.Click -= funcDataMenu_Click;
-            mDataGrid.NewOperation -= funcDataMenu_NewOperation;
-
-            mSlider.ValueChanged -= sliderValueChanged;
+            mSlider.ValueChanged -= funcSlider_ValueChanged;
         }
 
-        const int DATA_LIST_LENGTH = 15;
+        //const int DATA_LIST_LENGTH = 15;
         FrameData INVALID_FRAME_DATA;
         TASFile mFile;
-        Slider mSlider;
-        TextBlock mStatusbar;
+        TASSlider mSlider;
         TASFlow mDataGrid;
         SelectionHelp mSelectionHelp;
         int mListLength;
         List<FrameDataDisplay> mDataSource;
         bool mOverwrittenPaste;
 
-        private void sliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
-            long pos = e.NewValue.ToInt64();
-            mFile.Shift(pos);
+        #region self event
+        public event Action<bool, bool, bool> UpdateDataUI;
+        public event Action<ToolMode> UpdateToolMode;
+        public event Action<SelectionHelp> UpdateSelection;
 
+        private void OnUpdateDataUI() {
+            ToolMode mode = mSelectionHelp.GetToolMode();
+            bool showCursorPasteAddDeleteOne = mode == ToolMode.Cursor && mSelectionHelp.IsDataPartialReady();
+            bool showFill = mode == ToolMode.Fill && mSelectionHelp.IsDataReady();
+            bool showCursorCopyDelete = mode == ToolMode.Cursor && mSelectionHelp.IsDataReady();
+
+            UpdateDataUI?.Invoke(showCursorPasteAddDeleteOne, showFill, showCursorCopyDelete);
+        }
+
+        private void OnUpdateToolMode() {
+            UpdateToolMode?.Invoke(mSelectionHelp.GetToolMode());
+        }
+
+        private void OnUpdateSelection() {
+            UpdateSelection?.Invoke(mSelectionHelp);
+        }
+
+        #endregion
+
+        #region process event
+
+        private void funcSlider_ValueChanged(long pos) {
+            mFile.Shift(pos);
             RefreshDisplay();
         }
 
-        private void updateSliderRange() {
-            mSlider.Maximum = mFile.mFrameCount - 1;
-            mSlider.Value = mFile.GetPointerIndex();
-        }
-
         private void funcSelectionHelp_SelectionChanged() {
-            mDataGrid.RefreshDataMenu();
             mDataGrid.RefreshSelectionHighlight();
-            OnStatusbarSelectionChanged();
+            OnUpdateDataUI();
+            OnUpdateSelection();
         }
 
-        private void OnStatusbarSelectionChanged() {
-            var mode = mSelectionHelp.GetToolMode();
-
-            switch (mode) {
-                case ToolMode.Cursor:
-                    if (mSelectionHelp.IsDataReady()) {
-                        var data = mSelectionHelp.GetRange();
-                        mStatusbar.Text = $"{data.start} - {data.end}";
-                    } else if (mSelectionHelp.IsDataPartialReady()) {
-                        var data2 = mSelectionHelp.GetPoint();
-                        mStatusbar.Text = data2.ToString();
-                    } else mStatusbar.Text = "-";
-                    break;
-                case ToolMode.Fill:
-                    if (mSelectionHelp.IsDataReady()) {
-                        var data3 = mSelectionHelp.GetRange();
-                        mStatusbar.Text = $"{data3.start} - {data3.end}";
-                    } else mStatusbar.Text = "-";
-                    break;
-                case ToolMode.Overwrite:
-                    if (mSelectionHelp.IsDataReady()) {
-                        var data4 = mSelectionHelp.GetPoint();
-                        mStatusbar.Text = data4.ToString();
-                    } else mStatusbar.Text = "-";
-                    break;
-            }
+        private void funcDataMenu_Click() {
+            var data = mSelectionHelp.GetPoint();
+            var field = (int)mSelectionHelp.GetPointField();
+            mFile.Set(new SelectionRange(field, field), new SelectionRange(data, data), null);
+            RefreshDisplay();
         }
+
+        #endregion
 
         public void ChangeOverwrittenMode(bool isOverwritten) {
             mOverwrittenPaste = isOverwritten;
         }
 
         public void ChangeListLength(int newLen) {
-            if (newLen < 5 || newLen > 30) return;
+            if (newLen < 5 || newLen > 200) return;
             int offset = newLen - mListLength;
             int abs = Math.Abs(offset);
             if (offset == 0) return;
@@ -147,6 +140,7 @@ namespace BallanceTASEditor.UI {
 
         public void ChangeToolMode(ToolMode mode) {
             mSelectionHelp.SetMode(mode);
+            OnUpdateToolMode();
         }
 
         public int GetItemCountInPage() {
@@ -176,7 +170,7 @@ namespace BallanceTASEditor.UI {
                         // do delete
                         mFile.Remove(mSelectionHelp.GetRange());
                         mSelectionHelp.Reset();
-                        updateSliderRange();
+                        mSlider.UpdateRange(mFile);
                         RefreshDisplay();
                     }
                     break;
@@ -193,7 +187,7 @@ namespace BallanceTASEditor.UI {
                         if (ClipboardUtil.GetFrameData(data)) {
                             mFile.Insert(mSelectionHelp.GetPoint(), data, oper == OperationEnum.PasteBefore, mOverwrittenPaste);
                             mSelectionHelp.Reset();
-                            updateSliderRange();
+                            mSlider.UpdateRange(mFile);
                             RefreshDisplay();
                         } else MessageBox.Show("Fail to paste due to unknow reason or blank clipboard!");
                     }
@@ -201,7 +195,7 @@ namespace BallanceTASEditor.UI {
                 case OperationEnum.Delete: {
                         mFile.Remove(mSelectionHelp.GetRange());
                         mSelectionHelp.Reset();
-                        updateSliderRange();
+                        mSlider.UpdateRange(mFile);
                         RefreshDisplay();
                     }
                     break;
@@ -225,8 +219,8 @@ namespace BallanceTASEditor.UI {
 
                         // do real operation
                         mFile.Remove(new SelectionRange(pos, pos));
-                        
-                        updateSliderRange();
+
+                        mSlider.UpdateRange(mFile);
                         RefreshDisplay();
                     }
                     break;
@@ -237,40 +231,26 @@ namespace BallanceTASEditor.UI {
                         var pos = mSelectionHelp.GetPoint();
                         mFile.Add(pos, count, deltaTime, oper == OperationEnum.AddBefore);
                         mSelectionHelp.Reset();
-                        updateSliderRange();
+                        mSlider.UpdateRange(mFile);
                         RefreshDisplay();
                     }
                     break;
                 case OperationEnum.Undo: {
                         mFile.Undo();
                         mSelectionHelp.Reset();
-                        updateSliderRange();
+                        mSlider.UpdateRange(mFile);
                         RefreshDisplay();
                     }
                     break;
                 case OperationEnum.Redo: {
                         mFile.Redo();
                         mSelectionHelp.Reset();
-                        updateSliderRange();
+                        mSlider.UpdateRange(mFile);
                         RefreshDisplay();
                     }
                     break;
             }
         }
 
-        #region data menu
-
-        private void funcDataMenu_Click() {
-            var data = mSelectionHelp.GetPoint();
-            var field = (int)mSelectionHelp.GetPointField();
-            mFile.Set(new SelectionRange(field, field), new SelectionRange(data, data), null);
-            RefreshDisplay();
-        }
-
-        private void funcDataMenu_NewOperation(OperationEnum obj) {
-            ProcessOperation(obj);
-        }
-
-        #endregion
     }
 }

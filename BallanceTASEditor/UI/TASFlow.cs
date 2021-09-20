@@ -15,12 +15,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace BallanceTASEditor.UI {
-    /// <summary>
-    /// TASFlow.xaml 的交互逻辑
-    /// </summary>
-    public partial class TASFlow : UserControl {
-        public TASFlow() {
-            InitializeComponent();
+    public partial class TASFlow {
+        public TASFlow(Grid coreWindow) {
+            uiCoreWindow = coreWindow;
             mItemList = new List<TASFlowUIItem>();
             mRectMap = new Dictionary<Rectangle, CellPosition>();
             mItemCount = 0;
@@ -28,8 +25,8 @@ namespace BallanceTASEditor.UI {
         }
 
         public event Action Click;
-        public event Action<OperationEnum> NewOperation;
 
+        private Grid uiCoreWindow;
         private int mItemCount;
         private List<TASFlowUIItem> mItemList;
         private Dictionary<Rectangle, CellPosition> mRectMap;
@@ -51,9 +48,9 @@ namespace BallanceTASEditor.UI {
 
             // change column defination first
             if (offset > 0) {
-                for(int i = 0; i < abs; i++) {
+                for (int i = 0; i < abs; i++) {
                     var item = new ColumnDefinition();
-                    item.Width = GridLength.Auto;
+                    item.Width = new GridLength(1, GridUnitType.Star);
                     uiCoreWindow.ColumnDefinitions.Add(item);
                 }
             } else {
@@ -68,7 +65,7 @@ namespace BallanceTASEditor.UI {
                     mItemList.Add(newItem);
                 }
             } else {
-                for(int i = 0; i < abs; i++) {
+                for (int i = 0; i < abs; i++) {
                     mItemList[newCount + i].Remove(uiCoreWindow, mRectMap, Rectangle_MouseDown);
                 }
                 mItemList.RemoveRange(newCount, abs);
@@ -76,27 +73,6 @@ namespace BallanceTASEditor.UI {
 
             // apply new count
             mItemCount = newCount;
-        }
-
-        public void RefreshDataMenu() {
-            if (SelectionHelp == null) return;
-
-            ToolMode mode = SelectionHelp.GetToolMode();
-            bool showCursorPasteAddDeleteOne = mode == ToolMode.Cursor && SelectionHelp.IsDataPartialReady();
-            bool showFill = mode == ToolMode.Fill && SelectionHelp.IsDataReady();
-            bool showCursorCopyDelete = mode == ToolMode.Cursor && SelectionHelp.IsDataReady();
-
-            uiDataMenu_Set.IsEnabled = showFill;
-            uiDataMenu_Unset.IsEnabled = showFill;
-            uiDataMenu_Cut.IsEnabled = showCursorCopyDelete;
-            uiDataMenu_Copy.IsEnabled = showCursorCopyDelete;
-            uiDataMenu_Delete.IsEnabled = showCursorCopyDelete;
-            uiDataMenu_DeleteAfter.IsEnabled = showCursorPasteAddDeleteOne;
-            uiDataMenu_DeleteBefore.IsEnabled = showCursorPasteAddDeleteOne;
-            uiDataMenu_PasteAfter.IsEnabled = showCursorPasteAddDeleteOne;
-            uiDataMenu_PasteBefore.IsEnabled = showCursorPasteAddDeleteOne;
-            uiDataMenu_AddAfter.IsEnabled = showCursorPasteAddDeleteOne;
-            uiDataMenu_AddBefore.IsEnabled = showCursorPasteAddDeleteOne;
         }
 
         public void RefreshSelectionHighlight() {
@@ -170,54 +146,6 @@ namespace BallanceTASEditor.UI {
             if (SelectionHelp.GetToolMode() == ToolMode.Overwrite)
                 Click?.Invoke();
         }
-
-        #region menu operation
-
-        private void uiDataMenu_Set_Click(object sender, RoutedEventArgs e) {
-            NewOperation?.Invoke(OperationEnum.Set);
-        }
-
-        private void uiDataMenu_Unset_Click(object sender, RoutedEventArgs e) {
-            NewOperation?.Invoke(OperationEnum.Unset);
-        }
-
-        private void uiDataMenu_Cut_Click(object sender, RoutedEventArgs e) {
-            NewOperation?.Invoke(OperationEnum.Cut);
-        }
-
-        private void uiDataMenu_Copy_Click(object sender, RoutedEventArgs e) {
-            NewOperation?.Invoke(OperationEnum.Copy);
-        }
-
-        private void uiDataMenu_PasteAfter_Click(object sender, RoutedEventArgs e) {
-            NewOperation?.Invoke(OperationEnum.PasteAfter);
-        }
-
-        private void uiDataMenu_PasteBefore_Click(object sender, RoutedEventArgs e) {
-            NewOperation?.Invoke(OperationEnum.PasteBefore);
-        }
-
-        private void uiDataMenu_Delete_Click(object sender, RoutedEventArgs e) {
-            NewOperation?.Invoke(OperationEnum.Delete);
-        }
-
-        private void uiDataMenu_DeleteAfter_Click(object sender, RoutedEventArgs e) {
-            NewOperation?.Invoke(OperationEnum.DeleteAfter);
-        }
-
-        private void uiDataMenu_DeleteBefore_Click(object sender, RoutedEventArgs e) {
-            NewOperation?.Invoke(OperationEnum.DeleteBefore);
-        }
-
-        private void uiDataMenu_AddAfter_Click(object sender, RoutedEventArgs e) {
-            NewOperation?.Invoke(OperationEnum.AddAfter);
-        }
-
-        private void uiDataMenu_AddBefore_Click(object sender, RoutedEventArgs e) {
-            NewOperation?.Invoke(OperationEnum.AddBefore);
-        }
-
-        #endregion
 
     }
 
