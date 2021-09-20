@@ -62,9 +62,11 @@
             <MenuItem Header="{DynamicResource ui_MainWindow_Menu_Display}">
                 <MenuItem x:Name="uiMenu_Display_Undo" Header="{DynamicResource ui_MainWindow_Menu_Display_Undo}" Click="funcMenu_Display_Undo" InputGestureText="Ctrl + Z"/>
                 <MenuItem x:Name="uiMenu_Display_Redo" Header="{DynamicResource ui_MainWindow_Menu_Display_Redo}" Click="funcMenu_Display_Redo" InputGestureText="Ctrl + Y"/>
+                <Separator/>
                 <MenuItem x:Name="uiMenu_Display_ItemCount" Header="{DynamicResource ui_MainWindow_Menu_Display_ItemCount}" Click="funcMenu_Display_ItemCount"/>
-                <MenuItem x:Name="uiMenu_Display_OverwrittenPaste" Header="{DynamicResource ui_MainWindow_Menu_Display_OverwrittenPaste}" IsCheckable="True" Checked="funcMenu_Display_OverwrittenPaste" Unchecked="funcMenu_Display_OverwrittenPaste"/>
-                <MenuItem x:Name="uiMenu_Display_HorizontalLayout" Header="???" IsCheckable="True"/>
+                <Separator/>
+                <MenuItem x:Name="uiMenu_Display_OverwrittenPaste" Header="{DynamicResource ui_MainWindow_Menu_Display_OverwrittenPaste}" Click="funcMenu_Display_OverwrittenPaste"/>
+                <MenuItem x:Name="uiMenu_Display_HorizontalLayout" Header="{DynamicResource ui_MainWindow_Menu_Display_HorizontalLayout}" Click="funcMenu_Display_HorizontalLayout"/>
             </MenuItem>
             <MenuItem Header="{DynamicResource ui_MainWindow_Menu_Help}">
                 <MenuItem x:Name="uiMenu_Help_ReportBugs" Header="{DynamicResource ui_MainWindow_Menu_Help_ReportBugs}" Click="funcMenu_Help_ReportBugs"/>

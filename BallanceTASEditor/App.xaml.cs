@@ -40,6 +40,12 @@ namespace BallanceTASEditor {
 
         }
 
+        protected override void OnExit(ExitEventArgs e) {
+            base.OnExit(e);
+
+            GlobalVariable.configManager.Save();
+        }
+
         private void UncatchedErrorHandle(string message, string stackTrace) {
             try {
                 if (!Directory.Exists("./logs"))

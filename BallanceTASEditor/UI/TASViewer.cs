@@ -34,9 +34,6 @@ namespace BallanceTASEditor.UI {
 
             mDataGrid.Click += funcDataMenu_Click;
             mSlider.ValueChanged += funcSlider_ValueChanged;
-
-            // display data
-            ChangeListLength(int.Parse(GlobalVariable.configManager.Configuration[ConfigManager.CfgNode_ItemCount]));
         }
 
         public void Dispose() {

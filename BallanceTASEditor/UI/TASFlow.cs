@@ -21,17 +21,26 @@ namespace BallanceTASEditor.UI {
             mItemList = new List<TASFlowUIItem>();
             mRectMap = new Dictionary<Rectangle, CellPosition>();
             mItemCount = 0;
+            mIsHorizontalLayout = true;
             SetItemCount(1);
         }
 
         public event Action Click;
 
+        private bool mIsHorizontalLayout;
         private Grid uiCoreWindow;
         private int mItemCount;
         private List<TASFlowUIItem> mItemList;
         private Dictionary<Rectangle, CellPosition> mRectMap;
         public SelectionHelp SelectionHelp { get; set; }
         public List<FrameDataDisplay> DataSources { get; set; }
+
+        public void ChangeLayout(bool isHorizontal) {
+            // the layout changed, re-construct elements
+            if (isHorizontal != mIsHorizontalLayout) {
+                // todo: change layout
+            }
+        }
 
         public void RefreshDataSources() {
             if (DataSources == null) return;
@@ -134,6 +143,14 @@ namespace BallanceTASEditor.UI {
                     SelectionHelp.LastClick(mItemList[pos.column - 1].rawFrame, pos.field);
                 } else {
                     SelectionHelp.FirstClick(mItemList[pos.column - 1].rawFrame, pos.field);
+                }
+            } else if (e.MouseDevice.RightButton == MouseButtonState.Pressed) {
+                // if we click right button and there are no full selection in cursor mode
+                // try to add a first selection
+                if (SelectionHelp.GetToolMode() == ToolMode.Cursor) {
+                    if (!SelectionHelp.IsDataReady()) {
+                        SelectionHelp.FirstClick(mItemList[pos.column - 1].rawFrame, pos.field);
+                    }
                 }
             }
 

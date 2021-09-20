@@ -22,9 +22,12 @@ namespace BallanceTASEditor {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
-            RefreshUI(false);
+
             mFlow = new TASFlow(uiTASData);
             mSlider = new TASSlider(uiTASSlider);
+
+            RefreshUI(false);
+            ApplyConfigureManager();
         }
 
         TASFile mFile;
@@ -96,14 +99,22 @@ namespace BallanceTASEditor {
         private void funcMenu_Display_ItemCount(object sender, RoutedEventArgs e) {
             int newvalue = 0;
             if (DialogUtil.InputNumber("Input new count (>=5 && <=30)", 5, 30, ref newvalue)) {
-                mViewer.ChangeListLength(newvalue);
+                ChangeItemCount(newvalue);
             }
         }
 
         private void funcMenu_Display_OverwrittenPaste(object sender, RoutedEventArgs e) {
-            //uiMenu_Display_OverwrittenPaste.IsChecked = !uiMenu_Display_OverwrittenPaste.IsChecked;
+            uiMenu_Display_OverwrittenPaste.IsChecked = !uiMenu_Display_OverwrittenPaste.IsChecked;
+
+            GlobalVariable.configManager.Configuration[ConfigManager.CfgNode_IsOverwrittenPaste] = uiMenu_Display_OverwrittenPaste.IsChecked.ToString();
             if (mViewer != null)
                 mViewer.ChangeOverwrittenMode(uiMenu_Display_OverwrittenPaste.IsChecked);
+        }
+
+        private void funcMenu_Display_HorizontalLayout(object sender, RoutedEventArgs e) {
+            uiMenu_Display_HorizontalLayout.IsChecked = !uiMenu_Display_HorizontalLayout.IsChecked;
+            GlobalVariable.configManager.Configuration[ConfigManager.CfgNode_IsHorizonLayout] = uiMenu_Display_HorizontalLayout.IsChecked.ToString();
+            ChangeLayout(uiMenu_Display_HorizontalLayout.IsChecked);
         }
 
         private void funcMenu_Display_Redo(object sender, RoutedEventArgs e) {
@@ -227,7 +238,7 @@ namespace BallanceTASEditor {
                 } else if (KeyboardState.IsKeyPressed(KeyboardState.VirtualKeyStates.VK_CONTROL)) {
                     // decrease item count
                     var newvalue = mViewer.GetItemCountInPage();
-                    mViewer.ChangeListLength(newvalue - 1);
+                    ChangeItemCount(newvalue - 1);
                 } else {
                     // normally move
                     mSlider.MoveSliderManually(true, false, mViewer.GetItemCountInPage());
@@ -241,7 +252,7 @@ namespace BallanceTASEditor {
                 } else if (KeyboardState.IsKeyPressed(KeyboardState.VirtualKeyStates.VK_CONTROL)) {
                     // increase item count
                     var newvalue = mViewer.GetItemCountInPage();
-                    mViewer.ChangeListLength(newvalue + 1);
+                    ChangeItemCount(newvalue + 1);
                 } else {
                     // normally move
                     mSlider.MoveSliderManually(false, false, mViewer.GetItemCountInPage());
@@ -265,8 +276,21 @@ namespace BallanceTASEditor {
             else e.Effects = DragDropEffects.None;
         }
 
-
         #endregion
+
+        private void ApplyConfigureManager() {
+            var isOverwrittenPaste = bool.Parse(GlobalVariable.configManager.Configuration[ConfigManager.CfgNode_IsOverwrittenPaste]);
+            var isHorizontalLayout = bool.Parse(GlobalVariable.configManager.Configuration[ConfigManager.CfgNode_IsHorizonLayout]);
+            var itemCount = int.Parse(GlobalVariable.configManager.Configuration[ConfigManager.CfgNode_ItemCount]);
+
+            uiMenu_Display_OverwrittenPaste.IsChecked = isOverwrittenPaste;
+            uiMenu_Display_HorizontalLayout.IsChecked = isHorizontalLayout;
+            if (mViewer != null) {
+                mViewer.ChangeOverwrittenMode(isOverwrittenPaste);
+                mViewer.ChangeListLength(itemCount);
+                ChangeLayout(isHorizontalLayout);
+            }
+        }
 
         private void OpenFile(string file) {
             try {
@@ -284,9 +308,8 @@ namespace BallanceTASEditor {
             mViewer.UpdateToolMode += RefreshToolMode;
 
             RefreshUI(true);
-
+            ApplyConfigureManager(); // apply item count and overwritten item
             mViewer.ChangeToolMode(ToolMode.Cursor);
-            mViewer.ChangeOverwrittenMode(uiMenu_Display_OverwrittenPaste.IsChecked);
         }
 
         private void RefreshToolMode(ToolMode mode) {
@@ -333,6 +356,7 @@ namespace BallanceTASEditor {
 
                 uiMenu_Display_ItemCount.IsEnabled = true;
                 uiMenu_Display_OverwrittenPaste.IsEnabled = true;
+                uiMenu_Display_HorizontalLayout.IsEnabled = true;
                 uiMenu_Display_Undo.IsEnabled = true;
                 uiMenu_Display_Redo.IsEnabled = true;
 
@@ -348,6 +372,7 @@ namespace BallanceTASEditor {
 
                 uiMenu_Display_ItemCount.IsEnabled = false;
                 uiMenu_Display_OverwrittenPaste.IsEnabled = false;
+                uiMenu_Display_HorizontalLayout.IsEnabled = false;
                 uiMenu_Display_Undo.IsEnabled = false;
                 uiMenu_Display_Redo.IsEnabled = false;
 
@@ -395,6 +420,16 @@ namespace BallanceTASEditor {
                     } else uiStatusbar_Selected.Text = "-";
                     break;
             }
+        }
+
+        private void ChangeItemCount(int count) {
+            GlobalVariable.configManager.Configuration[ConfigManager.CfgNode_ItemCount] = count.ToString();
+            mViewer.ChangeListLength(count);
+        }
+
+        private void ChangeLayout(bool isHorizontal) {
+            mFlow.ChangeLayout(isHorizontal);
+            // todo: add more change
         }
 
     }

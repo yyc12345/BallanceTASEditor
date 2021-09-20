@@ -16,12 +16,13 @@
     <sys:String x:Key="ui_MainWindow_Menu_Display_Redo">Redo</sys:String>
     <sys:String x:Key="ui_MainWindow_Menu_Display_ItemCount">Item Count</sys:String>
     <sys:String x:Key="ui_MainWindow_Menu_Display_OverwrittenPaste">Overwritten Paste</sys:String>
+    <sys:String x:Key="ui_MainWindow_Menu_Display_HorizontalLayout">Horizontal Layout</sys:String>
 
     <sys:String x:Key="ui_MainWindow_Menu_Help">Help</sys:String>
     <sys:String x:Key="ui_MainWindow_Menu_Help_ReportBugs">Report Bugs</sys:String>
     <sys:String x:Key="ui_MainWindow_Menu_Help_About">About</sys:String>
 
-    <sys:String x:Key="ui_MainWindow_EditorNote">Open a TAS file for editing</sys:String>
+    <sys:String x:Key="ui_MainWindow_EditorNote">Open or drop a TAS file for editing</sys:String>
     
     <sys:String x:Key="ui_MainWindow_Tools_Cursor">Select mode</sys:String>
     <sys:String x:Key="ui_MainWindow_Tools_Fill">Fill mode</sys:String>

@@ -16,12 +16,13 @@
     <sys:String x:Key="ui_MainWindow_Menu_Display_Redo">重做</sys:String>
     <sys:String x:Key="ui_MainWindow_Menu_Display_ItemCount">项个数</sys:String>
     <sys:String x:Key="ui_MainWindow_Menu_Display_OverwrittenPaste">覆盖式粘贴</sys:String>
+    <sys:String x:Key="ui_MainWindow_Menu_Display_HorizontalLayout">横向布局</sys:String>
 
     <sys:String x:Key="ui_MainWindow_Menu_Help">帮助</sys:String>
     <sys:String x:Key="ui_MainWindow_Menu_Help_ReportBugs">汇报漏洞</sys:String>
     <sys:String x:Key="ui_MainWindow_Menu_Help_About">关于</sys:String>
 
-    <sys:String x:Key="ui_MainWindow_EditorNote">打开一个 TAS 文件以编辑</sys:String>
+    <sys:String x:Key="ui_MainWindow_EditorNote">打开或拖入一个 TAS 文件以编辑</sys:String>
 
     <sys:String x:Key="ui_MainWindow_Tools_Cursor">选择模式</sys:String>
     <sys:String x:Key="ui_MainWindow_Tools_Fill">填充模式</sys:String>

@@ -11,13 +11,13 @@ namespace BallanceTASEditor.Core {
 
         public ConfigManager(string fileName, Dictionary<string, string> defaultValue) {
             _fileName = fileName;
-            _defaultValue = JsonConvert.SerializeObject(defaultValue);
+            _defaultValue = defaultValue;
             
             Configuration = Read();
         }
 
         string _fileName;
-        string _defaultValue;
+        Dictionary<string, string> _defaultValue;
         public Dictionary<string, string> Configuration;
 
         public static readonly string CfgNode_Language = "Language";
@@ -35,12 +35,20 @@ namespace BallanceTASEditor.Core {
                 fs.Close();
             }
 
+            // check field to make sure each field is existed
+            // because version update it might be changed
+            foreach(var pair in _defaultValue) {
+                if (!data.ContainsKey(pair.Key)) {
+                    data.Add(pair.Key, pair.Value);
+                }
+            }
+
             return data;
         }
 
         void Init() {
             using (StreamWriter fs = new StreamWriter(Path.Combine(Environment.CurrentDirectory, _fileName), false, Encoding.UTF8)) {
-                fs.Write(_defaultValue);
+                fs.Write(JsonConvert.SerializeObject(_defaultValue));
                 fs.Close();
             }
         }
