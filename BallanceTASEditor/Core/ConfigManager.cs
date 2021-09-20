@@ -23,6 +23,7 @@ namespace BallanceTASEditor.Core {
         public static readonly string CfgNode_Language = "Language";
         public static readonly string CfgNode_ItemCount = "ItemCount";
         public static readonly string CfgNode_IsHorizonLayout = "IsHorizonLayout";
+        public static readonly string CfgNode_IsOverwrittenPaste = "IsOverwrittenPaste";
 
         Dictionary<string, string> Read() {
             if (!File.Exists(Path.Combine(Environment.CurrentDirectory, _fileName)))

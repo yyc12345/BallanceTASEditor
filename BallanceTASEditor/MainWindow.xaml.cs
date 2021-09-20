@@ -40,10 +40,18 @@ namespace BallanceTASEditor {
         private void funcCommand_Menu_File_Save(object sender, ExecutedRoutedEventArgs e) => funcMenu_File_Save(sender, e);
         private void funcCommand_Menu_Display_Undo(object sender, ExecutedRoutedEventArgs e) => funcMenu_Display_Undo(sender, e);
         private void funcCommand_Menu_Display_Redo(object sender, ExecutedRoutedEventArgs e) => funcMenu_Display_Redo(sender, e);
+        private void funcCommand_DataMenu_Cut(object sender, ExecutedRoutedEventArgs e) => funcDataMenu_Cut(sender, e);
+        private void funcCommand_DataMenu_Copy(object sender, ExecutedRoutedEventArgs e) => funcDataMenu_Copy(sender, e);
+        private void funcCommand_DataMenu_DeleteAfter(object sender, ExecutedRoutedEventArgs e) => funcDataMenu_DeleteAfter(sender, e);
+        private void funcCommand_DataMenu_DeleteBefore(object sender, ExecutedRoutedEventArgs e) => funcDataMenu_DeleteBefore(sender, e);
         private void funcCanExeCmd_Menu_File_Open(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = uiMenu_File_Open.IsEnabled;
         private void funcCanExeCmd_Menu_File_Save(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = uiMenu_File_Save.IsEnabled;
         private void funcCanExeCmd_Menu_Display_Undo(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = uiMenu_Display_Undo.IsEnabled;
         private void funcCanExeCmd_Menu_Display_Redo(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = uiMenu_Display_Redo.IsEnabled;
+        private void funcCanExeCmd_DataMenu_Cut(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = mViewer != null && uiDataMenu_Cut.IsEnabled;
+        private void funcCanExeCmd_DataMenu_Copy(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = mViewer != null && uiDataMenu_Copy.IsEnabled;
+        private void funcCanExeCmd_DataMenu_DeleteAfter(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = mViewer != null && uiDataMenu_DeleteAfter.IsEnabled;
+        private void funcCanExeCmd_DataMenu_DeleteBefore(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = mViewer != null && uiDataMenu_DeleteBefore.IsEnabled;
 
         // =========================== menu
         #region window menu
@@ -53,23 +61,13 @@ namespace BallanceTASEditor {
         }
 
         private void funcMenu_Help_About(object sender, RoutedEventArgs e) {
-            MessageBox.Show("Under MIT License\nVersion: 1.0 alpha\nyyc12345.", "Ballance TAS Editor");
+            MessageBox.Show("Under MIT License\nVersion: 1.0 beta\nyyc12345.", "Ballance TAS Editor", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void funcMenu_File_Open(object sender, RoutedEventArgs e) {
             var file = DialogUtil.OpenFileDialog();
             if (file == "") return;
-            mFile = new TASFile(file);
-            mViewer = new TASViewer(mFile, mSlider, mFlow);
-
-            mViewer.UpdateDataUI += RefreshDataUI;
-            mViewer.UpdateSelection += RefreshSelection;
-            mViewer.UpdateToolMode += RefreshToolMode;
-
-            RefreshUI(true);
-
-            mViewer.ChangeToolMode(ToolMode.Cursor);
-            mViewer.ChangeOverwrittenMode(uiMenu_Display_OverwrittenPaste.IsChecked);
+            OpenFile(file);
         }
 
         private void funcMenu_File_Save(object sender, RoutedEventArgs e) {
@@ -118,49 +116,49 @@ namespace BallanceTASEditor {
 
         #endregion
 
-        #region menu operation
+        #region datamenu operation
 
-        private void uiDataMenu_Set_Click(object sender, RoutedEventArgs e) {
+        private void funcDataMenu_Set(object sender, RoutedEventArgs e) {
             mViewer.ProcessOperation(OperationEnum.Set);
         }
 
-        private void uiDataMenu_Unset_Click(object sender, RoutedEventArgs e) {
+        private void funcDataMenu_Unset(object sender, RoutedEventArgs e) {
             mViewer.ProcessOperation(OperationEnum.Unset);
         }
 
-        private void uiDataMenu_Cut_Click(object sender, RoutedEventArgs e) {
+        private void funcDataMenu_Cut(object sender, RoutedEventArgs e) {
             mViewer.ProcessOperation(OperationEnum.Cut);
         }
 
-        private void uiDataMenu_Copy_Click(object sender, RoutedEventArgs e) {
+        private void funcDataMenu_Copy(object sender, RoutedEventArgs e) {
             mViewer.ProcessOperation(OperationEnum.Copy);
         }
 
-        private void uiDataMenu_PasteAfter_Click(object sender, RoutedEventArgs e) {
+        private void funcDataMenu_PasteAfter(object sender, RoutedEventArgs e) {
             mViewer.ProcessOperation(OperationEnum.PasteAfter);
         }
 
-        private void uiDataMenu_PasteBefore_Click(object sender, RoutedEventArgs e) {
+        private void funcDataMenu_PasteBefore(object sender, RoutedEventArgs e) {
             mViewer.ProcessOperation(OperationEnum.PasteBefore);
         }
 
-        private void uiDataMenu_Delete_Click(object sender, RoutedEventArgs e) {
+        private void funcDataMenu_Delete(object sender, RoutedEventArgs e) {
             mViewer.ProcessOperation(OperationEnum.Delete);
         }
 
-        private void uiDataMenu_DeleteAfter_Click(object sender, RoutedEventArgs e) {
+        private void funcDataMenu_DeleteAfter(object sender, RoutedEventArgs e) {
             mViewer.ProcessOperation(OperationEnum.DeleteAfter);
         }
 
-        private void uiDataMenu_DeleteBefore_Click(object sender, RoutedEventArgs e) {
+        private void funcDataMenu_DeleteBefore(object sender, RoutedEventArgs e) {
             mViewer.ProcessOperation(OperationEnum.DeleteBefore);
         }
 
-        private void uiDataMenu_AddAfter_Click(object sender, RoutedEventArgs e) {
+        private void funcDataMenu_AddAfter(object sender, RoutedEventArgs e) {
             mViewer.ProcessOperation(OperationEnum.AddAfter);
         }
 
-        private void uiDataMenu_AddBefore_Click(object sender, RoutedEventArgs e) {
+        private void funcDataMenu_AddBefore(object sender, RoutedEventArgs e) {
             mViewer.ProcessOperation(OperationEnum.AddBefore);
         }
 
@@ -251,7 +249,45 @@ namespace BallanceTASEditor {
             }
         }
 
+        // drop file to open
+        private void funcDrop_Drop(object sender, DragEventArgs e) {
+            string fileName = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+            OpenFile(fileName);
+        }
+
+        private void funcDrop_DragEnter(object sender, DragEventArgs e) {
+            // only accept one file
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) {
+                var arr = (System.Array)e.Data.GetData(DataFormats.FileDrop);
+                if (arr.Length != 1) e.Effects = DragDropEffects.None;
+                else e.Effects = DragDropEffects.Link;
+            }
+            else e.Effects = DragDropEffects.None;
+        }
+
+
         #endregion
+
+        private void OpenFile(string file) {
+            try {
+                mFile = new TASFile(file);
+            } catch {
+                MessageBox.Show("Fail to open file. This file might not a legal TAS file.", "Ballance TAS Editor", MessageBoxButton.OK, MessageBoxImage.Error);
+                mFile = null;
+                return;
+            }
+
+            mViewer = new TASViewer(mFile, mSlider, mFlow);
+
+            mViewer.UpdateDataUI += RefreshDataUI;
+            mViewer.UpdateSelection += RefreshSelection;
+            mViewer.UpdateToolMode += RefreshToolMode;
+
+            RefreshUI(true);
+
+            mViewer.ChangeToolMode(ToolMode.Cursor);
+            mViewer.ChangeOverwrittenMode(uiMenu_Display_OverwrittenPaste.IsChecked);
+        }
 
         private void RefreshToolMode(ToolMode mode) {
             switch (mode) {

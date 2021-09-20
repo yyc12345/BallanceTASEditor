@@ -6,7 +6,6 @@ using System.Text;
 
 namespace BallanceTASEditor.UI {
 
-
     public enum ToolMode {
         Cursor,
         Fill,
