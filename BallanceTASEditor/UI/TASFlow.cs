@@ -16,8 +16,9 @@ using System.Windows.Shapes;
 
 namespace BallanceTASEditor.UI {
     public partial class TASFlow {
-        public TASFlow(Grid coreWindow) {
+        public TASFlow(Grid coreWindow, TextBlock[] headers) {
             uiCoreWindow = coreWindow;
+            mHeaders = headers;
             mItemList = new List<TASFlowUIItem>();
             mRectMap = new Dictionary<Rectangle, CellPosition>();
             mItemCount = 0;
@@ -27,6 +28,9 @@ namespace BallanceTASEditor.UI {
 
         public event Action Click;
 
+        private const double SELECTION_HEADER_HEIGHT = 10.0f; // header selection height, originally copied from TASFlowItem class
+
+        private readonly TextBlock[] mHeaders;
         private bool mIsHorizontalLayout;
         private Grid uiCoreWindow;
         private int mItemCount;
@@ -36,10 +40,73 @@ namespace BallanceTASEditor.UI {
         public List<FrameDataDisplay> DataSources { get; set; }
 
         public void ChangeLayout(bool isHorizontal) {
+            if (isHorizontal == mIsHorizontalLayout) return;
+
             // the layout changed, re-construct elements
-            if (isHorizontal != mIsHorizontalLayout) {
-                // todo: change layout
+            mIsHorizontalLayout = isHorizontal;
+
+            // delete original grid layout
+            var lenHeader = mHeaders.Length;
+            uiCoreWindow.ColumnDefinitions.Clear();
+            uiCoreWindow.RowDefinitions.Clear();
+
+            // add header layout
+            if (mIsHorizontalLayout) {
+                // horizontal layout
+                // row is header count
+                // column is tas unit
+
+                // header
+                layout_row_adder(new GridLength(SELECTION_HEADER_HEIGHT, GridUnitType.Pixel));
+                for (int r = 0; r < lenHeader; r++) {
+                    layout_row_adder(GridLength.Auto);
+                }
+                layout_row_adder(new GridLength(1, GridUnitType.Star));
+
+                // tas unit
+                layout_column_adder(GridLength.Auto);
+                for (int c = 0; c < mItemCount; c++) {
+                    layout_column_adder(new GridLength(1, GridUnitType.Star));
+                }
+            } else {
+                // vertical layout
+                // row is tas unit
+                // column is header count (use start to split, not auto)
+
+                // header
+                layout_column_adder(new GridLength(SELECTION_HEADER_HEIGHT, GridUnitType.Pixel));
+                for (int r = 0; r < lenHeader; r++) {
+                    if (r == 0 || r == 1) 
+                        layout_column_adder(GridLength.Auto);
+                    else 
+                        layout_column_adder(new GridLength(1, GridUnitType.Star));
+                }
+                //layout_column_adder(new GridLength(1, GridUnitType.Star));
+
+                // tas unit
+                layout_row_adder(GridLength.Auto);
+                for (int c = 0; c < mItemCount; c++) {
+                    layout_row_adder(new GridLength(1, GridUnitType.Star));
+                }
             }
+
+            // now, change items attach prop
+            // just swap Grid.Row and Grid.Column's number
+            foreach (var item in mHeaders) {
+                var swap = Grid.GetColumn(item);
+                Grid.SetColumn(item, Grid.GetRow(item));
+                Grid.SetRow(item, swap);
+            }
+            foreach (var item in mItemList) {
+                item.FlipUnit();
+            }
+
+        }
+        private void layout_row_adder(GridLength size) {
+            UI.Util.GridRowAdder(uiCoreWindow, size);
+        }
+        private void layout_column_adder(GridLength size) {
+            UI.Util.GridColumnAdder(uiCoreWindow, size);
         }
 
         public void RefreshDataSources() {
@@ -58,18 +125,24 @@ namespace BallanceTASEditor.UI {
             // change column defination first
             if (offset > 0) {
                 for (int i = 0; i < abs; i++) {
-                    var item = new ColumnDefinition();
-                    item.Width = new GridLength(1, GridUnitType.Star);
-                    uiCoreWindow.ColumnDefinitions.Add(item);
+                    if (mIsHorizontalLayout) {
+                        layout_column_adder(new GridLength(1, GridUnitType.Star));
+                    } else {
+                        layout_row_adder(new GridLength(1, GridUnitType.Star));
+                    }
                 }
             } else {
-                uiCoreWindow.ColumnDefinitions.RemoveRange(newCount + 1, abs);  // the first col is sheet header, so add 1 additionally
+                if (mIsHorizontalLayout) {
+                    uiCoreWindow.ColumnDefinitions.RemoveRange(newCount + 1, abs);  // the first col is sheet header, so add 1 additionally
+                } else {
+                    uiCoreWindow.RowDefinitions.RemoveRange(newCount + 1, abs);  // the first col is sheet header, so add 1 additionally
+                }
             }
 
             // add / remove item
             if (offset > 0) {
                 for (int i = 0; i < abs; i++) {
-                    var newItem = new TASFlowUIItem(mItemCount + 1 + i);    // the first col is sheet header, so add 1 additionally
+                    var newItem = new TASFlowUIItem(mItemCount + 1 + i, mIsHorizontalLayout);    // the first col is sheet header, so add 1 additionally
                     newItem.Add(uiCoreWindow, mRectMap, Rectangle_MouseDown);
                     mItemList.Add(newItem);
                 }
@@ -177,20 +250,28 @@ namespace BallanceTASEditor.UI {
         private static readonly Color COLOR_SELECTED = Colors.OrangeRed;
         private static readonly Color COLOR_UNSELECTED = Colors.LightGray;
         private const int KEY_COUNT = 9;
-        private const double SELECTION_HEADER_HEIGHT = 10.0f;
 
-        public TASFlowUIItem(int column) {
+        public TASFlowUIItem(int column, bool useHorizontalLayout) {
             // basic item
             sel_rect = new Rectangle();
             frame = new TextBlock();
             deltaTime = new TextBlock();
 
-            Grid.SetRow(sel_rect, 0);
-            Grid.SetRow(frame, 1);
-            Grid.SetRow(deltaTime, 2);
-            Grid.SetColumn(sel_rect, column);
-            Grid.SetColumn(frame, column);
-            Grid.SetColumn(deltaTime, column);
+            if (useHorizontalLayout) {
+                Grid.SetRow(sel_rect, 0);
+                Grid.SetRow(frame, 1);
+                Grid.SetRow(deltaTime, 2);
+                Grid.SetColumn(sel_rect, column);
+                Grid.SetColumn(frame, column);
+                Grid.SetColumn(deltaTime, column);
+            } else {
+                Grid.SetColumn(sel_rect, 0);
+                Grid.SetColumn(frame, 1);
+                Grid.SetColumn(deltaTime, 2);
+                Grid.SetRow(sel_rect, column);
+                Grid.SetRow(frame, column);
+                Grid.SetRow(deltaTime, column);
+            }
 
             sel_rect.Margin = RECT_MARGIN;
             frame.Margin = DEFAULT_MARGIN;
@@ -198,7 +279,7 @@ namespace BallanceTASEditor.UI {
 
             sel_rect.StrokeThickness = 2;
             sel_rect.Stroke = SEL_RECT_STROKE;
-            sel_rect.Height = SELECTION_HEADER_HEIGHT;
+            //sel_rect.Height = SELECTION_HEADER_HEIGHT;    // now sel_rect's size decided by layout
 
             // keystates item
             keystates = new Rectangle[KEY_COUNT];
@@ -208,8 +289,13 @@ namespace BallanceTASEditor.UI {
                 keystates[i] = new Rectangle();
                 keystatesFill[i] = new SolidColorBrush(COLOR_UNSET);
                 keystatesStroke[i] = new SolidColorBrush(COLOR_UNSELECTED);
-                Grid.SetRow(keystates[i], 3 + i);
-                Grid.SetColumn(keystates[i], column);
+                if (useHorizontalLayout) {
+                    Grid.SetRow(keystates[i], 3 + i);
+                    Grid.SetColumn(keystates[i], column);
+                } else {
+                    Grid.SetColumn(keystates[i], 3 + i);
+                    Grid.SetRow(keystates[i], column);
+                }
                 keystates[i].Margin = RECT_MARGIN;
                 keystates[i].StrokeThickness = 3;
                 keystates[i].Stroke = keystatesStroke[i];
@@ -219,6 +305,15 @@ namespace BallanceTASEditor.UI {
             this.column = column;
             rawFrame = 0;
             rawIsEnable = false;
+        }
+
+        public void FlipUnit() {
+            UI.Util.SwapGridItemRC(sel_rect);
+            UI.Util.SwapGridItemRC(frame);
+            UI.Util.SwapGridItemRC(deltaTime);
+            for (int i = 0; i < KEY_COUNT; i++) {
+                UI.Util.SwapGridItemRC(keystates[i]);
+            }
         }
 
         public void Add(Grid target, Dictionary<Rectangle, CellPosition> map, MouseButtonEventHandler func) {

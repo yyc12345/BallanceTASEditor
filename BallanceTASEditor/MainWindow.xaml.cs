@@ -23,9 +23,31 @@ namespace BallanceTASEditor {
         public MainWindow() {
             InitializeComponent();
 
-            mFlow = new TASFlow(uiTASData);
-            mSlider = new TASSlider(uiTASSlider);
+            // init layout controller
+            var headers = new List<TextBlock>();
+            headers.Add(uiFlowHeader_Frame);
+            headers.Add(uiFlowHeader_DeltaTime);
+            headers.Add(uiFlowHeader_Up);
+            headers.Add(uiFlowHeader_Down);
+            headers.Add(uiFlowHeader_Left);
+            headers.Add(uiFlowHeader_Right);
+            headers.Add(uiFlowHeader_Shift);
+            headers.Add(uiFlowHeader_Space);
+            headers.Add(uiFlowHeader_Q);
+            headers.Add(uiFlowHeader_Esc);
+            headers.Add(uiFlowHeader_Enter);
+            mFlow = new TASFlow(uiTASData, headers.ToArray());
 
+            var components = new TASSliderComponents();
+            components.container = uiTASSliderContainer;
+            components.btnFastPrev = uiBtn_FastMovePrev;
+            components.btnPrev = uiBtn_MovePrev;
+            components.btnNext = uiBtn_MoveNext;
+            components.btnFastNext = uiBtn_FastMoveNext;
+            components.mSlider = uiTASSlider;
+            mSlider = new TASSlider(components); ;
+
+            // refresh ui and load cfg
             RefreshUI(false);
             ApplyConfigureManager();
         }
@@ -428,8 +450,26 @@ namespace BallanceTASEditor {
         }
 
         private void ChangeLayout(bool isHorizontal) {
+            // swap window size
+            var swap = this.Width;
+            this.Width = this.Height;
+            this.Height = swap;
+            // change self layout first
+            uiLayoutContainer.RowDefinitions.Clear();
+            uiLayoutContainer.ColumnDefinitions.Clear();
+            if (isHorizontal) {
+                UI.Util.GridRowAdder(uiLayoutContainer, new GridLength(1, GridUnitType.Star));
+                UI.Util.GridRowAdder(uiLayoutContainer, GridLength.Auto);
+            } else {
+                UI.Util.GridColumnAdder(uiLayoutContainer, new GridLength(1, GridUnitType.Star));
+                UI.Util.GridColumnAdder(uiLayoutContainer, GridLength.Auto);
+            }
+            UI.Util.SwapGridItemRC(uiTASFlowContainer);
+            UI.Util.SwapGridItemRC(uiTASSliderContainer);
+
+            // change sub layout
             mFlow.ChangeLayout(isHorizontal);
-            // todo: add more change
+            mSlider.ChangeLayout(isHorizontal);
         }
 
     }

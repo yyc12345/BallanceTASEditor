@@ -74,7 +74,7 @@
             </MenuItem>
         </Menu>
 
-        <Grid x:Name="uiEditorNote" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" AllowDrop="True" Drop="funcDrop_Drop" DragEnter="funcDrop_DragEnter">
+        <Grid x:Name="uiEditorNote" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" AllowDrop="True" Drop="funcDrop_Drop" DragEnter="funcDrop_DragEnter" Visibility="Collapsed">
             <Rectangle StrokeThickness="4" Stroke="Gray" StrokeDashArray="4 4" Fill="#ffffff"/>
             <StackPanel Orientation="Horizontal">
                 <Viewbox Width="24" Height="24" Margin="20, 20, 0, 20" VerticalAlignment="Center">
@@ -84,14 +84,13 @@
                 </Viewbox>
                 <TextBlock Margin="20" Text="{DynamicResource ui_MainWindow_EditorNote}" Foreground="Gray" FontSize="16" VerticalAlignment="Center"/>
             </StackPanel>
-            
+
         </Grid>
 
-        <Grid x:Name="uiEditorPanel" Grid.Row="1" Visibility="Collapsed">
+        <Grid x:Name="uiEditorPanel" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.ColumnSpan="2">
@@ -127,107 +126,116 @@
                 </Button>
             </StackPanel>
 
-            <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="1" Margin="5" Background="#ffffff">
-                <Grid x:Name="uiTASData">
-                    <Grid.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem x:Name="uiDataMenu_Set" Header="{DynamicResource ui_TASFlow_Menu_Set}" Click="funcDataMenu_Set"/>
-                            <MenuItem x:Name="uiDataMenu_Unset" Header="{DynamicResource ui_TASFlow_Menu_Unset}" Click="funcDataMenu_Unset"/>
-                            <Separator/>
-                            <MenuItem x:Name="uiDataMenu_Cut" Header="{DynamicResource ui_TASFlow_Menu_Cut}" Click="funcDataMenu_Cut" InputGestureText="Ctrl + X"/>
-                            <MenuItem x:Name="uiDataMenu_Copy" Header="{DynamicResource ui_TASFlow_Menu_Copy}" Click="funcDataMenu_Copy" InputGestureText="Ctrl + C"/>
-                            <MenuItem x:Name="uiDataMenu_PasteAfter" Header="{DynamicResource ui_TASFlow_Menu_PasteAfter}" Click="funcDataMenu_PasteAfter"/>
-                            <MenuItem x:Name="uiDataMenu_PasteBefore" Header="{DynamicResource ui_TASFlow_Menu_PasterBefore}" Click="funcDataMenu_PasteBefore"/>
-                            <Separator/>
-                            <MenuItem x:Name="uiDataMenu_Delete" Header="{DynamicResource ui_TASFlow_Menu_Delete}" Click="funcDataMenu_Delete"/>
-                            <MenuItem x:Name="uiDataMenu_DeleteAfter" Header="{DynamicResource ui_TASFlow_Menu_DeleteAfter}" Click="funcDataMenu_DeleteAfter" InputGestureText="Del"/>
-                            <MenuItem x:Name="uiDataMenu_DeleteBefore" Header="{DynamicResource ui_TASFlow_Menu_PasterBefore}" Click="funcDataMenu_DeleteBefore" InputGestureText="Backspace"/>
-                            <Separator/>
-                            <MenuItem x:Name="uiDataMenu_AddAfter" Header="{DynamicResource ui_TASFlow_Menu_AddAfter}" Click="funcDataMenu_AddAfter"/>
-                            <MenuItem x:Name="uiDataMenu_AddBefore" Header="{DynamicResource ui_TASFlow_Menu_AddBefore}" Click="funcDataMenu_AddBefore"/>
-                        </ContextMenu>
-                    </Grid.ContextMenu>
+            <Grid x:Name="uiLayoutContainer" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
 
+                <Border x:Name="uiTASFlowContainer" BorderThickness="1" BorderBrush="Gray" Grid.Row="0" Margin="5" Background="#ffffff">
+                    <Grid x:Name="uiTASData">
+                        <Grid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem x:Name="uiDataMenu_Set" Header="{DynamicResource ui_TASFlow_Menu_Set}" Click="funcDataMenu_Set"/>
+                                <MenuItem x:Name="uiDataMenu_Unset" Header="{DynamicResource ui_TASFlow_Menu_Unset}" Click="funcDataMenu_Unset"/>
+                                <Separator/>
+                                <MenuItem x:Name="uiDataMenu_Cut" Header="{DynamicResource ui_TASFlow_Menu_Cut}" Click="funcDataMenu_Cut" InputGestureText="Ctrl + X"/>
+                                <MenuItem x:Name="uiDataMenu_Copy" Header="{DynamicResource ui_TASFlow_Menu_Copy}" Click="funcDataMenu_Copy" InputGestureText="Ctrl + C"/>
+                                <MenuItem x:Name="uiDataMenu_PasteAfter" Header="{DynamicResource ui_TASFlow_Menu_PasteAfter}" Click="funcDataMenu_PasteAfter"/>
+                                <MenuItem x:Name="uiDataMenu_PasteBefore" Header="{DynamicResource ui_TASFlow_Menu_PasterBefore}" Click="funcDataMenu_PasteBefore"/>
+                                <Separator/>
+                                <MenuItem x:Name="uiDataMenu_Delete" Header="{DynamicResource ui_TASFlow_Menu_Delete}" Click="funcDataMenu_Delete"/>
+                                <MenuItem x:Name="uiDataMenu_DeleteAfter" Header="{DynamicResource ui_TASFlow_Menu_DeleteAfter}" Click="funcDataMenu_DeleteAfter" InputGestureText="Del"/>
+                                <MenuItem x:Name="uiDataMenu_DeleteBefore" Header="{DynamicResource ui_TASFlow_Menu_PasterBefore}" Click="funcDataMenu_DeleteBefore" InputGestureText="Backspace"/>
+                                <Separator/>
+                                <MenuItem x:Name="uiDataMenu_AddAfter" Header="{DynamicResource ui_TASFlow_Menu_AddAfter}" Click="funcDataMenu_AddAfter"/>
+                                <MenuItem x:Name="uiDataMenu_AddBefore" Header="{DynamicResource ui_TASFlow_Menu_AddBefore}" Click="funcDataMenu_AddBefore"/>
+                            </ContextMenu>
+                        </Grid.ContextMenu>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock x:Name="uiFlowHeader_Frame" Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="1" Text="{DynamicResource ui_TASFlow_Sheet_Frame}"/>
+                        <TextBlock x:Name="uiFlowHeader_DeltaTime" Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="2" Text="{DynamicResource ui_TASFlow_Sheet_DeltaTime}"/>
+                        <TextBlock x:Name="uiFlowHeader_Up" Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="3" Text="^"/>
+                        <TextBlock x:Name="uiFlowHeader_Down" Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="4" Text="v"/>
+                        <TextBlock x:Name="uiFlowHeader_Left" Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="5" Text="&lt;"/>
+                        <TextBlock x:Name="uiFlowHeader_Right" Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="6" Text="&gt;"/>
+                        <TextBlock x:Name="uiFlowHeader_Shift" Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="7" Text="shift"/>
+                        <TextBlock x:Name="uiFlowHeader_Space" Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="8" Text="space"/>
+                        <TextBlock x:Name="uiFlowHeader_Q" Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="9" Text="q"/>
+                        <TextBlock x:Name="uiFlowHeader_Esc" Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="10" Text="esc"/>
+                        <TextBlock x:Name="uiFlowHeader_Enter" Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="11" Text="enter"/>
+                    </Grid>
+                </Border>
+
+                <Grid x:Name="uiTASSliderContainer" Grid.Row="1" Margin="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
 
-                    <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="1" Text="{DynamicResource ui_TASFlow_Sheet_Frame}"/>
-                    <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="2" Text="{DynamicResource ui_TASFlow_Sheet_DeltaTime}"/>
-                    <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="3" Text="^"/>
-                    <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="4" Text="v"/>
-                    <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="5" Text="&lt;"/>
-                    <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="6" Text="&gt;"/>
-                    <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="7" Text="shift"/>
-                    <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="8" Text="space"/>
-                    <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="9" Text="q"/>
-                    <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="10" Text="esc"/>
-                    <TextBlock Padding="2" Background="#afafaf" Grid.Column="0" Grid.Row="11" Text="enter"/>
+                    <Button x:Name="uiBtn_FastMovePrev" Grid.Column="0" Margin="2" HorizontalAlignment="Center" Click="funcBtn_FastMovePrev" RenderTransformOrigin="0.5, 0.5">
+                        <Viewbox Width="16" Height="16">
+                            <Canvas Width="24" Height="24">
+                                <Path Fill="Black" Data="M11.5,12L20,18V6M11,18V6L2.5,12L11,18Z" />
+                            </Canvas>
+                        </Viewbox>
+                    </Button>
+                    <Button x:Name="uiBtn_MovePrev" Grid.Column="1" Margin="2" HorizontalAlignment="Center" Click="funcBtn_MovePrev" RenderTransformOrigin="0.5, 0.5">
+                        <Viewbox Width="16" Height="16" RenderTransformOrigin="0.5,0.5">
+                            <Viewbox.RenderTransform>
+                                <RotateTransform Angle="-90"/>
+                            </Viewbox.RenderTransform>
+                            <Canvas Width="24" Height="24">
+                                <Path Fill="Black" Data="M7,15L12,10L17,15H7Z" />
+                            </Canvas>
+                        </Viewbox>
+                    </Button>
+                    <Button x:Name="uiBtn_MoveNext" Grid.Column="2" Margin="2" HorizontalAlignment="Center" Click="funcBtn_MoveNext" RenderTransformOrigin="0.5, 0.5">
+                        <Viewbox Width="16" Height="16" RenderTransformOrigin="0.5,0.5">
+                            <Viewbox.RenderTransform>
+                                <RotateTransform Angle="-90"/>
+                            </Viewbox.RenderTransform>
+                            <Canvas Width="24" Height="24">
+                                <Path Fill="Black" Data="M7,10L12,15L17,10H7Z" />
+                            </Canvas>
+                        </Viewbox>
+                    </Button>
+                    <Button x:Name="uiBtn_FastMoveNext" Grid.Column="3" Margin="2" HorizontalAlignment="Center" Click="funcBtn_FastMoveNext" RenderTransformOrigin="0.5, 0.5">
+                        <Viewbox Width="16" Height="16">
+                            <Canvas Width="24" Height="24">
+                                <Path Fill="Black" Data="M13,6V18L21.5,12M4,18L12.5,12L4,6V18Z" />
+                            </Canvas>
+                        </Viewbox>
+                    </Button>
+                    <Slider x:Name="uiTASSlider" Margin="2" Grid.Column="4" SmallChange="1" LargeChange="10" Maximum="1" VerticalAlignment="Center" RenderTransformOrigin="0.5, 0.5">
+                    </Slider>
+
                 </Grid>
-            </Border>
-
-            <Grid Grid.Row="2" Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <Button x:Name="uiBtn_FastMovePrev" Grid.Column="0" Margin="2" HorizontalAlignment="Center" Click="funcBtn_FastMovePrev">
-                    <Viewbox Width="16" Height="16">
-                        <Canvas Width="24" Height="24">
-                            <Path Fill="Black" Data="M11.5,12L20,18V6M11,18V6L2.5,12L11,18Z" />
-                        </Canvas>
-                    </Viewbox>
-                </Button>
-                <Button x:Name="uiBtn_MovePrev" Grid.Column="1" Margin="2" HorizontalAlignment="Center" Click="funcBtn_MovePrev">
-                    <Viewbox Width="16" Height="16" RenderTransformOrigin="0.5,0.5">
-                        <Viewbox.RenderTransform>
-                            <RotateTransform Angle="-90"/>
-                        </Viewbox.RenderTransform>
-                        <Canvas Width="24" Height="24">
-                            <Path Fill="Black" Data="M7,15L12,10L17,15H7Z" />
-                        </Canvas>
-                    </Viewbox>
-                </Button>
-                <Button x:Name="uiBtn_MoveNext" Grid.Column="2" Margin="2" HorizontalAlignment="Center" Click="funcBtn_MoveNext">
-                    <Viewbox Width="16" Height="16" RenderTransformOrigin="0.5,0.5">
-                        <Viewbox.RenderTransform>
-                            <RotateTransform Angle="-90"/>
-                        </Viewbox.RenderTransform>
-                        <Canvas Width="24" Height="24">
-                            <Path Fill="Black" Data="M7,10L12,15L17,10H7Z" />
-                        </Canvas>
-                    </Viewbox>
-                </Button>
-                <Button x:Name="uiBtn_FastMoveNext" Grid.Column="3" Margin="2" HorizontalAlignment="Center" Click="funcBtn_FastMoveNext">
-                    <Viewbox Width="16" Height="16">
-                        <Canvas Width="24" Height="24">
-                            <Path Fill="Black" Data="M13,6V18L21.5,12M4,18L12.5,12L4,6V18Z" />
-                        </Canvas>
-                    </Viewbox>
-                </Button>
-                <Slider x:Name="uiTASSlider" Margin="5,0,0,0" Grid.Column="4" SmallChange="1" LargeChange="10" Maximum="1" VerticalAlignment="Center">
-                </Slider>
-
+                
             </Grid>
+
         </Grid>
 
         <StatusBar x:Name="uiStatusbar" Grid.Row="2">
