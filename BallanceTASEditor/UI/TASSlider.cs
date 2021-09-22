@@ -34,8 +34,16 @@ namespace BallanceTASEditor.UI {
         }
 
         public void UpdateRange(TASFile mFile) {
-            components.mSlider.Maximum = mFile.mFrameCount - 1;
-            components.mSlider.Value = mFile.GetPointerIndex();
+            components.mSlider.Maximum = mFile.mFrameCount == 0 ? 0 : mFile.mFrameCount - 1;
+            var index = mFile.GetPointerIndex();
+            if (index >= 0) {
+                components.mSlider.Value = mFile.GetPointerIndex();
+                components.mSlider.IsEnabled = true;
+            } else {
+                // invalid index, mean slider is useless, disable it
+                components.mSlider.Value = components.mSlider.Maximum;
+                components.mSlider.IsEnabled = false;
+            }
         }
 
         private void func_SliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {

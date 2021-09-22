@@ -38,7 +38,8 @@ namespace BallanceTASEditor.Core {
         }
 
         public long GetPointerIndex() {
-            if (mPointer == null) throw new Exception("Data is not ready");
+            // return invalid data to prevent error
+            if (mPointer == null) return -1;//throw new Exception("Data is not ready");
             return mPointerIndex;
         }
 

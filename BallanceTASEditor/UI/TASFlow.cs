@@ -28,8 +28,6 @@ namespace BallanceTASEditor.UI {
 
         public event Action Click;
 
-        private const double SELECTION_HEADER_HEIGHT = 10.0f; // header selection height, originally copied from TASFlowItem class
-
         private readonly TextBlock[] mHeaders;
         private bool mIsHorizontalLayout;
         private Grid uiCoreWindow;
@@ -57,7 +55,7 @@ namespace BallanceTASEditor.UI {
                 // column is tas unit
 
                 // header
-                layout_row_adder(new GridLength(SELECTION_HEADER_HEIGHT, GridUnitType.Pixel));
+                layout_row_adder(GridLength.Auto);
                 for (int r = 0; r < lenHeader; r++) {
                     layout_row_adder(GridLength.Auto);
                 }
@@ -74,7 +72,7 @@ namespace BallanceTASEditor.UI {
                 // column is header count (use start to split, not auto)
 
                 // header
-                layout_column_adder(new GridLength(SELECTION_HEADER_HEIGHT, GridUnitType.Pixel));
+                layout_column_adder(GridLength.Auto);
                 for (int r = 0; r < lenHeader; r++) {
                     if (r == 0 || r == 1) 
                         layout_column_adder(GridLength.Auto);
@@ -249,6 +247,7 @@ namespace BallanceTASEditor.UI {
         private static readonly Color COLOR_UNSET = Color.FromArgb(0, 255, 255, 255);
         private static readonly Color COLOR_SELECTED = Colors.OrangeRed;
         private static readonly Color COLOR_UNSELECTED = Colors.LightGray;
+        private const double SELECTION_HEADER_HEIGHT = 10.0f;
         private const int KEY_COUNT = 9;
 
         public TASFlowUIItem(int column, bool useHorizontalLayout) {
@@ -279,7 +278,10 @@ namespace BallanceTASEditor.UI {
 
             sel_rect.StrokeThickness = 2;
             sel_rect.Stroke = SEL_RECT_STROKE;
-            //sel_rect.Height = SELECTION_HEADER_HEIGHT;    // now sel_rect's size decided by layout
+            if (useHorizontalLayout)
+                sel_rect.Height = SELECTION_HEADER_HEIGHT;
+            else
+                sel_rect.Width = SELECTION_HEADER_HEIGHT;
 
             // keystates item
             keystates = new Rectangle[KEY_COUNT];
@@ -314,6 +316,11 @@ namespace BallanceTASEditor.UI {
             for (int i = 0; i < KEY_COUNT; i++) {
                 UI.Util.SwapGridItemRC(keystates[i]);
             }
+
+            // swap sel_rect height and width
+            var swap = sel_rect.Height;
+            sel_rect.Height = sel_rect.Width;
+            sel_rect.Width = swap;
         }
 
         public void Add(Grid target, Dictionary<Rectangle, CellPosition> map, MouseButtonEventHandler func) {

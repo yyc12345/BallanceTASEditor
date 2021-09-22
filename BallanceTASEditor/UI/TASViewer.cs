@@ -202,12 +202,12 @@ namespace BallanceTASEditor.UI {
                         if (oper == OperationEnum.DeleteBefore) pos -= 1;   // delete after mean delete current selected item
                         if (pos < 0 || pos >= mFile.mFrameCount) return;
 
-                        // only delete before need shift selection
+                        // delete before need shift selection
                         // delete before couldn't cause empty list, so we just need to directly shift
                         if (oper == OperationEnum.DeleteBefore)
                             mSelectionHelp.ShiftTo(false);
                         // also, if we use delete after and delete the tail of item list, we also need to shift pos(use `else if` to prevent double shift)
-                        else if (oper == OperationEnum.DeleteAfter && pos == mFile.mFrameCount) {
+                        else if (oper == OperationEnum.DeleteAfter && pos == mFile.mFrameCount - 1) {
                             // but delete after may cause empty list error(delete the item within only 1 item list)
                             // so we need prevent this situation
                             if (mFile.mFrameCount == 1) mSelectionHelp.Reset(); //yes, reset selection to prevent error

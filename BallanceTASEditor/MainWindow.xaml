@@ -233,15 +233,19 @@
                     </Slider>
 
                 </Grid>
-                
+
             </Grid>
 
         </Grid>
 
         <StatusBar x:Name="uiStatusbar" Grid.Row="2">
-            <TextBlock x:Name="uiStatusbar_Mode_Cursor" Text="{DynamicResource ui_MainWindow_StatusBar_Mode_Cursor}"/>
-            <TextBlock x:Name="uiStatusbar_Mode_Fill" Text="{DynamicResource ui_MainWindow_StatusBar_Mode_Fill}"/>
-            <TextBlock x:Name="uiStatusbar_Mode_Overwrite" Text="{DynamicResource ui_MainWindow_StatusBar_Mode_Overwritten}"/>
+            <Grid>
+                <TextBlock x:Name="uiStatusbar_Mode_Cursor" Text="{DynamicResource ui_MainWindow_StatusBar_Mode_Cursor}"/>
+                <TextBlock x:Name="uiStatusbar_Mode_Fill" Text="{DynamicResource ui_MainWindow_StatusBar_Mode_Fill}"/>
+                <TextBlock x:Name="uiStatusbar_Mode_Overwrite" Text="{DynamicResource ui_MainWindow_StatusBar_Mode_Overwritten}"/>
+            </Grid>
+            <Separator/>
+            <TextBlock x:Name="uiStatusbar_OverwrittenPaste" Text="{DynamicResource ui_MainWindow_StatusBar_OverwrittenPaste}"/>
             <Separator/>
             <TextBlock Text="{DynamicResource ui_MainWindow_StatusBar_Selected}"/>
             <TextBlock x:Name="uiStatusbar_Selected" Text="-"/>

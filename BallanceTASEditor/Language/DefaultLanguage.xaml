@@ -31,6 +31,7 @@
     <sys:String x:Key="ui_MainWindow_StatusBar_Mode_Cursor">Select mode</sys:String>
     <sys:String x:Key="ui_MainWindow_StatusBar_Mode_Fill">Fill mode</sys:String>
     <sys:String x:Key="ui_MainWindow_StatusBar_Mode_Overwritten">Draw mode</sys:String>
+    <sys:String x:Key="ui_MainWindow_StatusBar_OverwrittenPaste">Overwritten paste</sys:String>
     <sys:String xml:space="preserve" x:Key="ui_MainWindow_StatusBar_Selected">Selected: </sys:String>
 
 

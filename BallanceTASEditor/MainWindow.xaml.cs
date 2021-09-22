@@ -22,6 +22,7 @@ namespace BallanceTASEditor {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
+            mIsHorizontalLayout = true;
 
             // init layout controller
             var headers = new List<TextBlock>();
@@ -56,6 +57,7 @@ namespace BallanceTASEditor {
         TASViewer mViewer;
         TASFlow mFlow;
         TASSlider mSlider;
+        bool mIsHorizontalLayout;
 
         #region ui func
 
@@ -127,6 +129,7 @@ namespace BallanceTASEditor {
 
         private void funcMenu_Display_OverwrittenPaste(object sender, RoutedEventArgs e) {
             uiMenu_Display_OverwrittenPaste.IsChecked = !uiMenu_Display_OverwrittenPaste.IsChecked;
+            uiStatusbar_OverwrittenPaste.Visibility = uiMenu_Display_OverwrittenPaste.IsChecked ? Visibility.Visible : Visibility.Hidden;
 
             GlobalVariable.configManager.Configuration[ConfigManager.CfgNode_IsOverwrittenPaste] = uiMenu_Display_OverwrittenPaste.IsChecked.ToString();
             if (mViewer != null)
@@ -307,6 +310,7 @@ namespace BallanceTASEditor {
 
             uiMenu_Display_OverwrittenPaste.IsChecked = isOverwrittenPaste;
             uiMenu_Display_HorizontalLayout.IsChecked = isHorizontalLayout;
+            uiStatusbar_OverwrittenPaste.Visibility = isOverwrittenPaste ? Visibility.Visible : Visibility.Hidden;
             if (mViewer != null) {
                 mViewer.ChangeOverwrittenMode(isOverwrittenPaste);
                 mViewer.ChangeListLength(itemCount);
@@ -450,6 +454,9 @@ namespace BallanceTASEditor {
         }
 
         private void ChangeLayout(bool isHorizontal) {
+            if (isHorizontal == mIsHorizontalLayout) return;
+            mIsHorizontalLayout = isHorizontal;
+
             // swap window size
             var swap = this.Width;
             this.Width = this.Height;
