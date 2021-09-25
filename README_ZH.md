@@ -104,6 +104,7 @@
 * `Ctrl + Y`：重做
 * `Ctrl + X`：剪切
 * `Ctrl + C`：复制
+* `Ctrl + V`：向后粘贴
 * `Delete`：向后删除
 * `Backspace`：向前删除
 

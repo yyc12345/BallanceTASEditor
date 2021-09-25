@@ -50,8 +50,27 @@
     <sys:String x:Key="ui_TASFlow_Menu_AddAfter">在后方添加新项</sys:String>
     <sys:String x:Key="ui_TASFlow_Menu_AddBefore">在前方添加新项</sys:String>
 
+    <sys:String x:Key="ui_AddItem_Title">添加项</sys:String>
+    <sys:String x:Key="ui_AddItem_Count">个数</sys:String>
+    <sys:String x:Key="ui_AddItem_FPS">帧率</sys:String>
+    <sys:String x:Key="ui_AddItem_DeltaTime">间隔时间</sys:String>
+    <sys:String x:Key="ui_AddItem_OK">好</sys:String>
+    <sys:String x:Key="ui_AddItem_Cancel">取消</sys:String>
+
     <!-- code data-->
 
+    <sys:String x:Key="code_Shared_ProgramName">Ballance TAS 编辑器</sys:String>
 
+    <sys:String x:Key="code_MainWindow_Menu_Help_About" xml:space="preserve">基于 MIT 开源许可证发布
+版本：1.0 stable
+程序：yyc12345.
+图标设计：plAer_2</sys:String>
+    <sys:String x:Key="code_MainWindow_Menu_File_Close">您想要关闭这个TAS文件吗？</sys:String>
+    <sys:String x:Key="code_MainWindow_Menu_File_Open_Fail">无法打开文件，文件可能不是合法的TAS文件。</sys:String>
+    <sys:String x:Key="code_MainWindow_Menu_Display_ItemCount">输入新的数量（&lt;=5 &amp;&amp; &gt;=30）</sys:String>
+    <sys:String x:Key="code_DialogUtil_Warning">警告</sys:String>
+    <sys:String x:Key="code_DialogUtil_FileFilter">TAS 文件(*.tas)|*.tas|所有文件(*.*)|*.*</sys:String>
+    <sys:String x:Key="code_DialogUtil_InputNumber_Title">输入数字</sys:String>
+    <sys:String x:Key="code_DialogUtil_InputNumber_Wrong">无效的数字，请再试一次。</sys:String>
 
 </ResourceDictionary>

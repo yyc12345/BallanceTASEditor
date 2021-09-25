@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BallanceTASEditor.UI"
         xmlns:converter="clr-namespace:BallanceTASEditor.UI"
         mc:Ignorable="d"
-        Title="Add Item" Height="200" Width="400" WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner">
+        Title="{DynamicResource ui_AddItem_Title}" Height="200" Width="400" WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner" Icon="/BallanceTASEditor;component/icon.ico">
     <Window.Resources>
         <converter:AddItemConverter x:Key="conv_addItem"/>
         <converter:FPS2DeltaTimeConverter x:Key="conv_fps2DeltaTime"/>
@@ -25,9 +25,9 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Margin="5" Grid.Column="0" Grid.Row="0" Text="Count" VerticalAlignment="Center"/>
-        <TextBlock Margin="5" Grid.Column="0" Grid.Row="1" Text="FPS" VerticalAlignment="Center"/>
-        <TextBlock Margin="5" Grid.Column="0" Grid.Row="2" Text="Delta Time" VerticalAlignment="Center"/>
+        <TextBlock Margin="5" Grid.Column="0" Grid.Row="0" Text="{DynamicResource ui_AddItem_Count}" VerticalAlignment="Center"/>
+        <TextBlock Margin="5" Grid.Column="0" Grid.Row="1" Text="{DynamicResource ui_AddItem_FPS}" VerticalAlignment="Center"/>
+        <TextBlock Margin="5" Grid.Column="0" Grid.Row="2" Text="{DynamicResource ui_AddItem_DeltaTime}" VerticalAlignment="Center"/>
 
         <TextBox x:Name="uiTextbox_Count" Margin="5" Padding="5" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"/>
         <TextBox x:Name="uiTextbox_FPS" Margin="5" Padding="5" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
@@ -35,7 +35,7 @@
                    Text="{Binding Converter={StaticResource conv_fps2DeltaTime}, Mode=OneWay, ElementName=uiTextbox_FPS, Path=Text}"/>
 
         <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Right" Grid.ColumnSpan="2" Grid.Row="4">
-            <Button x:Name="uiBtn_OK" Margin="5" Padding="5" Content="OK" MinWidth="50" Click="funcBtn_OK">
+            <Button x:Name="uiBtn_OK" Margin="5" Padding="5" Content="{DynamicResource ui_AddItem_OK}" MinWidth="50" Click="funcBtn_OK">
                 <Button.IsEnabled>
                     <MultiBinding Converter="{StaticResource conv_addItem}" Mode="OneWay">
                         <Binding ElementName="uiTextbox_Count" Path="Text"/>
@@ -43,7 +43,7 @@
                     </MultiBinding>
                 </Button.IsEnabled>
             </Button>
-            <Button x:Name="uiBtn_Cancel" Margin="5" Padding="5" Content="Cancel" MinWidth="50" Click="funcBtn_Cancel"/>
+            <Button x:Name="uiBtn_Cancel" Margin="5" Padding="5" Content="{DynamicResource ui_AddItem_Cancel}" MinWidth="50" Click="funcBtn_Cancel"/>
         </StackPanel>
     </Grid>
 </Window>

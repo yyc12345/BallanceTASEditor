@@ -8,7 +8,7 @@
         xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
         mc:Ignorable="d"
         Title="{DynamicResource ui_MainWindow_Title}" Height="500" Width="800" KeyUp="funcWindow_KeyUp"
-        input:InputMethod.IsInputMethodEnabled="False" MouseWheel="funcWindow_MouseWheel">
+        input:InputMethod.IsInputMethodEnabled="False" MouseWheel="funcWindow_MouseWheel" Icon="icon.ico">
 
     <!-- shortcut defination-->
     <Window.Resources>
@@ -18,6 +18,7 @@
         <RoutedUICommand x:Key="commandMenu_Display_Redo"/>
         <RoutedUICommand x:Key="commandDataMenu_Cut"/>
         <RoutedUICommand x:Key="commandDataMenu_Copy"/>
+        <RoutedUICommand x:Key="commandDataMenu_PasteAfter"/>
         <RoutedUICommand x:Key="commandDataMenu_DeleteAfter"/>
         <RoutedUICommand x:Key="commandDataMenu_DeleteBefore"/>
     </Window.Resources>
@@ -29,6 +30,7 @@
         <KeyBinding Gesture="Ctrl+Y" Command="{StaticResource commandMenu_Display_Redo}"/>
         <KeyBinding Gesture="Ctrl+X" Command="{StaticResource commandDataMenu_Cut}"/>
         <KeyBinding Gesture="Ctrl+C" Command="{StaticResource commandDataMenu_Copy}"/>
+        <KeyBinding Gesture="Ctrl+V" Command="{StaticResource commandDataMenu_PasteAfter}"/>
         <KeyBinding Gesture="Delete" Command="{StaticResource commandDataMenu_DeleteAfter}"/>
         <KeyBinding Gesture="Back" Command="{StaticResource commandDataMenu_DeleteBefore}"/>
     </Window.InputBindings>
@@ -40,6 +42,7 @@
         <CommandBinding Command="{StaticResource commandMenu_Display_Redo}" Executed="funcCommand_Menu_Display_Redo" CanExecute="funcCanExeCmd_Menu_Display_Redo"/>
         <CommandBinding Command="{StaticResource commandDataMenu_Cut}" Executed="funcCommand_DataMenu_Cut" CanExecute="funcCanExeCmd_DataMenu_Cut"/>
         <CommandBinding Command="{StaticResource commandDataMenu_Copy}" Executed="funcCommand_DataMenu_Copy" CanExecute="funcCanExeCmd_DataMenu_Copy"/>
+        <CommandBinding Command="{StaticResource commandDataMenu_PasteAfter}" Executed="funcCommand_DataMenu_PasteAfter" CanExecute="funcCanExeCmd_DataMenu_PasteAfter"/>
         <CommandBinding Command="{StaticResource commandDataMenu_DeleteAfter}" Executed="funcCommand_DataMenu_DeleteAfter" CanExecute="funcCanExeCmd_DataMenu_DeleteAfter"/>
         <CommandBinding Command="{StaticResource commandDataMenu_DeleteBefore}" Executed="funcCommand_DataMenu_DeleteBefore" CanExecute="funcCanExeCmd_DataMenu_DeleteBefore"/>
     </Window.CommandBindings>
@@ -141,7 +144,7 @@
                                 <Separator/>
                                 <MenuItem x:Name="uiDataMenu_Cut" Header="{DynamicResource ui_TASFlow_Menu_Cut}" Click="funcDataMenu_Cut" InputGestureText="Ctrl + X"/>
                                 <MenuItem x:Name="uiDataMenu_Copy" Header="{DynamicResource ui_TASFlow_Menu_Copy}" Click="funcDataMenu_Copy" InputGestureText="Ctrl + C"/>
-                                <MenuItem x:Name="uiDataMenu_PasteAfter" Header="{DynamicResource ui_TASFlow_Menu_PasteAfter}" Click="funcDataMenu_PasteAfter"/>
+                                <MenuItem x:Name="uiDataMenu_PasteAfter" Header="{DynamicResource ui_TASFlow_Menu_PasteAfter}" Click="funcDataMenu_PasteAfter" InputGestureText="Ctrl + V"/>
                                 <MenuItem x:Name="uiDataMenu_PasteBefore" Header="{DynamicResource ui_TASFlow_Menu_PasterBefore}" Click="funcDataMenu_PasteBefore"/>
                                 <Separator/>
                                 <MenuItem x:Name="uiDataMenu_Delete" Header="{DynamicResource ui_TASFlow_Menu_Delete}" Click="funcDataMenu_Delete"/>

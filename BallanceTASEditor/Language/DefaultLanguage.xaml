@@ -45,13 +45,32 @@
     <sys:String x:Key="ui_TASFlow_Menu_PasteAfter">Paste after this</sys:String>
     <sys:String x:Key="ui_TASFlow_Menu_PasterBefore">Paste before this</sys:String>
     <sys:String x:Key="ui_TASFlow_Menu_Delete">Delete</sys:String>
-    <sys:String x:Key="ui_TASFlow_Menu_DeleteAfter">Delete next frame</sys:String>
+    <sys:String x:Key="ui_TASFlow_Menu_DeleteAfter">Delete this frame</sys:String>
     <sys:String x:Key="ui_TASFlow_Menu_DeleteBefore">Delete last frame</sys:String>
     <sys:String x:Key="ui_TASFlow_Menu_AddAfter">Add blank item after this</sys:String>
     <sys:String x:Key="ui_TASFlow_Menu_AddBefore">Add blank item before this</sys:String>
-    
+
+    <sys:String x:Key="ui_AddItem_Title">Add Item</sys:String>
+    <sys:String x:Key="ui_AddItem_Count">Count</sys:String>
+    <sys:String x:Key="ui_AddItem_FPS">FPS</sys:String>
+    <sys:String x:Key="ui_AddItem_DeltaTime">Delta Time</sys:String>
+    <sys:String x:Key="ui_AddItem_OK">OK</sys:String>
+    <sys:String x:Key="ui_AddItem_Cancel">Cancel</sys:String>
+
     <!-- code data-->
+
+    <sys:String x:Key="code_Shared_ProgramName">Ballance TAS Editor</sys:String>
     
-    
+    <sys:String x:Key="code_MainWindow_Menu_Help_About" xml:space="preserve">Under MIT License
+Version: 1.0 stable
+Program: yyc12345.
+Icon design: plAer_2</sys:String>
+    <sys:String x:Key="code_MainWindow_Menu_File_Close">Do you want to close this TAS file?</sys:String>
+    <sys:String x:Key="code_MainWindow_Menu_File_Open_Fail">Fail to open file. This file might not a legal TAS file.</sys:String>
+    <sys:String x:Key="code_MainWindow_Menu_Display_ItemCount">Input new count (&lt;=5 &amp;&amp; &gt;=30)</sys:String>
+    <sys:String x:Key="code_DialogUtil_Warning">Warning</sys:String>
+    <sys:String x:Key="code_DialogUtil_FileFilter">TAS file(*.tas)|*.tas|All file(*.*)|*.*</sys:String>
+    <sys:String x:Key="code_DialogUtil_InputNumber_Title">Input number</sys:String>
+    <sys:String x:Key="code_DialogUtil_InputNumber_Wrong">Invalid number. Please input again.</sys:String>
 
 </ResourceDictionary>

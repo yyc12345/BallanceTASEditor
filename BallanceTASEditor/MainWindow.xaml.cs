@@ -69,6 +69,7 @@ namespace BallanceTASEditor {
         private void funcCommand_Menu_Display_Redo(object sender, ExecutedRoutedEventArgs e) => funcMenu_Display_Redo(sender, e);
         private void funcCommand_DataMenu_Cut(object sender, ExecutedRoutedEventArgs e) => funcDataMenu_Cut(sender, e);
         private void funcCommand_DataMenu_Copy(object sender, ExecutedRoutedEventArgs e) => funcDataMenu_Copy(sender, e);
+        private void funcCommand_DataMenu_PasteAfter(object sender, ExecutedRoutedEventArgs e) => funcDataMenu_PasteAfter(sender, e);
         private void funcCommand_DataMenu_DeleteAfter(object sender, ExecutedRoutedEventArgs e) => funcDataMenu_DeleteAfter(sender, e);
         private void funcCommand_DataMenu_DeleteBefore(object sender, ExecutedRoutedEventArgs e) => funcDataMenu_DeleteBefore(sender, e);
         private void funcCanExeCmd_Menu_File_Open(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = uiMenu_File_Open.IsEnabled;
@@ -77,6 +78,7 @@ namespace BallanceTASEditor {
         private void funcCanExeCmd_Menu_Display_Redo(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = uiMenu_Display_Redo.IsEnabled;
         private void funcCanExeCmd_DataMenu_Cut(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = mViewer != null && uiDataMenu_Cut.IsEnabled;
         private void funcCanExeCmd_DataMenu_Copy(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = mViewer != null && uiDataMenu_Copy.IsEnabled;
+        private void funcCanExeCmd_DataMenu_PasteAfter(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = mViewer != null && uiDataMenu_PasteAfter.IsEnabled;
         private void funcCanExeCmd_DataMenu_DeleteAfter(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = mViewer != null && uiDataMenu_DeleteAfter.IsEnabled;
         private void funcCanExeCmd_DataMenu_DeleteBefore(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = mViewer != null && uiDataMenu_DeleteBefore.IsEnabled;
 
@@ -88,7 +90,9 @@ namespace BallanceTASEditor {
         }
 
         private void funcMenu_Help_About(object sender, RoutedEventArgs e) {
-            MessageBox.Show("Under MIT License\nVersion: 1.0 beta\nyyc12345.", "Ballance TAS Editor", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show(I18NProcessor.GetI18N("code_MainWindow_Menu_Help_About"), 
+                I18NProcessor.GetI18N("code_Shared_ProgramName"), 
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void funcMenu_File_Open(object sender, RoutedEventArgs e) {
@@ -108,7 +112,7 @@ namespace BallanceTASEditor {
         }
 
         private void funcMenu_File_Close(object sender, RoutedEventArgs e) {
-            if (!DialogUtil.ConfirmDialog("Do you want to close this TAS file?")) return;
+            if (!DialogUtil.ConfirmDialog(I18NProcessor.GetI18N("code_MainWindow_Menu_File_Close"))) return;
 
             mViewer.UpdateDataUI -= RefreshDataUI;
             mViewer.UpdateSelection -= RefreshSelection;
@@ -122,7 +126,7 @@ namespace BallanceTASEditor {
 
         private void funcMenu_Display_ItemCount(object sender, RoutedEventArgs e) {
             int newvalue = 0;
-            if (DialogUtil.InputNumber("Input new count (>=5 && <=30)", 5, 30, ref newvalue)) {
+            if (DialogUtil.InputNumber(I18NProcessor.GetI18N("code_MainWindow_Menu_Display_ItemCount"), 5, 30, ref newvalue)) {
                 ChangeItemCount(newvalue);
             }
         }
@@ -322,7 +326,9 @@ namespace BallanceTASEditor {
             try {
                 mFile = new TASFile(file);
             } catch {
-                MessageBox.Show("Fail to open file. This file might not a legal TAS file.", "Ballance TAS Editor", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(I18NProcessor.GetI18N("code_MainWindow_Menu_File_Open_Fail"),
+                    I18NProcessor.GetI18N("code_Shared_ProgramName"), 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
                 mFile = null;
                 return;
             }
