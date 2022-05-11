@@ -8,7 +8,7 @@
         xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
         mc:Ignorable="d"
         Title="{DynamicResource ui_MainWindow_Title}" Height="500" Width="800" KeyUp="funcWindow_KeyUp"
-        input:InputMethod.IsInputMethodEnabled="False" MouseWheel="funcWindow_MouseWheel" Icon="icon.ico">
+        input:InputMethod.IsInputMethodEnabled="False" MouseWheel="funcWindow_MouseWheel" Icon="icon.ico" Closing="funcWindow_Closing">
 
     <!-- shortcut defination-->
     <Window.Resources>
@@ -145,11 +145,11 @@
                                 <MenuItem x:Name="uiDataMenu_Cut" Header="{DynamicResource ui_TASFlow_Menu_Cut}" Click="funcDataMenu_Cut" InputGestureText="Ctrl + X"/>
                                 <MenuItem x:Name="uiDataMenu_Copy" Header="{DynamicResource ui_TASFlow_Menu_Copy}" Click="funcDataMenu_Copy" InputGestureText="Ctrl + C"/>
                                 <MenuItem x:Name="uiDataMenu_PasteAfter" Header="{DynamicResource ui_TASFlow_Menu_PasteAfter}" Click="funcDataMenu_PasteAfter" InputGestureText="Ctrl + V"/>
-                                <MenuItem x:Name="uiDataMenu_PasteBefore" Header="{DynamicResource ui_TASFlow_Menu_PasterBefore}" Click="funcDataMenu_PasteBefore"/>
+                                <MenuItem x:Name="uiDataMenu_PasteBefore" Header="{DynamicResource ui_TASFlow_Menu_PasteBefore}" Click="funcDataMenu_PasteBefore"/>
                                 <Separator/>
                                 <MenuItem x:Name="uiDataMenu_Delete" Header="{DynamicResource ui_TASFlow_Menu_Delete}" Click="funcDataMenu_Delete"/>
                                 <MenuItem x:Name="uiDataMenu_DeleteAfter" Header="{DynamicResource ui_TASFlow_Menu_DeleteAfter}" Click="funcDataMenu_DeleteAfter" InputGestureText="Del"/>
-                                <MenuItem x:Name="uiDataMenu_DeleteBefore" Header="{DynamicResource ui_TASFlow_Menu_PasterBefore}" Click="funcDataMenu_DeleteBefore" InputGestureText="Backspace"/>
+                                <MenuItem x:Name="uiDataMenu_DeleteBefore" Header="{DynamicResource ui_TASFlow_Menu_DeleteBefore}" Click="funcDataMenu_DeleteBefore" InputGestureText="Backspace"/>
                                 <Separator/>
                                 <MenuItem x:Name="uiDataMenu_AddAfter" Header="{DynamicResource ui_TASFlow_Menu_AddAfter}" Click="funcDataMenu_AddAfter"/>
                                 <MenuItem x:Name="uiDataMenu_AddBefore" Header="{DynamicResource ui_TASFlow_Menu_AddBefore}" Click="funcDataMenu_AddBefore"/>
@@ -242,16 +242,28 @@
         </Grid>
 
         <StatusBar x:Name="uiStatusbar" Grid.Row="2">
-            <Grid>
-                <TextBlock x:Name="uiStatusbar_Mode_Cursor" Text="{DynamicResource ui_MainWindow_StatusBar_Mode_Cursor}"/>
-                <TextBlock x:Name="uiStatusbar_Mode_Fill" Text="{DynamicResource ui_MainWindow_StatusBar_Mode_Fill}"/>
-                <TextBlock x:Name="uiStatusbar_Mode_Overwrite" Text="{DynamicResource ui_MainWindow_StatusBar_Mode_Overwritten}"/>
-            </Grid>
-            <Separator/>
-            <TextBlock x:Name="uiStatusbar_OverwrittenPaste" Text="{DynamicResource ui_MainWindow_StatusBar_OverwrittenPaste}"/>
-            <Separator/>
-            <TextBlock Text="{DynamicResource ui_MainWindow_StatusBar_Selected}"/>
-            <TextBlock x:Name="uiStatusbar_Selected" Text="-"/>
+            <StatusBarItem x:Name="uiStatusbar_Runtime_Mode">
+                <Grid>
+                    <TextBlock x:Name="uiStatusbar_Mode_Cursor" Text="{DynamicResource ui_MainWindow_StatusBar_Mode_Cursor}"/>
+                    <TextBlock x:Name="uiStatusbar_Mode_Fill" Text="{DynamicResource ui_MainWindow_StatusBar_Mode_Fill}"/>
+                    <TextBlock x:Name="uiStatusbar_Mode_Overwrite" Text="{DynamicResource ui_MainWindow_StatusBar_Mode_Overwritten}"/>
+                </Grid>
+            </StatusBarItem>
+            <Separator x:Name="uiStatusbar_Runtime_Separator1"/>
+            <StatusBarItem x:Name="uiStatusbar_Runtime_PasteMode">
+                <TextBlock x:Name="uiStatusbar_OverwrittenPaste" Text="{DynamicResource ui_MainWindow_StatusBar_OverwrittenPaste}"/>
+            </StatusBarItem>
+            <Separator x:Name="uiStatusbar_Runtime_Separator2"/>
+            <StatusBarItem x:Name="uiStatusbar_Runtime_Selected">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{DynamicResource ui_MainWindow_StatusBar_Selected}"/>
+                    <TextBlock x:Name="uiStatusbar_Selected" Text="-"/>
+                </StackPanel>
+            </StatusBarItem>
+
+            <StatusBarItem DockPanel.Dock="Right" HorizontalAlignment="Right">
+                <TextBlock Text="v1.1 stable" Foreground="Gray" FontStyle="Italic"/>
+            </StatusBarItem>
         </StatusBar>
 
     </Grid>

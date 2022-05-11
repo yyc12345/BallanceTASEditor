@@ -43,7 +43,7 @@
     <sys:String x:Key="ui_TASFlow_Menu_Cut">剪切</sys:String>
     <sys:String x:Key="ui_TASFlow_Menu_Copy">复制</sys:String>
     <sys:String x:Key="ui_TASFlow_Menu_PasteAfter">粘贴于后方</sys:String>
-    <sys:String x:Key="ui_TASFlow_Menu_PasterBefore">粘贴于前方</sys:String>
+    <sys:String x:Key="ui_TASFlow_Menu_PasteBefore">粘贴于前方</sys:String>
     <sys:String x:Key="ui_TASFlow_Menu_Delete">删除</sys:String>
     <sys:String x:Key="ui_TASFlow_Menu_DeleteAfter">向后删除</sys:String>
     <sys:String x:Key="ui_TASFlow_Menu_DeleteBefore">向前删除</sys:String>
@@ -62,9 +62,10 @@
     <sys:String x:Key="code_Shared_ProgramName">Ballance TAS 编辑器</sys:String>
 
     <sys:String x:Key="code_MainWindow_Menu_Help_About" xml:space="preserve">基于 MIT 开源许可证发布
-版本：1.0 stable
+版本：1.1 stable
 程序：yyc12345.
 图标设计：plAer_2</sys:String>
+    <sys:String x:Key="code_MainWindow_Closing">文件未关闭。您想直接退出吗？所有修改不会被保存。</sys:String>
     <sys:String x:Key="code_MainWindow_Menu_File_Close">您想要关闭这个TAS文件吗？</sys:String>
     <sys:String x:Key="code_MainWindow_Menu_File_Open_Fail">无法打开文件，文件可能不是合法的TAS文件。</sys:String>
     <sys:String x:Key="code_MainWindow_Menu_Display_ItemCount">输入新的数量（&lt;=5 &amp;&amp; &gt;=30）</sys:String>

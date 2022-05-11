@@ -124,6 +124,14 @@ namespace BallanceTASEditor {
             RefreshUI(false);
         }
 
+        private void funcWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
+            if (!(mFile is null)) {
+                if (!DialogUtil.ConfirmDialog(I18NProcessor.GetI18N("code_MainWindow_Closing"))) {
+                    e.Cancel = true;
+                }
+            }
+        }
+
         private void funcMenu_Display_ItemCount(object sender, RoutedEventArgs e) {
             int newvalue = 0;
             if (DialogUtil.InputNumber(I18NProcessor.GetI18N("code_MainWindow_Menu_Display_ItemCount"), 5, 30, ref newvalue)) {
@@ -392,7 +400,11 @@ namespace BallanceTASEditor {
                 uiMenu_Display_Undo.IsEnabled = true;
                 uiMenu_Display_Redo.IsEnabled = true;
 
-                uiStatusbar.Visibility = Visibility.Visible;
+                uiStatusbar_Runtime_Mode.Visibility = Visibility.Visible;
+                uiStatusbar_Runtime_PasteMode.Visibility = Visibility.Visible;
+                uiStatusbar_Runtime_Selected.Visibility = Visibility.Visible;
+                uiStatusbar_Runtime_Separator1.Visibility = Visibility.Visible;
+                uiStatusbar_Runtime_Separator2.Visibility = Visibility.Visible;
             } else {
                 uiEditorPanel.Visibility = Visibility.Collapsed;
                 uiEditorNote.Visibility = Visibility.Visible;
@@ -408,7 +420,11 @@ namespace BallanceTASEditor {
                 uiMenu_Display_Undo.IsEnabled = false;
                 uiMenu_Display_Redo.IsEnabled = false;
 
-                uiStatusbar.Visibility = Visibility.Collapsed;
+                uiStatusbar_Runtime_Mode.Visibility = Visibility.Collapsed;
+                uiStatusbar_Runtime_PasteMode.Visibility = Visibility.Collapsed;
+                uiStatusbar_Runtime_Selected.Visibility = Visibility.Collapsed;
+                uiStatusbar_Runtime_Separator1.Visibility = Visibility.Collapsed;
+                uiStatusbar_Runtime_Separator2.Visibility = Visibility.Collapsed;
             }
         }
 

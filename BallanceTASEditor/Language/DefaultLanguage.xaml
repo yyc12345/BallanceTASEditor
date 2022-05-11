@@ -43,7 +43,7 @@
     <sys:String x:Key="ui_TASFlow_Menu_Cut">Cut</sys:String>
     <sys:String x:Key="ui_TASFlow_Menu_Copy">Copy</sys:String>
     <sys:String x:Key="ui_TASFlow_Menu_PasteAfter">Paste after this</sys:String>
-    <sys:String x:Key="ui_TASFlow_Menu_PasterBefore">Paste before this</sys:String>
+    <sys:String x:Key="ui_TASFlow_Menu_PasteBefore">Paste before this</sys:String>
     <sys:String x:Key="ui_TASFlow_Menu_Delete">Delete</sys:String>
     <sys:String x:Key="ui_TASFlow_Menu_DeleteAfter">Delete this frame</sys:String>
     <sys:String x:Key="ui_TASFlow_Menu_DeleteBefore">Delete last frame</sys:String>
@@ -62,9 +62,10 @@
     <sys:String x:Key="code_Shared_ProgramName">Ballance TAS Editor</sys:String>
     
     <sys:String x:Key="code_MainWindow_Menu_Help_About" xml:space="preserve">Under MIT License
-Version: 1.0 stable
+Version: 1.1 stable
 Program: yyc12345.
 Icon design: plAer_2</sys:String>
+    <sys:String x:Key="code_MainWindow_Closing">File is not closed. Do you want to just quit? All changes will not be saved.</sys:String>
     <sys:String x:Key="code_MainWindow_Menu_File_Close">Do you want to close this TAS file?</sys:String>
     <sys:String x:Key="code_MainWindow_Menu_File_Open_Fail">Fail to open file. This file might not a legal TAS file.</sys:String>
     <sys:String x:Key="code_MainWindow_Menu_Display_ItemCount">Input new count (&lt;=5 &amp;&amp; &gt;=30)</sys:String>
