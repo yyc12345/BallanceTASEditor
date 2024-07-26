@@ -1,4 +1,4 @@
-﻿using BallanceTASEditor.Core;
+using BallanceTASEditor.Core;
 using BallanceTASEditor.Core.TASStruct;
 using BallanceTASEditor.UI;
 using System;
@@ -90,8 +90,8 @@ namespace BallanceTASEditor {
         }
 
         private void funcMenu_Help_About(object sender, RoutedEventArgs e) {
-            MessageBox.Show(I18NProcessor.GetI18N("code_MainWindow_Menu_Help_About"), 
-                I18NProcessor.GetI18N("code_Shared_ProgramName"), 
+            MessageBox.Show(I18NProcessor.GetI18N("code_MainWindow_Menu_Help_About"),
+                I18NProcessor.GetI18N("code_Shared_ProgramName"),
                 MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
@@ -248,7 +248,7 @@ namespace BallanceTASEditor {
         private void funcWindow_KeyUp(object sender, KeyEventArgs e) {
             if (mFile == null || mViewer == null) return;
 
-            switch(e.Key) {
+            switch (e.Key) {
                 case Key.A:
                     mSlider.MoveSliderManually(true, true, mViewer.GetItemCountInPage());
                     break;
@@ -280,7 +280,7 @@ namespace BallanceTASEditor {
                     // normally move
                     mSlider.MoveSliderManually(true, false, mViewer.GetItemCountInPage());
                 }
-                
+
             } else if (e.Delta < 0) {
                 // wheel down
                 if (KeyboardState.IsKeyPressed(KeyboardState.VirtualKeyStates.VK_SHIFT)) {
@@ -309,8 +309,7 @@ namespace BallanceTASEditor {
                 var arr = (System.Array)e.Data.GetData(DataFormats.FileDrop);
                 if (arr.Length != 1) e.Effects = DragDropEffects.None;
                 else e.Effects = DragDropEffects.Link;
-            }
-            else e.Effects = DragDropEffects.None;
+            } else e.Effects = DragDropEffects.None;
         }
 
         #endregion
@@ -331,15 +330,22 @@ namespace BallanceTASEditor {
         }
 
         private void OpenFile(string file) {
+#if DEBUG
+#else
             try {
+#endif
                 mFile = new TASFile(file);
+
+#if DEBUG
+#else
             } catch {
                 MessageBox.Show(I18NProcessor.GetI18N("code_MainWindow_Menu_File_Open_Fail"),
-                    I18NProcessor.GetI18N("code_Shared_ProgramName"), 
+                    I18NProcessor.GetI18N("code_Shared_ProgramName"),
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 mFile = null;
                 return;
             }
+#endif
 
             mViewer = new TASViewer(mFile, mSlider, mFlow);
 

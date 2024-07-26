@@ -1,4 +1,4 @@
-﻿<Window x:Class="BallanceTASEditor.MainWindow"
+<Window x:Class="BallanceTASEditor.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -262,7 +262,7 @@
             </StatusBarItem>
 
             <StatusBarItem DockPanel.Dock="Right" HorizontalAlignment="Right">
-                <TextBlock Text="v1.1 stable" Foreground="Gray" FontStyle="Italic"/>
+                <TextBlock Text="v1.2 stable" Foreground="Gray" FontStyle="Italic"/>
             </StatusBarItem>
         </StatusBar>
 

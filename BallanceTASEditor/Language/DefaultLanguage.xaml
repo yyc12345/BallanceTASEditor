@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:BallanceTASEditor.Language"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
@@ -62,7 +62,7 @@
     <sys:String x:Key="code_Shared_ProgramName">Ballance TAS Editor</sys:String>
     
     <sys:String x:Key="code_MainWindow_Menu_Help_About" xml:space="preserve">Under MIT License
-Version: 1.1 stable
+Version: 1.2 stable
 Program: yyc12345.
 Icon design: plAer_2</sys:String>
     <sys:String x:Key="code_MainWindow_Closing">File is not closed. Do you want to just quit? All changes will not be saved.</sys:String>

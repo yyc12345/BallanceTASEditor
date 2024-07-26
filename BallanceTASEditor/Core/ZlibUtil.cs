@@ -1,4 +1,4 @@
-﻿using BallanceTASEditor.Core.TASStruct;
+using BallanceTASEditor.Core.TASStruct;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,34 +12,63 @@ namespace BallanceTASEditor.Core {
         public static void CompressTAS(LinkedList<FrameData> mem, FileStream file) {
             file.Write(BitConverter.GetBytes(mem.Count * ConstValue.FRAMEDATA_SIZE), 0, 4);
 
-            var zo = new zlib.ZOutputStream(file, 9);
-            var node = mem.First;
-            while (node != null) {
-                zo.Write(BitConverter.GetBytes(node.Value.deltaTime), 0, 4);
-                zo.Write(BitConverter.GetBytes(node.Value.keystates), 0, 4);
-                node = node.Next;
+            using (var zo = new Ionic.Zlib.ZlibStream(file, Ionic.Zlib.CompressionMode.Compress, Ionic.Zlib.CompressionLevel.Level9, true)) {
+                var node = mem.First;
+                while (node != null) {
+                    zo.Write(BitConverter.GetBytes(node.Value.deltaTime), 0, 4);
+                    zo.Write(BitConverter.GetBytes(node.Value.keystates), 0, 4);
+                    node = node.Next;
+                }
+                zo.Close();
             }
-            zo.finish();
-            zo.Close();
+
+            //var zo = new zlib.ZOutputStream(file, 9);
+            //var node = mem.First;
+            //while (node != null) {
+            //    zo.Write(BitConverter.GetBytes(node.Value.deltaTime), 0, 4);
+            //    zo.Write(BitConverter.GetBytes(node.Value.keystates), 0, 4);
+            //    node = node.Next;
+            //}
+            //zo.finish();
+            //zo.Close();
         }
 
         public static void DecompressTAS(LinkedList<FrameData> ls, FileStream file) {
             var lengthTemp = new byte[4];
-            var mem = new MemoryStream();
             file.Read(lengthTemp, 0, 4);
             Int32 expectedLength = BitConverter.ToInt32(lengthTemp, 0);
             long expectedCount = expectedLength / ConstValue.FRAMEDATA_SIZE;
 
-            var zo = new zlib.ZOutputStream(mem);
-            CopyStream(file, zo);
-            zo.finish();
+            using (var mem = new MemoryStream()) {
+                using (var zo = new Ionic.Zlib.ZlibStream(mem, Ionic.Zlib.CompressionMode.Decompress, true)) {
+                    CopyStream(file, zo);
+                    zo.Close();
+                }
 
-            mem.Seek(0, SeekOrigin.Begin);
-            for(long i = 0; i < expectedCount; i++) {
-                ls.AddLast(new FrameData(mem));
+                mem.Seek(0, SeekOrigin.Begin);
+                for (long i = 0; i < expectedCount; i++) {
+                    ls.AddLast(new FrameData(mem));
+                }
+                mem.Close();
             }
-            mem.Close();
-            zo.Close();
+
+            //mem.Seek(0, SeekOrigin.Begin);
+            //for (long i = 0; i < expectedCount; i++) {
+            //    ls.AddLast(new FrameData(mem));
+            //}
+            //mem.Close();
+            //zo.Close();
+
+            //var zo = new zlib.ZOutputStream(mem);
+            //CopyStream(file, zo);
+            //zo.finish();
+
+            //mem.Seek(0, SeekOrigin.Begin);
+            //for (long i = 0; i < expectedCount; i++) {
+            //    ls.AddLast(new FrameData(mem));
+            //}
+            //mem.Close();
+            //zo.Close();
         }
 
         public static void CopyStream(Stream origin, Stream target) {
