@@ -2,6 +2,12 @@
 
 A editor written for TAS file editing.
 
+## Deprecation Note
+
+I have lost all my interests on this game, Ballance, since 1 year ago. However, recently, I noticed that there were some improvements and modifications in Ballance TAS. What I want to clarified is that I have no intention on updating this project to adapt the new format or feature of Ballance TAS. So I archive this repository to explicitly indicate this standpoint.
+
+However, this status is not prepetual. I will reopen this repository until I have learned enough text editor skills, such as Gap Buffer, to improve this application, or, restored the interests on this game (barely but still possible). You can freely fork this repository, or create new Ballance TAS editor on your own. That's your right granted by open source license.
+
 ## Basic Interface
 
 ### Program Menu
