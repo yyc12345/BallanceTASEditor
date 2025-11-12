@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 namespace BallanceTasEditor.Utils {
 
     /// <summary>
-    /// 描述TAS文件中一帧的结构。
+    /// 原始的TAS帧结构，与二进制结构保持一致。
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct TasFrame {
+    public struct RawTasFrame {
         /// <summary>
         /// 该帧的持续时间（以秒为单位）。
         /// </summary>
@@ -20,6 +20,70 @@ namespace BallanceTasEditor.Utils {
         /// 该帧的按键组合。
         /// </summary>
         public uint KeyFlags;
+    }
+
+    /// <summary>
+    /// 描述TAS文件中一帧的结构。
+    /// </summary>
+    public class TasFrame {
+        /// <summary>
+        /// 以指定的FPS，无任何按键初始化当前帧。
+        /// </summary>
+        public TasFrame(uint fps = 60) {
+            m_TimeDelta = FpsConverter.ToDelta(fps);
+            m_KeyFlags = 0;
+        }
+
+        /// <summary>
+        /// 从原始TAS数据初始化。
+        /// </summary>
+        /// <param name="raw">要用来初始化的原始数据。</param>
+        public TasFrame(RawTasFrame raw) {
+            m_TimeDelta = raw.TimeDelta;
+            m_KeyFlags = raw.KeyFlags;
+        }
+
+        /// <summary>
+        /// 转换为原始TAS数据。
+        /// </summary>
+        /// <returns>转换后的原始TAS数据。</returns>
+        public RawTasFrame ToRaw() {
+            return new RawTasFrame() { TimeDelta = m_TimeDelta, KeyFlags = m_KeyFlags };
+        }
+
+        /// <summary>
+        /// 原位转换为原始TAS数据。
+        /// </summary>
+        /// <param name="raw">以引用传递的原始TAS数据。</param>
+        public void ToImplaceRaw(ref RawTasFrame raw) {
+            raw.TimeDelta = m_TimeDelta;
+            raw.KeyFlags = m_KeyFlags;
+        }
+
+        /// <summary>
+        /// 该帧的持续时间（以秒为单位）。
+        /// </summary>
+        private float m_TimeDelta;
+        /// <summary>
+        /// 该帧的按键组合。
+        /// </summary>
+        private uint m_KeyFlags;
+
+        /// <summary>
+        /// 获取帧时间Delta。
+        /// </summary>
+        /// <returns>获取到的帧时间Delta。</returns>
+        public float GetTimeDelta() {
+            return m_TimeDelta;
+        }
+
+        /// <summary>
+        /// 设置帧时间Delta。
+        /// </summary>
+        /// <param name="delta">要设置的帧时间Delta。</param>
+        public void SetTimeDelta(float delta) {
+            m_TimeDelta = delta;
+        }
 
         /// <summary>
         /// 判断按键是否被按下。
@@ -27,7 +91,7 @@ namespace BallanceTasEditor.Utils {
         /// <param name="key">要检查的按键。</param>
         /// <returns>true表示被按下，否则为false。</returns>
         public bool IsKeyPressed(TasKey key) {
-            return (KeyFlags & (1u << (int)key)) != 0;
+            return (m_KeyFlags & (1u << (int)key)) != 0;
         }
 
         /// <summary>
@@ -36,8 +100,8 @@ namespace BallanceTasEditor.Utils {
         /// <param name="key">要设置的按键。</param>
         /// <param name="pressed">true表示设置为按下，否则为松开。</param>
         public void SetKeyPressed(TasKey key, bool pressed = true) {
-            if (pressed) KeyFlags |= (1u << (int)key);
-            else KeyFlags &= ~(1u << (int)key);
+            if (pressed) m_KeyFlags |= (1u << (int)key);
+            else m_KeyFlags &= ~(1u << (int)key);
         }
 
         /// <summary>
@@ -45,7 +109,7 @@ namespace BallanceTasEditor.Utils {
         /// </summary>
         /// <param name="key">要反转的按键。</param>
         public void FlipKeyPressed(TasKey key) {
-            KeyFlags ^= (1u << (int)key);
+            m_KeyFlags ^= (1u << (int)key);
         }
 
         /// <summary>

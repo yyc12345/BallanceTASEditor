@@ -97,7 +97,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Utils\FpsConverter.cs" />
     <Compile Include="Utils\TasFrame.cs" />
+    <Compile Include="Utils\TasMemory.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
