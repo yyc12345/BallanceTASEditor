@@ -5,7 +5,7 @@ VisualStudioVersion = 17.14.36414.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BallanceTasEditor", "BallanceTasEditor\BallanceTasEditor.csproj", "{DD898514-03ED-4257-AFD1-290EEDF68113}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BallanceTasEditorTest", "BallanceTasEditorTest\BallanceTasEditorTest.csproj", "{1DC1A8CD-E963-4FF8-91D9-059522419961}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BallanceTasEditorTests", "BallanceTasEditorTests\BallanceTasEditorTests.csproj", "{D2E825CE-691B-48D7-8D87-D2CED1B25FF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{DD898514-03ED-4257-AFD1-290EEDF68113}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD898514-03ED-4257-AFD1-290EEDF68113}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD898514-03ED-4257-AFD1-290EEDF68113}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1DC1A8CD-E963-4FF8-91D9-059522419961}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1DC1A8CD-E963-4FF8-91D9-059522419961}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1DC1A8CD-E963-4FF8-91D9-059522419961}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1DC1A8CD-E963-4FF8-91D9-059522419961}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2E825CE-691B-48D7-8D87-D2CED1B25FF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2E825CE-691B-48D7-8D87-D2CED1B25FF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2E825CE-691B-48D7-8D87-D2CED1B25FF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2E825CE-691B-48D7-8D87-D2CED1B25FF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,7 +10,7 @@ namespace BallanceTasEditor.Utils {
     /// <summary>
     /// 所有用于在内存中存储TAS帧的结构都必须实现此interface。
     /// </summary>
-    public interface ITasMemory<T> where T : class {
+    public interface ITasStorage<T> {
         /// <summary>
         /// 访问给定索引的值。
         /// </summary>
@@ -61,8 +61,8 @@ namespace BallanceTasEditor.Utils {
     /// <remarks>
     /// 其实就是把List的InsertRange的复杂度从O(n*m)修正为O(n)。
     /// </remarks>
-    public class GapBufferTasMemory<T> : ITasMemory<T> where T : class {
-        public GapBufferTasMemory() {
+    public class GapBufferTasStorage<T> : ITasStorage<T> {
+        public GapBufferTasStorage() {
 
         }
 
@@ -97,8 +97,8 @@ namespace BallanceTasEditor.Utils {
     /// <remarks>
     /// 由于List的InsertRange的复杂度是O(n*m)，可能不符合要求。
     /// </remarks>
-    public class ListTasMemory<T> : ITasMemory<T> where T : class {
-        public ListTasMemory() {
+    public class ListTasStorage<T> : ITasStorage<T> {
+        public ListTasStorage() {
             m_Container = new List<T>();
         }
 
@@ -132,8 +132,8 @@ namespace BallanceTasEditor.Utils {
     /// <summary>
     /// 传统的基于LinkedList的TAS存储器。
     /// </summary>
-    public class LegacyTasMemory<T> : ITasMemory<T> where T : class {
-        public LegacyTasMemory() {
+    public class LegacyTasStorage<T> : ITasStorage<T> {
+        public LegacyTasStorage() {
             m_Container = new LinkedList<T>();
             m_Cursor = null;
             m_CursorIndex = null;
@@ -165,7 +165,7 @@ namespace BallanceTasEditor.Utils {
         /// <exception cref="Exception"></exception>
         private void MoveToIndex(int desiredIndex) {
             // 检查基本环境
-            if (desiredIndex >= GetCount())
+            if (desiredIndex < 0 || desiredIndex >= GetCount())
                 throw new ArgumentOutOfRangeException("Index out of range");
             if (m_Cursor is null || !m_CursorIndex.HasValue || IsEmpty())
                 throw new InvalidOperationException("Can not move cursor when container is empty.");

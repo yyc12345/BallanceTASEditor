@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1DC1A8CD-E963-4FF8-91D9-059522419961}</ProjectGuid>
+    <ProjectGuid>{D2E825CE-691B-48D7-8D87-D2CED1B25FF9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BallanceTasEditorTest</RootNamespace>
-    <AssemblyName>BallanceTasEditorTest</AssemblyName>
+    <RootNamespace>BallanceTasEditorTests</RootNamespace>
+    <AssemblyName>BallanceTasEditorTests</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -49,8 +49,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\TasStorageTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
