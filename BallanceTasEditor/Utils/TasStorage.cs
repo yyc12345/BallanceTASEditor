@@ -16,7 +16,7 @@ namespace BallanceTasEditor.Utils {
         /// </summary>
         /// <param name="index">要访问的单元的索引。</param>
         /// <returns>被访问的单元。</returns>
-        /// <exception cref="ArgumentOutOfRangeException">给定的索引超出范围。</exception>
+        /// <exception cref="ArgumentException">给定的索引超出范围。</exception>
         T Visit(int index);
         /// <summary>
         /// 在给定的索引<b>之前</b>插入给定的项目。
@@ -29,14 +29,14 @@ namespace BallanceTasEditor.Utils {
         /// </remarks>
         /// <param name="index">要在前方插入数据的元素的索引。</param>
         /// <param name="items">要插入的元素的迭代器。</param>
-        /// <exception cref="ArgumentOutOfRangeException">给定的索引超出范围。</exception>
+        /// <exception cref="ArgumentException">给定的索引超出范围。</exception>
         void Insert(int index, IEnumerable<T> items);
         /// <summary>
         /// 从给定单元开始，移除给定个数的元素。
         /// </summary>
         /// <param name="index">要开始移除的单元的索引。</param>
         /// <param name="count">要移除的元素的个数。</param>
-        /// <exception cref="ArgumentOutOfRangeException">给定的索引超出范围。</exception>
+        /// <exception cref="ArgumentException">给定的索引超出范围。</exception>
         void Remove(int index, int count);
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace BallanceTasEditor.Utils {
             public int Offset;
 
             public int CompareTo(NodeSeekInfo other) {
-                return this.Offset.CompareTo(other.Offset);
+                return Math.Abs(this.Offset).CompareTo(Math.Abs(other.Offset));
             }
         }
 
@@ -173,8 +173,8 @@ namespace BallanceTasEditor.Utils {
             // 创建三个候选方案。
             var candidates = new NodeSeekInfo[3] {
                 new NodeSeekInfo() { Origin = NodeSeekOrigin.Head, Offset = desiredIndex },
-                new NodeSeekInfo() { Origin = NodeSeekOrigin.Cursor, Offset = desiredIndex - (GetCount() - 1) },
-                new NodeSeekInfo() { Origin = NodeSeekOrigin.Tail, Offset = desiredIndex - m_CursorIndex.Value },
+                new NodeSeekInfo() { Origin = NodeSeekOrigin.Tail, Offset = desiredIndex - (GetCount() - 1) },
+                new NodeSeekInfo() { Origin = NodeSeekOrigin.Cursor, Offset = desiredIndex - m_CursorIndex.Value },
             };
             // 确定哪个候选方案最短。
             var bestCandidate = candidates.Min();
@@ -211,15 +211,25 @@ namespace BallanceTasEditor.Utils {
         }
 
         public T Visit(int index) {
-            MoveToIndex(index);
-            return m_Cursor.Value;
+            if (index < 0 || index >= GetCount()) {
+                throw new ArgumentOutOfRangeException("Index out of range.");
+            } else {
+                MoveToIndex(index);
+                return m_Cursor.Value;
+            }
         }
 
         public void Insert(int index, IEnumerable<T> items) {
-            if (index == GetCount()) {
+            if (index < 0 || index > GetCount()) {
+                throw new ArgumentOutOfRangeException("Index out of range.");
+            } else if (index == GetCount()) {
                 foreach (T item in items) {
                     m_Container.AddLast(item);
                 }
+
+                m_Cursor = m_Container.First;
+                if (m_Cursor is null) m_CursorIndex = null;
+                else m_CursorIndex = 0;
             } else {
                 MoveToIndex(index);
 
@@ -233,7 +243,9 @@ namespace BallanceTasEditor.Utils {
         }
 
         public void Remove(int index, int count) {
-            if (index + count >= GetCount())
+            if (count == 0)
+                return;
+            if (index + count > GetCount())
                 throw new ArgumentOutOfRangeException("Expected removed items out of range.");
 
             MoveToIndex(index);
@@ -253,14 +265,20 @@ namespace BallanceTasEditor.Utils {
             }
 
             // 然后设置Cursor和Index
-            // 如果全部删完了，就清除这两个的设置。
-            // 否则就以prevNode为当前Cursor，Index--为对应Index。
             if (IsEmpty()) {
+                // 如果全部删完了，就清除这两个的设置。
                 m_Cursor = null;
                 m_CursorIndex = null;
             } else {
-                m_Cursor = prevNode;
-                --m_CursorIndex;
+                if (prevNode is null) {
+                    // 如果是按头部删除的，则直接获取头部及其Index。
+                    m_Cursor = m_Container.First;
+                    m_CursorIndex = 0;
+                } else {
+                    // 否则就以prevNode为当前Cursor，Index--为对应Index。
+                    m_Cursor = prevNode;
+                    --m_CursorIndex;
+                }
             }
         }
 

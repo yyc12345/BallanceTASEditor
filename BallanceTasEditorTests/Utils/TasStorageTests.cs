@@ -10,6 +10,7 @@ namespace BallanceTasEditorTests.Utils {
     [TestClass]
     public class TasStorageTests {
 
+        private static readonly int[] BLANK = { };
         private static readonly int[] PROBE = { 10, 20, 30, 40, 50 };
 
         private static IEnumerable<object[]> TasStorageInstanceProvider {
@@ -28,18 +29,18 @@ namespace BallanceTasEditorTests.Utils {
         [DynamicData(nameof(TasStorageInstanceProvider))]
         public void VisitTest(ITasStorage<int> storage) {
             // 空时访问
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => storage.Visit(-1));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => storage.Visit(0));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => storage.Visit(1));
+            AssertExtension.ThrowsDerivedException<ArgumentException>(() => storage.Visit(-1));
+            AssertExtension.ThrowsDerivedException<ArgumentException>(() => storage.Visit(0));
+            AssertExtension.ThrowsDerivedException<ArgumentException>(() => storage.Visit(1));
 
             // 设置数据
             storage.Insert(0, PROBE);
             // 访问数据
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => storage.Visit(-1));
+            AssertExtension.ThrowsDerivedException<ArgumentException>(() => storage.Visit(-1));
             for (int i = 0; i < PROBE.Length; i++) {
                 Assert.AreEqual(storage.Visit(i), PROBE[i]);
             }
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => storage.Visit(PROBE.Length));
+            AssertExtension.ThrowsDerivedException<ArgumentException>(() => storage.Visit(PROBE.Length));
         }
 
         /// <summary>
@@ -52,8 +53,8 @@ namespace BallanceTasEditorTests.Utils {
             // 和在非空时的头，中，尾分别插入的结果。
 
             // 先检测空插入
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => storage.Insert(-1, PROBE));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => storage.Insert(1, PROBE));
+            AssertExtension.ThrowsDerivedException<ArgumentException>(() => storage.Insert(-1, PROBE));
+            AssertExtension.ThrowsDerivedException<ArgumentException>(() => storage.Insert(1, PROBE));
             storage.Insert(0, PROBE);
             for (int i = 0; i < PROBE.Length; i++) {
                 Assert.AreEqual(storage.Visit(i), PROBE[i]);
@@ -78,6 +79,7 @@ namespace BallanceTasEditorTests.Utils {
                     Assert.AreEqual(storage.Visit(i), expected[i]);
                 }
             }
+
         }
 
         /// <summary>
@@ -86,7 +88,28 @@ namespace BallanceTasEditorTests.Utils {
         [TestMethod]
         [DynamicData(nameof(TasStorageInstanceProvider))]
         public void RemoveTest(ITasStorage<int> storage) {
+            // 在空的时候删除0项
+            storage.Remove(0, 0);
 
+            // 插入项目后尝试在头中尾分别删除
+            var indices = new int[] { 0, PROBE.Length / 2, PROBE.Length - 1 };
+            foreach (var index in indices) {
+                // 清空，插入，删除
+                storage.Clear();
+                storage.Insert(0, PROBE);
+                storage.Remove(index, 1);
+
+                // 用List做正确模拟
+                var expected = new List<int>();
+                expected.AddRange(PROBE);
+                expected.RemoveRange(index, 1);
+
+                // 检查结果
+                Assert.AreEqual(storage.GetCount(), expected.Count);
+                for (int i = 0; i < expected.Count; i++) {
+                    Assert.AreEqual(storage.Visit(i), expected[i]);
+                }
+            }
         }
 
         /// <summary>
@@ -159,6 +182,13 @@ namespace BallanceTasEditorTests.Utils {
             // 再次检查数据
             Assert.IsTrue(storage.IsEmpty());
             Assert.AreEqual(storage.GetCount(), 0);
+
+            // 清空后插入0项，然后确认
+            storage.Clear();
+            storage.Insert(0, BLANK);
+            AssertExtension.ThrowsDerivedException<ArgumentException>(() => storage.Visit(-1));
+            AssertExtension.ThrowsDerivedException<ArgumentException>(() => storage.Visit(0));
+            AssertExtension.ThrowsDerivedException<ArgumentException>(() => storage.Visit(1));
         }
     }
 }
