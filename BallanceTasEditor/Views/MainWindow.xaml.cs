@@ -21,5 +21,30 @@ namespace BallanceTasEditor.Views {
         public MainWindow() {
             InitializeComponent();
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e) {
+            var dialog = new PreferenceDialog();
+            dialog.Owner = this;
+            dialog.ShowDialog();
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e) {
+            var dialog = new AboutDialog();
+            dialog.Owner = this;
+            dialog.ShowDialog();
+        }
+
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e) {
+            // TODO; Change Title and Icon
+            var dialog = new SetupCountAndFpsDialog();
+            dialog.Owner = this;
+            dialog.ShowDialog();
+        }
+
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e) {
+            var dialog = new SetupCountAndFpsDialog();
+            dialog.Owner = this;
+            dialog.ShowDialog();
+        }
     }
 }

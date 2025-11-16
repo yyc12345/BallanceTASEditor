@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 24 24"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="MenuCloseFile.svg"
+   inkscape:export-filename="MenuCloseFile.png"
+   inkscape:export-xdpi="1024"
+   inkscape:export-ydpi="1024"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="32.916667"
+     inkscape:cx="11.98481"
+     inkscape:cy="12"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <path
+     d="M 19,6.41 17.59,5 12,10.59 6.41,5 5,6.41 10.59,12 5,17.59 6.41,19 12,13.41 17.59,19 19,17.59 13.41,12 Z"
+     id="path1"
+     style="display:none" />
+  <path
+     style="fill:#f44336;fill-opacity:1;stroke-width:0.000911392"
+     d="M 5.7112968,18.273322 5.0281633,17.589682 7.8228805,14.794841 10.617598,12 7.8227956,9.2050739 5.0279935,6.4101481 5.7190708,5.7190708 6.4101481,5.0279935 9.2050739,7.8227956 12,10.617598 14.794926,7.8227956 17.589852,5.0279935 18.280929,5.7190708 18.972006,6.4101481 16.177205,9.2050739 13.382402,12 l 2.794803,2.794926 2.794801,2.794926 -0.691077,0.691077 -0.691077,0.691077 L 14.794926,16.177205 12,13.382402 9.2125966,16.169682 c -1.5330718,1.533004 -2.794325,2.78728 -2.8027848,2.78728 -0.00846,0 -0.3227916,-0.307638 -0.698515,-0.68364 z"
+     id="path2" />
+</svg>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 24 24"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="PanelPrevItem.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   inkscape:export-filename="PanelPrevItem.png"
+   inkscape:export-xdpi="1024"
+   inkscape:export-ydpi="1024"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="true"
+     inkscape:zoom="16.458333"
+     inkscape:cx="8.9316458"
+     inkscape:cy="13.367089"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1">
+    <inkscape:grid
+       id="grid1"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="24"
+       spacingy="24"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="5"
+       dotted="false"
+       gridanglex="30"
+       gridanglez="30"
+       visible="true" />
+  </sodipodi:namedview>
+  <path
+     d="m 15.996037,19.004449 v -14 l -11.0000004,7 z"
+     id="path1"
+     inkscape:transform-center-y="0.002224495"
+     inkscape:transform-center-x="1.5019815"
+     style="display:none" />
+  <path
+     style="fill:#607d8b;stroke-width:0.00182278"
+     d="M 10.557478,15.503251 C 7.642065,13.643299 5.2144231,12.094177 5.162718,12.06076 5.0888479,12.013017 6.2035397,11.2776 10.366082,8.6278483 13.279637,6.7731647 15.727785,5.2206459 15.806411,5.1778064 l 0.142956,-0.07789 V 11.99806 c 0,3.793979 -0.02051,6.895618 -0.04557,6.892532 -0.02506,-0.0031 -2.430907,-1.527389 -5.346319,-3.387341 z"
+     id="path2" />
+</svg>

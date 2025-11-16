@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 24 24"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="CtxMenuDelete.svg"
+   inkscape:export-filename="CtxMenuDelete.png"
+   inkscape:export-xdpi="1024"
+   inkscape:export-ydpi="1024"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="32.916667"
+     inkscape:cx="11.98481"
+     inkscape:cy="12"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <path
+     d="m 19,4 h -3.5 l -1,-1 h -5 l -1,1 H 5 V 6 H 19 M 6,19 a 2,2 0 0 0 2,2 h 8 a 2,2 0 0 0 2,-2 V 7 H 6 Z"
+     id="path1"
+     style="display:none" />
+  <path
+     style="fill:#f44336;fill-opacity:1;stroke-width:0.000911392"
+     d="M 7.7620253,20.971055 C 7.3386196,20.91084 6.9168794,20.705385 6.6252386,20.417257 6.3839009,20.178826 6.2322126,19.938241 6.116161,19.609835 L 6.03038,19.367089 6.02235,13.192405 6.01432,7.0177215 H 12 17.985673 l -0.008,6.1746835 -0.008,6.174684 -0.08578,0.242746 c -0.177069,0.501075 -0.519519,0.907554 -0.955057,1.133625 -0.484128,0.251292 -0.07556,0.231342 -4.837643,0.236217 -2.3308858,0.0024 -4.2789871,-0.0015 -4.3291137,-0.0086 z"
+     id="path2" />
+  <path
+     style="fill:#f44336;fill-opacity:1;stroke-width:0.000911392"
+     d="M 5.0126582,4.9974684 V 4.0101266 H 6.7674339 8.5222095 L 9.0227848,3.5088608 9.5233601,3.0075949 H 12 14.47664 l 0.500575,0.5012659 0.500575,0.5012658 h 1.754776 1.754776 V 4.9974684 5.9848101 H 12 5.0126582 Z"
+     id="path3" />
+</svg>

@@ -4,9 +4,133 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BallanceTasEditor.Views"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Icon="/Assets/App.ico">
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Title="Ballance TAS Editor" Height="600" Width="800" Icon="/Assets/App.ico">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0">
+            <MenuItem Header="_File" Padding="5">
+                <MenuItem Header="_New File" Icon="{StaticResource IconMenuNewFile}" InputGestureText="Ctrl+N" Click="MenuItem_Click_3"/>
+                <MenuItem Header="_Open File" Icon="{StaticResource IconMenuOpenFile}" InputGestureText="Ctrl+O"/>
+                <Separator/>
+                <MenuItem Header="_Save File" Icon="{StaticResource IconMenuSaveFile}" InputGestureText="Ctrl+S"/>
+                <MenuItem Header="Save File As ..." Icon="{StaticResource IconMenuSaveFileAs}"/>
+                <MenuItem Header="Save File then _Run Game" Icon="{StaticResource IconMenuSaveFileThenRunGame}" InputGestureText="B"/>
+                <Separator/>
+                <MenuItem Header="Close File" Icon="{StaticResource IconMenuCloseFile}"/>
+                <MenuItem Header="Exit" Icon="{StaticResource IconMenuExit}"/>
+            </MenuItem>
+            <MenuItem Header="_Edit" Padding="5">
+                <MenuItem Header="_Undo" Icon="{StaticResource IconMenuUndo}" InputGestureText="Ctrl+Z"/>
+                <MenuItem Header="_Redo" Icon="{StaticResource IconMenuRedo}" InputGestureText="Ctrl+Y"/>
+                <Separator/>
+                <MenuItem Header="Previous Page" Icon="{StaticResource IconPanelPreviousPage}" InputGestureText="A"/>
+                <MenuItem Header="Previous Item" Icon="{StaticResource IconPanelPreviousItem}" InputGestureText="S"/>
+                <MenuItem Header="Next Page" Icon="{StaticResource IconPanelNextPage}" InputGestureText="D"/>
+                <MenuItem Header="Next Item" Icon="{StaticResource IconPanelNextItem}" InputGestureText="F"/>
+                <MenuItem Header="Goto Item" Icon="{StaticResource IconPanelGoto}" InputGestureText="G"/>
+                <Separator/>
+                <MenuItem Header="Select Mode" Icon="{StaticResource IconMenuSelectMode}"/>
+                <MenuItem Header="Fill Mode" Icon="{StaticResource IconMenuFillMode}"/>
+                <MenuItem Header="Draw Mode" Icon="{StaticResource IconMenuDrawMode}"/>
+                <Separator/>
+                <MenuItem Header="Uniform FPS"/>
+                <Separator/>
+                <MenuItem Header="Preference" Icon="{StaticResource IconMenuPreference}" InputGestureText="Ctrl+P" Click="MenuItem_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Help" Padding="5">
+                <MenuItem Header="Report Bug" Icon="{StaticResource IconMenuReportBug}"/>
+                <MenuItem Header="About" Icon="{StaticResource IconMenuAbout}" Click="MenuItem_Click_1"/>
+            </MenuItem>
+        </Menu>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="0">
+                <Button Margin="5" Padding="5">
+                    <StackPanel Orientation="Horizontal">
+                        <ContentControl Content="{StaticResource IconToolBtnSelectMode}" Width="24" Height="24"/>
+                        <TextBlock Text="Select Mode" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Margin="5" Padding="5">
+                    <StackPanel Orientation="Horizontal">
+                        <ContentControl Content="{StaticResource IconToolBtnFillMode}" Width="24" Height="24"/>
+                        <TextBlock Text="Fill Mode" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Margin="5" Padding="5">
+                    <StackPanel Orientation="Horizontal">
+                        <ContentControl Content="{StaticResource IconToolBtnDrawMode}" Width="24" Height="24"/>
+                        <TextBlock Text="Draw Mode" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+            <Button Grid.Column="1" Margin="5" Padding="5">
+                <StackPanel Orientation="Horizontal">
+                    <ContentControl Content="{StaticResource IconToolBtnSaveFileThenRunGame}" Width="24" Height="24"/>
+                    <TextBlock Text="Save then Run Game" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid VerticalAlignment="Center" HorizontalAlignment="Center" AllowDrop="True">
+                <Rectangle StrokeThickness="4" Stroke="Gray" StrokeDashArray="4 4" Fill="Transparent"/>
+                <StackPanel Orientation="Horizontal" Margin="20">
+                    <ContentControl Content="{StaticResource IconDragAndDrop}" Width="24" Height="24" Margin="5" VerticalAlignment="Center"/>
+                    <TextBlock Margin="5" Text="Open or Drop a TAS File for Editing" Foreground="Gray" FontSize="16" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+
+            <Grid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Set" Icon="{StaticResource IconCtxMenuSet}"/>
+                    <MenuItem Header="Unset" Icon="{StaticResource IconCtxMenuUnset}"/>
+                    <MenuItem Header="Flip" Icon="{StaticResource IconCtxMenuFlip}"/>
+                    <Separator/>
+                    <MenuItem Header="Cut" Icon="{StaticResource IconCtxMenuCut}" InputGestureText="Ctrl+X"/>
+                    <MenuItem Header="Copy" Icon="{StaticResource IconCtxMenuCopy}" InputGestureText="Ctrl+C"/>
+                    <MenuItem Header="Paste after This" Icon="{StaticResource IconCtxMenuPaste}" InputGestureText="Ctrl+V"/>
+                    <MenuItem Header="Paste before This"/>
+                    <Separator/>
+                    <MenuItem Header="Delete This" Icon="{StaticResource IconCtxMenuDelete}"/>
+                    <MenuItem Header="Delete after This" InputGestureText="Del"/>
+                    <MenuItem Header="Delete before This" InputGestureText="Backspace"/>
+                    <Separator/>
+                    <MenuItem Header="Add after This" Icon="{StaticResource IconCtxMenuAdd}" Click="MenuItem_Click_2"/>
+                    <MenuItem Header="Add before This"/>
+                    <Separator/>
+                    <MenuItem Header="Set FPS"/>
+                </ContextMenu>
+            </Grid.ContextMenu>
+        </Grid>
+
+        <StatusBar Grid.Row="3">
+            <!-- 这玩意要逆序排列才能达到我想要的需求也是奇葩 -->
+            <StatusBarItem Content="v1.2 stable" DockPanel.Dock="Right" Foreground="Gray" FontStyle="Italic"/>
+            <Separator DockPanel.Dock="Right"/>
+            <StatusBarItem Content="$PasteMode" DockPanel.Dock="Right"/>
+            <Separator DockPanel.Dock="Right"/>
+            <StatusBarItem Content="$Selection" DockPanel.Dock="Right"/>
+            <Separator DockPanel.Dock="Right"/>
+            <StatusBarItem Content="$ToolMode" DockPanel.Dock="Right"/>
+            <Separator DockPanel.Dock="Right"/>
+
+            <StatusBarItem Content="$Status" HorizontalAlignment="Stretch"/>
+        </StatusBar>
+
+
     </Grid>
 </Window>

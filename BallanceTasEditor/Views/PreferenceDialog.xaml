@@ -1,0 +1,58 @@
+﻿<Window x:Class="BallanceTasEditor.Views.PreferenceDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BallanceTasEditor.Views"
+        mc:Ignorable="d" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow"
+        Title="Editor Preference" Height="450" Width="400" Icon="/Assets/MenuPreference.ico">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Visible">
+            <StackPanel Orientation="Vertical">
+                <GroupBox Header="Editor Layout" Margin="10" Padding="10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton Content="Horizontal Layout" GroupName="EditorLayout" Grid.Column="0"/>
+                        <RadioButton Content="Vertical Layout" GroupName="EditorLayout" Grid.Column="1"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Paste Behavior" Margin="10" Padding="10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton Content="Insert Paste" GroupName="PasteBehavior" Grid.Column="0"/>
+                        <RadioButton Content="Overwritten Paste" GroupName="PasteBehavior" Grid.Column="1"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Frame Count" Margin="10" Padding="10">
+                    <TextBox Padding="3"/>
+                </GroupBox>
+                <GroupBox Header="Game Path" Margin="10" Padding="10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox IsReadOnly="True" Padding="3" Grid.Column="0"/>
+                        <Button Content="Browse" Margin="5,0,0,0" MinWidth="80" Grid.Column="1"/>
+                    </Grid>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="10">
+            <Button Content="OK" IsDefault="True" Padding="5" Margin="5" MinWidth="80"/>
+            <Button Content="Cancel" Padding="5" Margin="5" MinWidth="80"/>
+        </StackPanel>
+    </Grid>
+</Window>

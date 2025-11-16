@@ -89,6 +89,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Views\AboutDialog.xaml.cs">
+      <DependentUpon>AboutDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GotoDialog.xaml.cs">
+      <DependentUpon>GotoDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PreferenceDialog.xaml.cs">
+      <DependentUpon>PreferenceDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SetupCountAndFpsDialog.xaml.cs">
+      <DependentUpon>SetupCountAndFpsDialog.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\AboutDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GotoDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -97,6 +117,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="Utils\FpsConverter.cs" />
     <Compile Include="Utils\TasFrame.cs" />
     <Compile Include="Utils\TasStorage.cs" />
@@ -104,6 +125,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\PreferenceDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SetupCountAndFpsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -141,6 +170,46 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="App.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\About.ico" />
+    <Resource Include="Assets\AddFrame.ico" />
+    <Resource Include="Assets\Cancel.ico" />
+    <Resource Include="Assets\CloseFile.ico" />
+    <Resource Include="Assets\CopyFrame.ico" />
+    <Resource Include="Assets\CutFrame.ico" />
+    <Resource Include="Assets\DeleteFrame.ico" />
+    <Resource Include="Assets\DrawMode.ico" />
+    <Resource Include="Assets\EntrySpan.ico" />
+    <Resource Include="Assets\Exit.ico" />
+    <Resource Include="Assets\FillMode.ico" />
+    <Resource Include="Assets\FlipCell.ico" />
+    <Resource Include="Assets\Fps.ico" />
+    <Resource Include="Assets\HorizontalLayout.ico" />
+    <Resource Include="Assets\NewFile.ico" />
+    <Resource Include="Assets\Ok.ico" />
+    <Resource Include="Assets\OpenFile.ico" />
+    <Resource Include="Assets\PanelGoto.ico" />
+    <Resource Include="Assets\PanelNextItem.ico" />
+    <Resource Include="Assets\PanelNextPage.ico" />
+    <Resource Include="Assets\PanelPreviousItem.ico" />
+    <Resource Include="Assets\PanelPreviousPage.ico" />
+    <Resource Include="Assets\PasteFrame.ico" />
+    <Resource Include="Assets\Preference.ico" />
+    <Resource Include="Assets\Redo.ico" />
+    <Resource Include="Assets\ReportBug.ico" />
+    <Resource Include="Assets\SaveFile.ico" />
+    <Resource Include="Assets\SaveFileAs.ico" />
+    <Resource Include="Assets\SaveFileThenRunGame.ico" />
+    <Resource Include="Assets\SelectMode.ico" />
+    <Resource Include="Assets\SetCell.ico" />
+    <Resource Include="Assets\SetFps.ico" />
+    <Resource Include="Assets\Undo.ico" />
+    <Resource Include="Assets\UnsetCell.ico" />
+    <Resource Include="Assets\VerticalLayout.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Count.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\CommunityToolkit.Mvvm.8.2.1\build\netstandard2.0\CommunityToolkit.Mvvm.targets" Condition="Exists('..\packages\CommunityToolkit.Mvvm.8.2.1\build\netstandard2.0\CommunityToolkit.Mvvm.targets')" />

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 24 24"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="PanelGoto.svg"
+   inkscape:export-filename="PanelGoto.png"
+   inkscape:export-xdpi="1024"
+   inkscape:export-ydpi="1024"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="32.916667"
+     inkscape:cx="12"
+     inkscape:cy="12"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <path
+     d="M 21.5,14.5 16,20 10.5,14.5 11.91,13.09 15,16.17 V 10.5 C 15,8 13,6 10.5,6 H 4 V 4 h 6.5 c 3.59,0 6.5,2.91 6.5,6.5 v 5.67 l 3.09,-3.09 z"
+     id="path1"
+     style="display:none" />
+  <path
+     style="fill:#607d8b;stroke-width:0.000911392"
+     d="m 13.253009,17.232756 -2.726611,-2.726738 0.691231,-0.688453 0.691232,-0.688453 1.549367,1.530278 1.549367,1.530277 0.0084,-2.892302 c 0.0084,-2.903059 -0.0011,-3.258546 -0.10094,-3.7480135 C 14.59614,7.9853538 13.422815,6.6882122 11.885867,6.200489 11.238599,5.99509 11.451241,6.0052622 7.556962,5.9934063 L 4.0253165,5.9826543 V 4.9963905 4.0101266 l 3.349367,2.54e-5 c 2.0210801,1.53e-5 3.4818945,0.01223 3.6835445,0.030799 2.776522,0.255683 5.083884,2.234982 5.736727,4.9210744 0.185474,0.7631204 0.181307,0.675357 0.194601,4.0990106 l 0.0122,3.142048 1.547237,-1.547014 1.547237,-1.547014 0.691052,0.691052 0.691051,0.691051 -2.73404,2.734167 c -1.503723,1.503792 -2.740933,2.734168 -2.749357,2.734168 -0.0084,0 -1.242292,-1.227032 -2.741928,-2.726738 z"
+     id="path2" />
+</svg>
