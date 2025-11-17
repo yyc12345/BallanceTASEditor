@@ -4,9 +4,30 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BallanceTasEditor.Views"
-        mc:Ignorable="d"
-        Title="GotoDialog" Height="450" Width="800">
+        mc:Ignorable="d" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow"
+        Title="Goto..." Height="180" Width="400" Icon="/Assets/Goto.ico">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Jump into your specified index of frame." 
+                   Style="{StaticResource NoteBannerStyle}"/>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBox Margin="10" Padding="3" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center"/>
+        </Grid>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right" Margin="10">
+            <Button Content="OK" Margin="5" Style="{StaticResource OkButtonStyle}" IsDefault="True"/>
+            <Button Content="Cancel" Margin="5" Style="{StaticResource CancelButtonStyle}"/>
+        </StackPanel>
     </Grid>
 </Window>

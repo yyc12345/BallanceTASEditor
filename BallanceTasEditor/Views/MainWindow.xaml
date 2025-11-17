@@ -61,13 +61,14 @@
                 <MenuItem Header="Previous Item" Icon="{StaticResource IconPreviousItem}" InputGestureText="S"/>
                 <MenuItem Header="Next Page" Icon="{StaticResource IconNextPage}" InputGestureText="D"/>
                 <MenuItem Header="Next Item" Icon="{StaticResource IconNextItem}" InputGestureText="F"/>
-                <MenuItem Header="Goto Item" Icon="{StaticResource IconGoto}" InputGestureText="G"/>
+                <MenuItem Header="Goto Item" Icon="{StaticResource IconGoto}" InputGestureText="G" Click="MenuItem_Click_4"/>
                 <Separator/>
                 <MenuItem Header="Select Mode" Icon="{StaticResource IconSelectMode}"/>
                 <MenuItem Header="Fill Mode" Icon="{StaticResource IconFillMode}"/>
                 <MenuItem Header="Draw Mode" Icon="{StaticResource IconDrawMode}"/>
                 <Separator/>
-                <MenuItem Header="Uniform FPS" Icon="{StaticResource IconUniformFps}"/>
+                <MenuItem Header="Clear Keys"/>
+                <MenuItem Header="Uniform FPS" Icon="{StaticResource IconUniformFps}" Click="MenuItem_Click_5"/>
                 <Separator/>
                 <MenuItem Header="Preference" Icon="{StaticResource IconPreference}" InputGestureText="Ctrl+P" Click="MenuItem_Click"/>
             </MenuItem>
@@ -106,40 +107,42 @@
                 </StackPanel>
             </Grid>
 
-            <Grid.ContextMenu>
-                <ContextMenu>
-                    <ContextMenu.Resources>
-                        <!-- Context Menu Icons -->
-                        <Image x:Key="IconSet" Source="/Assets/SetCell.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                        <Image x:Key="IconUnset" Source="/Assets/UnsetCell.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                        <Image x:Key="IconFlip" Source="/Assets/FlipCell.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                        <Image x:Key="IconCut" Source="/Assets/CutFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                        <Image x:Key="IconCopy" Source="/Assets/CopyFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                        <Image x:Key="IconPaste" Source="/Assets/PasteFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                        <Image x:Key="IconDelete" Source="/Assets/DeleteFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                        <Image x:Key="IconAdd" Source="/Assets/AddFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                        <Image x:Key="IconFps" Source="/Assets/SetFps.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                    </ContextMenu.Resources>
-                    
-                    <MenuItem Header="Set" Icon="{StaticResource IconSet}"/>
-                    <MenuItem Header="Unset" Icon="{StaticResource IconUnset}"/>
-                    <MenuItem Header="Flip" Icon="{StaticResource IconFlip}"/>
-                    <Separator/>
-                    <MenuItem Header="Cut" Icon="{StaticResource IconCut}" InputGestureText="Ctrl+X"/>
-                    <MenuItem Header="Copy" Icon="{StaticResource IconCopy}" InputGestureText="Ctrl+C"/>
-                    <MenuItem Header="Paste after This" Icon="{StaticResource IconPaste}" InputGestureText="Ctrl+V"/>
-                    <MenuItem Header="Paste before This"/>
-                    <Separator/>
-                    <MenuItem Header="Delete This" Icon="{StaticResource IconDelete}"/>
-                    <MenuItem Header="Delete after This" InputGestureText="Del"/>
-                    <MenuItem Header="Delete before This" InputGestureText="Backspace"/>
-                    <Separator/>
-                    <MenuItem Header="Add after This" Icon="{StaticResource IconAdd}" Click="MenuItem_Click_2"/>
-                    <MenuItem Header="Add before This"/>
-                    <Separator/>
-                    <MenuItem Header="Set FPS" Icon="{StaticResource IconFps}"/>
-                </ContextMenu>
-            </Grid.ContextMenu>
+            <local:TasViewer>
+                <local:TasViewer.ContextMenu>
+                    <ContextMenu>
+                        <ContextMenu.Resources>
+                            <!-- Context Menu Icons -->
+                            <Image x:Key="IconSet" Source="/Assets/SetCell.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <Image x:Key="IconUnset" Source="/Assets/UnsetCell.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <Image x:Key="IconFlip" Source="/Assets/FlipCell.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <Image x:Key="IconCut" Source="/Assets/CutFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <Image x:Key="IconCopy" Source="/Assets/CopyFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <Image x:Key="IconPaste" Source="/Assets/PasteFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <Image x:Key="IconDelete" Source="/Assets/DeleteFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <Image x:Key="IconAdd" Source="/Assets/AddFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <Image x:Key="IconFps" Source="/Assets/SetFps.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </ContextMenu.Resources>
+
+                        <MenuItem Header="Set" Icon="{StaticResource IconSet}"/>
+                        <MenuItem Header="Unset" Icon="{StaticResource IconUnset}"/>
+                        <MenuItem Header="Flip" Icon="{StaticResource IconFlip}"/>
+                        <Separator/>
+                        <MenuItem Header="Cut" Icon="{StaticResource IconCut}" InputGestureText="Ctrl+X"/>
+                        <MenuItem Header="Copy" Icon="{StaticResource IconCopy}" InputGestureText="Ctrl+C"/>
+                        <MenuItem Header="Paste after This" Icon="{StaticResource IconPaste}" InputGestureText="Ctrl+V"/>
+                        <MenuItem Header="Paste before This"/>
+                        <Separator/>
+                        <MenuItem Header="Delete This" Icon="{StaticResource IconDelete}"/>
+                        <MenuItem Header="Delete after This" InputGestureText="Del"/>
+                        <MenuItem Header="Delete before This" InputGestureText="Backspace"/>
+                        <Separator/>
+                        <MenuItem Header="Add after This" Icon="{StaticResource IconAdd}" Click="MenuItem_Click_2"/>
+                        <MenuItem Header="Add before This"/>
+                        <Separator/>
+                        <MenuItem Header="Set FPS" Icon="{StaticResource IconFps}" Click="MenuItem_Click_6"/>
+                    </ContextMenu>
+                </local:TasViewer.ContextMenu>
+            </local:TasViewer>
         </Grid>
 
         <StatusBar Grid.Row="3">

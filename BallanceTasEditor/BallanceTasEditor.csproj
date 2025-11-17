@@ -66,6 +66,12 @@
     <Compile Include="Views\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AddFrameDialog.xaml.cs">
+      <DependentUpon>AddFrameDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditFpsDialog.xaml.cs">
+      <DependentUpon>EditFpsDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GotoDialog.xaml.cs">
       <DependentUpon>GotoDialog.xaml</DependentUpon>
     </Compile>
@@ -75,8 +81,8 @@
     <Compile Include="Views\PreferenceDialog.xaml.cs">
       <DependentUpon>PreferenceDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SetupCountAndFpsDialog.xaml.cs">
-      <DependentUpon>SetupCountAndFpsDialog.xaml</DependentUpon>
+    <Compile Include="Views\TasViewer.xaml.cs">
+      <DependentUpon>TasViewer.xaml</DependentUpon>
     </Compile>
     <Page Include="Styles\AccessoryIconControl.xaml">
       <SubType>Designer</SubType>
@@ -91,6 +97,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AboutDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddFrameDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EditFpsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -122,7 +136,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SetupCountAndFpsDialog.xaml">
+    <Page Include="Views\TasViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

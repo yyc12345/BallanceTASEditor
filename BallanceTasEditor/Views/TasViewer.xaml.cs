@@ -10,14 +10,15 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace BallanceTasEditor.Views {
     /// <summary>
-    /// Interaction logic for SetupCountAndFpsDialog.xaml
+    /// Interaction logic for TasViewer.xaml
     /// </summary>
-    public partial class SetupCountAndFpsDialog : Window {
-        public SetupCountAndFpsDialog() {
+    public partial class TasViewer : UserControl {
+        public TasViewer() {
             InitializeComponent();
         }
     }
