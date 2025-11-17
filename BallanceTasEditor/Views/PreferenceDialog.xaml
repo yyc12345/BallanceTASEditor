@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BallanceTasEditor.Views"
+        xmlns:styles="clr-namespace:BallanceTasEditor.Styles"
         mc:Ignorable="d" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow"
         Title="Editor Preference" Height="450" Width="400" Icon="/Assets/Preference.ico">
     <Grid>
@@ -14,13 +15,9 @@
 
         <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Visible">
             <StackPanel Orientation="Vertical">
-                <GroupBox Margin="10" Padding="10">
-                    <GroupBox.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <ContentControl Content="{StaticResource IconGroupEditorLayout}" Height="16" Width="16"/>
-                            <TextBlock Text="Editor Layout" Margin="5,0,0,0" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </GroupBox.Header>
+                <!-- TODO: This icon is wrong. -->
+                <GroupBox Header="Editor Layout" Margin="10" Padding="10"
+                          Style="{StaticResource AccessoryIconGroupBox}" styles:AccessoryIcon.Icon="/Assets/PasteFrame.ico">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -30,13 +27,8 @@
                         <RadioButton Content="Vertical Layout" GroupName="EditorLayout" Grid.Column="1"/>
                     </Grid>
                 </GroupBox>
-                <GroupBox Margin="10" Padding="10">
-                    <GroupBox.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <ContentControl Content="{StaticResource IconGroupPasteBehavior}" Height="16" Width="16"/>
-                            <TextBlock Text="Paste Behavior" Margin="5,0,0,0" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </GroupBox.Header>
+                <GroupBox Header="Paste Behavior" Margin="10" Padding="10"
+                          Style="{StaticResource AccessoryIconGroupBox}" styles:AccessoryIcon.Icon="/Assets/PasteFrame.ico">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -46,22 +38,12 @@
                         <RadioButton Content="Overwritten Paste" GroupName="PasteBehavior" Grid.Column="1"/>
                     </Grid>
                 </GroupBox>
-                <GroupBox Margin="10" Padding="10">
-                    <GroupBox.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <ContentControl Content="{StaticResource IconGroupFrameCount}" Height="16" Width="16"/>
-                            <TextBlock Text="Frame Count" Margin="5,0,0,0" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </GroupBox.Header>
+                <GroupBox Header="Frame Count" Margin="10" Padding="10"
+                          Style="{StaticResource AccessoryIconGroupBox}" styles:AccessoryIcon.Icon="/Assets/Count.ico">
                     <TextBox Padding="3"/>
                 </GroupBox>
-                <GroupBox Margin="10" Padding="10">
-                    <GroupBox.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <ContentControl Content="{StaticResource IconGroupGamePath}" Height="16" Width="16"/>
-                            <TextBlock Text="Game Path" Margin="5,0,0,0" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </GroupBox.Header>
+                <GroupBox Header="Game Path" Margin="10" Padding="10"
+                          Style="{StaticResource AccessoryIconGroupBox}" styles:AccessoryIcon.Icon="/Assets/SaveFileThenRunGame.ico">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -74,23 +56,9 @@
             </StackPanel>
         </ScrollViewer>
 
-        <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="10">
-            <Button IsDefault="True" Padding="5" Margin="5" MinWidth="80">
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <ContentControl Content="{StaticResource IconBtnOk}" Width="24" Height="24"/>
-                        <TextBlock Text="OK" Margin="5,0,0,0" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </Button.Content>
-            </Button>
-            <Button Padding="5" Margin="5" MinWidth="80">
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <ContentControl Content="{StaticResource IconBtnCancel}" Width="24" Height="24"/>
-                        <TextBlock Text="Cancel" Margin="5,0,0,0" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </Button.Content>
-            </Button>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" Margin="10">
+            <Button Content="OK" Margin="5" Style="{StaticResource OkButtonStyle}" IsDefault="True"/>
+            <Button Content="Cancel" Margin="5" Style="{StaticResource CancelButtonStyle}"/>
         </StackPanel>
     </Grid>
 </Window>

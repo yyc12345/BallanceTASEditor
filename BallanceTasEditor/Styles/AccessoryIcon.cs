@@ -10,40 +10,42 @@ using System.Windows.Media;
 namespace BallanceTasEditor.Styles {
 
     public class AccessoryIcon {
-        public static Object GetAccessoryIcon(DependencyObject obj) {
-            return (Object)obj.GetValue(AccessoryIconProperty);
+        public static ImageSource GetIcon(DependencyObject obj) {
+            return (ImageSource)obj.GetValue(IconProperty);
         }
 
-        public static void SetAccessoryIcon(DependencyObject obj, Object value) {
-            obj.SetValue(AccessoryIconProperty, value);
+        public static void SetIcon(DependencyObject obj, ImageSource value) {
+            obj.SetValue(IconProperty, value);
         }
 
-        public static readonly DependencyProperty AccessoryIconProperty =
-            DependencyProperty.RegisterAttached("AccessoryIcon", typeof(Object), typeof(AccessoryIcon), new PropertyMetadata(null));
-    }
+        // Using a DependencyProperty as the backing store for Icon.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IconProperty =
+            DependencyProperty.RegisterAttached("Icon", typeof(ImageSource), typeof(AccessoryIcon), new PropertyMetadata(null));
 
-    public class AccessoryIconContentTemplateSelector : DataTemplateSelector {
-        private static ImageSourceConverter Converter = new ImageSourceConverter();
-
-        /// <summary>
-        /// 给定的图标是已经加载的数据。
-        /// </summary>
-        public DataTemplate LoadedIconTemplate { get; set; }
-        /// <summary>
-        /// 给定的图标是来源字符串。
-        /// </summary>
-        public DataTemplate SourceIconTemplate { get; set; }
-
-        public override DataTemplate SelectTemplate(object item, DependencyObject container) {
-            var ctl = VisualTreeHelper.GetParent(container);
-            var accessoryIcon = ctl.GetValue(AccessoryIcon.AccessoryIconProperty);
-
-            if (accessoryIcon is null || !Converter.CanConvertFrom(accessoryIcon.GetType())) {
-                return LoadedIconTemplate;
-            } else {
-                return SourceIconTemplate;
-            }
+        public static double GetIconWidth(DependencyObject obj) {
+            return (double)obj.GetValue(IconWidthProperty);
         }
+
+        public static void SetIconWidth(DependencyObject obj, double value) {
+            obj.SetValue(IconWidthProperty, value);
+        }
+
+        // Using a DependencyProperty as the backing store for IconWidth.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IconWidthProperty =
+            DependencyProperty.RegisterAttached("IconWidth", typeof(double), typeof(AccessoryIcon), new PropertyMetadata(0.0));
+
+        public static double GetIconHeight(DependencyObject obj) {
+            return (double)obj.GetValue(IconHeightProperty);
+        }
+
+        public static void SetIconHeight(DependencyObject obj, double value) {
+            obj.SetValue(IconHeightProperty, value);
+        }
+
+        // Using a DependencyProperty as the backing store for IconHeight.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IconHeightProperty =
+            DependencyProperty.RegisterAttached("IconHeight", typeof(double), typeof(AccessoryIcon), new PropertyMetadata(0.0));
+
     }
 
 }

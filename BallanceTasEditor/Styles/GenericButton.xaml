@@ -8,7 +8,8 @@
             <Setter.Value>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Assets/Ok.ico" Width="16" Height="16" VerticalAlignment="Center"/>
+                        <Image Source="/Assets/Ok.ico" RenderOptions.BitmapScalingMode="HighQuality"
+                               Width="16" Height="16" VerticalAlignment="Center"/>
                         <ContentControl Content="{Binding}" Margin="5,0,0,0" VerticalAlignment="Center"/>
                     </StackPanel>
                 </DataTemplate>
@@ -23,7 +24,8 @@
             <Setter.Value>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Assets/Cancel.ico" Width="16" Height="16" VerticalAlignment="Center"/>
+                        <Image Source="/Assets/Cancel.ico" RenderOptions.BitmapScalingMode="HighQuality"
+                               Width="16" Height="16" VerticalAlignment="Center"/>
                         <ContentControl Content="{Binding}" Margin="5,0,0,0" VerticalAlignment="Center"/>
                     </StackPanel>
                 </DataTemplate>

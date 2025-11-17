@@ -6,25 +6,10 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles/IconTextBlock.xaml"/>
                 <ResourceDictionary Source="/Styles/AccessoryIconControl.xaml"/>
                 <ResourceDictionary Source="/Styles/NoteBanner.xaml"/>
                 <ResourceDictionary Source="/Styles/GenericButton.xaml"/>
                 <ResourceDictionary>
-
-                    <!-- Application Icons -->
-                    <Image x:Shared="False" x:Key="IconApp" Source="/Assets/App.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
-
-                    <!-- OK and Cancel Button Icons -->
-                    <Image x:Shared="False" x:Key="IconBtnOk" Source="/Assets/Ok.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
-                    <Image x:Shared="False" x:Key="IconBtnCancel" Source="/Assets/Cancel.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
-
-                    <!-- Preference GroupBox Icons -->
-                    <!-- TODO: this layout icon is wrong -->
-                    <Image x:Shared="False" x:Key="IconGroupEditorLayout" Source="/Assets/PasteFrame.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
-                    <Image x:Shared="False" x:Key="IconGroupPasteBehavior" Source="/Assets/PasteFrame.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
-                    <Image x:Shared="False" x:Key="IconGroupFrameCount" Source="/Assets/Count.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
-                    <Image x:Shared="False" x:Key="IconGroupGamePath" Source="/Assets/SaveFileThenRunGame.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
 
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>

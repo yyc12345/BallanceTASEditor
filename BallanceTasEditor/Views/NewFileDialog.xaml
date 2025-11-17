@@ -14,7 +14,8 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Create new TAS file with given FPS and frame count." Style="{StaticResource NoteBannerStyle}"/>
+        <TextBlock Grid.Row="0" Text="Create new TAS file with given FPS and frame count." 
+                   Style="{StaticResource NoteBannerStyle}"/>
 
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
