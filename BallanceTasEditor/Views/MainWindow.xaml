@@ -4,8 +4,63 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BallanceTasEditor.Views"
+        xmlns:styles="clr-namespace:BallanceTasEditor.Styles"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        RenderOptions.BitmapScalingMode="HighQuality"
         Title="Ballance TAS Editor" Height="600" Width="800" Icon="/Assets/App.ico">
+    
+    <Window.Resources>
+        <!-- Menu Icons -->
+        <Image x:Shared="False" x:Key="IconMenuNewFile" Source="/Assets/NewFile.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconMenuOpenFile" Source="/Assets/OpenFile.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconMenuSaveFile" Source="/Assets/SaveFile.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconMenuSaveFileAs" Source="/Assets/SaveFileAs.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconMenuSaveFileThenRunGame" Source="/Assets/SaveFileThenRunGame.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconMenuCloseFile" Source="/Assets/CloseFile.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconMenuExit" Source="/Assets/Exit.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconMenuUndo" Source="/Assets/Undo.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconMenuRedo" Source="/Assets/Redo.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconMenuNextItem" Source="/Assets/NextItem.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconMenuNextPage" Source="/Assets/NextPage.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconMenuPreviousItem" Source="/Assets/PreviousItem.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconMenuPreviousPage" Source="/Assets/PreviousPage.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconMenuGoto" Source="/Assets/Goto.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconMenuDrawMode" Source="/Assets/DrawMode.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconMenuFillMode" Source="/Assets/FillMode.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconMenuSelectMode" Source="/Assets/SelectMode.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconMenuUniformFps" Source="/Assets/SetFps.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconMenuPreference" Source="/Assets/Preference.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconMenuReportBug" Source="/Assets/ReportBug.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconMenuAbout" Source="/Assets/About.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+
+        <!-- Mode Tool Button Icons -->
+        <Image x:Shared="False" x:Key="IconToolBtnDrawMode" Source="/Assets/DrawMode.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconToolBtnFillMode" Source="/Assets/FillMode.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconToolBtnSelectMode" Source="/Assets/SelectMode.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconToolBtnSaveFileThenRunGame" Source="/Assets/SaveFileThenRunGame.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+
+        <!-- Background Drag & Drop Icon -->
+        <Image x:Shared="False" x:Key="IconDragAndDrop" Source="/Assets/OpenFile.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+
+        <!-- Context Menu Icons -->
+        <Image x:Shared="False" x:Key="IconCtxMenuSet" Source="/Assets/SetCell.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconCtxMenuUnset" Source="/Assets/UnsetCell.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconCtxMenuFlip" Source="/Assets/FlipCell.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconCtxMenuCut" Source="/Assets/CutFrame.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconCtxMenuCopy" Source="/Assets/CopyFrame.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconCtxMenuPaste" Source="/Assets/PasteFrame.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconCtxMenuDelete" Source="/Assets/DeleteFrame.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconCtxMenuAdd" Source="/Assets/AddFrame.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconCtxMenuFps" Source="/Assets/SetFps.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+
+        <!-- Panel Icons -->
+        <Image x:Shared="False" x:Key="IconPanelGoto" Source="/Assets/PanelGoto.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconPanelNextItem" Source="/Assets/PanelNextItem.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconPanelNextPage" Source="/Assets/PanelNextPage.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconPanelPreviousItem" Source="/Assets/PanelPreviousItem.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+        <Image x:Shared="False" x:Key="IconPanelPreviousPage" Source="/Assets/PanelPreviousPage.ico" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+    </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -17,7 +72,7 @@
         <Menu Grid.Row="0">
             <MenuItem Header="_File" Padding="5">
                 <MenuItem Header="_New File" Icon="{StaticResource IconMenuNewFile}" InputGestureText="Ctrl+N" Click="MenuItem_Click_3"/>
-                <MenuItem Header="_Open File" Icon="{StaticResource IconMenuOpenFile}" InputGestureText="Ctrl+O"/>
+                <MenuItem Header="_Open File" Icon="/Assets/SelectMode.ico" InputGestureText="Ctrl+O"/>
                 <Separator/>
                 <MenuItem Header="_Save File" Icon="{StaticResource IconMenuSaveFile}" InputGestureText="Ctrl+S"/>
                 <MenuItem Header="Save File As ..." Icon="{StaticResource IconMenuSaveFileAs}"/>
@@ -40,7 +95,7 @@
                 <MenuItem Header="Fill Mode" Icon="{StaticResource IconMenuFillMode}"/>
                 <MenuItem Header="Draw Mode" Icon="{StaticResource IconMenuDrawMode}"/>
                 <Separator/>
-                <MenuItem Header="Uniform FPS"/>
+                <MenuItem Header="Uniform FPS" Icon="{StaticResource IconMenuUniformFps}"/>
                 <Separator/>
                 <MenuItem Header="Preference" Icon="{StaticResource IconMenuPreference}" InputGestureText="Ctrl+P" Click="MenuItem_Click"/>
             </MenuItem>
@@ -58,21 +113,27 @@
 
             <StackPanel Orientation="Horizontal" Grid.Column="0">
                 <Button Margin="5" Padding="5">
+                    <controls:IconTextBlock Icon="{StaticResource IconToolBtnSelectMode}" Text="Select Mode"/>
+                </Button>
+                <Button Style="{StaticResource AccessoryIconButton}" styles:AccessoryIcon.AccessoryIcon="{StaticResource IconToolBtnSelectMode}" Content="Select Mode" Margin="5" Padding="5"/>
+                <Button Style="{StaticResource AccessoryIconButton}" styles:AccessoryIcon.AccessoryIcon="/Assets/Mode" Content="Select Mode" Margin="5" Padding="5"/>
+
+                <Button Margin="5" Padding="5">
                     <StackPanel Orientation="Horizontal">
                         <ContentControl Content="{StaticResource IconToolBtnSelectMode}" Width="24" Height="24"/>
-                        <TextBlock Text="Select Mode" VerticalAlignment="Center"/>
+                        <TextBlock Text="Select Mode" Margin="5,0,0,0" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
                 <Button Margin="5" Padding="5">
                     <StackPanel Orientation="Horizontal">
                         <ContentControl Content="{StaticResource IconToolBtnFillMode}" Width="24" Height="24"/>
-                        <TextBlock Text="Fill Mode" VerticalAlignment="Center"/>
+                        <TextBlock Text="Fill Mode" Margin="5,0,0,0" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
                 <Button Margin="5" Padding="5">
                     <StackPanel Orientation="Horizontal">
                         <ContentControl Content="{StaticResource IconToolBtnDrawMode}" Width="24" Height="24"/>
-                        <TextBlock Text="Draw Mode" VerticalAlignment="Center"/>
+                        <TextBlock Text="Draw Mode" Margin="5,0,0,0" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
             </StackPanel>
@@ -80,7 +141,7 @@
             <Button Grid.Column="1" Margin="5" Padding="5">
                 <StackPanel Orientation="Horizontal">
                     <ContentControl Content="{StaticResource IconToolBtnSaveFileThenRunGame}" Width="24" Height="24"/>
-                    <TextBlock Text="Save then Run Game" VerticalAlignment="Center"/>
+                    <TextBlock Text="Save then Run Game" Margin="5,0,0,0" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
         </Grid>
@@ -112,7 +173,7 @@
                     <MenuItem Header="Add after This" Icon="{StaticResource IconCtxMenuAdd}" Click="MenuItem_Click_2"/>
                     <MenuItem Header="Add before This"/>
                     <Separator/>
-                    <MenuItem Header="Set FPS"/>
+                    <MenuItem Header="Set FPS" Icon="{StaticResource IconCtxMenuFps}"/>
                 </ContextMenu>
             </Grid.ContextMenu>
         </Grid>
@@ -130,7 +191,6 @@
 
             <StatusBarItem Content="$Status" HorizontalAlignment="Stretch"/>
         </StatusBar>
-
 
     </Grid>
 </Window>

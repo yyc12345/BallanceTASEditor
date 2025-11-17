@@ -89,11 +89,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\IconTextBlock.cs" />
+    <Compile Include="Styles\AccessoryIcon.cs" />
     <Compile Include="Views\AboutDialog.xaml.cs">
       <DependentUpon>AboutDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GotoDialog.xaml.cs">
       <DependentUpon>GotoDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NewFileDialog.xaml.cs">
+      <DependentUpon>NewFileDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PreferenceDialog.xaml.cs">
       <DependentUpon>PreferenceDialog.xaml</DependentUpon>
@@ -101,6 +106,22 @@
     <Compile Include="Views\SetupCountAndFpsDialog.xaml.cs">
       <DependentUpon>SetupCountAndFpsDialog.xaml</DependentUpon>
     </Compile>
+    <Page Include="Styles\AccessoryIconControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\GenericButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\IconTextBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\NoteBanner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AboutDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -125,6 +146,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\NewFileDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PreferenceDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -189,11 +214,11 @@
     <Resource Include="Assets\NewFile.ico" />
     <Resource Include="Assets\Ok.ico" />
     <Resource Include="Assets\OpenFile.ico" />
-    <Resource Include="Assets\PanelGoto.ico" />
-    <Resource Include="Assets\PanelNextItem.ico" />
-    <Resource Include="Assets\PanelNextPage.ico" />
-    <Resource Include="Assets\PanelPreviousItem.ico" />
-    <Resource Include="Assets\PanelPreviousPage.ico" />
+    <Resource Include="Assets\Goto.ico" />
+    <Resource Include="Assets\NextItem.ico" />
+    <Resource Include="Assets\NextPage.ico" />
+    <Resource Include="Assets\PreviousItem.ico" />
+    <Resource Include="Assets\PreviousPage.ico" />
     <Resource Include="Assets\PasteFrame.ico" />
     <Resource Include="Assets\Preference.ico" />
     <Resource Include="Assets\Redo.ico" />

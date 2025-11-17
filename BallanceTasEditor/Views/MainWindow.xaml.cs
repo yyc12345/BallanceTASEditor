@@ -22,6 +22,12 @@ namespace BallanceTasEditor.Views {
             InitializeComponent();
         }
 
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e) {
+            var dialog = new NewFileDialog();
+            dialog.Owner = this;
+            dialog.ShowDialog();
+        }
+
         private void MenuItem_Click(object sender, RoutedEventArgs e) {
             var dialog = new PreferenceDialog();
             dialog.Owner = this;
@@ -41,10 +47,5 @@ namespace BallanceTasEditor.Views {
             dialog.ShowDialog();
         }
 
-        private void MenuItem_Click_3(object sender, RoutedEventArgs e) {
-            var dialog = new SetupCountAndFpsDialog();
-            dialog.Owner = this;
-            dialog.ShowDialog();
-        }
     }
 }

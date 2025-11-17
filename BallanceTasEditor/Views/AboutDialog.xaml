@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BallanceTasEditor.Views"
         mc:Ignorable="d" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow"
-        Title="About Ballance TAS Editor" Width="340" Height="480" Icon="/Assets/MenuAbout.ico">
+        Title="About Ballance TAS Editor" Width="340" Height="480" Icon="/Assets/About.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -33,6 +33,6 @@ Version: 1.2 stable&#13;
 Build Date: October 21, 2025&#13;"/>
 
         <!-- 确认按钮 -->
-        <Button Grid.Row="4" Content="OK" MinWidth="80" HorizontalAlignment="Center" Margin="10" Padding="5"/>
+        <Button Grid.Row="4" Content="OK" IsDefault="True" Margin="10" Padding="5" MinWidth="80" HorizontalAlignment="Center"/>
     </Grid>
 </Window>
