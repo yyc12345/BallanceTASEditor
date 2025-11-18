@@ -36,6 +36,7 @@
                 <Image x:Key="IconDrawMode" Source="/Assets/DrawMode.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
                 <Image x:Key="IconFillMode" Source="/Assets/FillMode.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
                 <Image x:Key="IconSelectMode" Source="/Assets/SelectMode.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image x:Key="IconClearKeys" Source="/Assets/ClearKeys.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
                 <Image x:Key="IconUniformFps" Source="/Assets/SetFps.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
                 <Image x:Key="IconPreference" Source="/Assets/Preference.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
                 <Image x:Key="IconReportBug" Source="/Assets/ReportBug.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
@@ -67,7 +68,7 @@
                 <MenuItem Header="Fill Mode" Icon="{StaticResource IconFillMode}"/>
                 <MenuItem Header="Draw Mode" Icon="{StaticResource IconDrawMode}"/>
                 <Separator/>
-                <MenuItem Header="Clear Keys"/>
+                <MenuItem Header="Clear Keys" Icon="{StaticResource IconClearKeys}"/>
                 <MenuItem Header="Uniform FPS" Icon="{StaticResource IconUniformFps}" Click="MenuItem_Click_5"/>
                 <Separator/>
                 <MenuItem Header="Preference" Icon="{StaticResource IconPreference}" InputGestureText="Ctrl+P" Click="MenuItem_Click"/>
