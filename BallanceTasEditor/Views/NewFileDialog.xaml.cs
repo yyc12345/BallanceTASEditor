@@ -19,6 +19,7 @@ namespace BallanceTasEditor.Views {
     public partial class NewFileDialog : Window {
         public NewFileDialog() {
             InitializeComponent();
+            this.DataContext = new ViewModels.NewFileDialog();
         }
     }
 }
