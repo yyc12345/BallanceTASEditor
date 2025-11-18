@@ -17,8 +17,4 @@
     <PackageReference Include="DotNetZip" Version="1.9.1.8" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="Assets\CloseFile.ico" />
-  </ItemGroup>
-
 </Project>

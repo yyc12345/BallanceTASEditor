@@ -33,6 +33,6 @@ Version: 1.2 stable&#13;
 Build Date: October 21, 2025&#13;"/>
 
         <!-- 确认按钮 -->
-        <Button Grid.Row="4" Content="OK" IsDefault="True" Margin="10" Padding="5" MinWidth="80" HorizontalAlignment="Center"/>
+        <Button Grid.Row="4" Content="OK" Margin="10" HorizontalAlignment="Center" Style="{StaticResource OkButtonStyle}" IsDefault="True"/>
     </Grid>
 </Window>

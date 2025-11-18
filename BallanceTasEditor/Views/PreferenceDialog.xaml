@@ -17,7 +17,7 @@
             <StackPanel Orientation="Vertical">
                 <!-- TODO: This icon is wrong. -->
                 <GroupBox Header="Editor Layout" Margin="10" Padding="10"
-                          Style="{StaticResource AccessoryIconGroupBox}" styles:AccessoryIcon.Icon="/Assets/PasteFrame.ico">
+                          Style="{StaticResource AccessoryIconGroupBox}" styles:AccessoryIcon.Icon="/Assets/EditorLayout.ico">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
