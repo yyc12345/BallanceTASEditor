@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:BallanceTasEditor.ViewModels"
         xmlns:conveter="clr-namespace:BallanceTasEditor.Converters"
         d:DataContext="{d:DesignInstance vm:NewFileDialog}"
-        mc:Ignorable="d" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow"
+        mc:Ignorable="d" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False"
         Title="New File" Height="250" Width="400" Icon="/Assets/NewFile.ico">
     <Grid>
         <Grid.RowDefinitions>

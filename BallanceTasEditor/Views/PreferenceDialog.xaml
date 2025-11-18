@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BallanceTasEditor.Views"
         xmlns:styles="clr-namespace:BallanceTasEditor.Styles"
-        mc:Ignorable="d" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow"
+        mc:Ignorable="d" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False"
         Title="Editor Preference" Height="450" Width="400" Icon="/Assets/Preference.ico">
     <Grid>
         <Grid.RowDefinitions>

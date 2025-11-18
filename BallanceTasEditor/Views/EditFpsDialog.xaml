@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BallanceTasEditor.Views"
-        mc:Ignorable="d" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow"
+        mc:Ignorable="d" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False"
         Title="Edit FPS" Height="220" Width="400" Icon="/Assets/SetFps.ico">
     <Grid>
         <Grid.RowDefinitions>

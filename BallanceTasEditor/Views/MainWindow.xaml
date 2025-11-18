@@ -48,7 +48,7 @@
                 <MenuItem Header="_Open File" Icon="{StaticResource IconOpenFile}" InputGestureText="Ctrl+O"/>
                 <Separator/>
                 <MenuItem Header="_Save File" Icon="{StaticResource IconSaveFile}" InputGestureText="Ctrl+S"/>
-                <MenuItem Header="Save File As ..." Icon="{StaticResource IconSaveFileAs}"/>
+                <MenuItem Header="Save File as ..." Icon="{StaticResource IconSaveFileAs}"/>
                 <MenuItem Header="Save File then _Run Game" Icon="{StaticResource IconSaveFileThenRunGame}" InputGestureText="B"/>
                 <Separator/>
                 <MenuItem Header="Close File" Icon="{StaticResource IconCloseFile}"/>
@@ -104,7 +104,7 @@
                 <Rectangle StrokeThickness="4" Stroke="Gray" StrokeDashArray="4 4" Fill="Transparent"/>
                 <StackPanel Orientation="Horizontal" Margin="20">
                     <Image Source="/Assets/OpenFile.ico" Width="24" Height="24" Margin="5" VerticalAlignment="Center"/>
-                    <TextBlock Margin="5" Text="Open or Drop a TAS File for Editing" Foreground="Gray" FontSize="16" VerticalAlignment="Center"/>
+                    <TextBlock Margin="5" Text="Create, Open or Drop a TAS File in There for Editing" Foreground="Gray" FontSize="16" VerticalAlignment="Center"/>
                 </StackPanel>
             </Grid>
 
@@ -148,7 +148,7 @@
 
         <StatusBar Grid.Row="3">
             <!-- 这玩意要逆序排列才能达到我想要的需求也是奇葩 -->
-            <StatusBarItem Content="v1.2 stable" DockPanel.Dock="Right" Foreground="Gray" FontStyle="Italic"/>
+            <StatusBarItem Content="v2.0 stable" DockPanel.Dock="Right" Foreground="Gray" FontStyle="Italic"/>
             <Separator DockPanel.Dock="Right"/>
             <StatusBarItem Content="$PasteMode" DockPanel.Dock="Right"/>
             <Separator DockPanel.Dock="Right"/>
