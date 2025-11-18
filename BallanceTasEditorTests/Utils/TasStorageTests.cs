@@ -13,6 +13,14 @@ namespace BallanceTasEditorTests.Utils {
         private static readonly int[] BLANK = { };
         private static readonly int[] PROBE = { 10, 20, 30, 40, 50 };
 
+        private static CountableEnumerable<int> GetCountableProbe() {
+            return new CountableEnumerable<int>(PROBE);
+        }
+
+        private static CountableEnumerable<int> GetCountableBlank() {
+            return new CountableEnumerable<int>(BLANK);
+        }
+
         private static IEnumerable<object[]> TasStorageInstanceProvider {
             get {
                 yield return new object[] { new ListTasStorage<int>() };
@@ -34,7 +42,7 @@ namespace BallanceTasEditorTests.Utils {
             AssertExtension.ThrowsDerivedException<ArgumentException>(() => storage.Visit(1));
 
             // 设置数据
-            storage.Insert(0, PROBE);
+            storage.Insert(0, GetCountableProbe());
             // 访问数据
             AssertExtension.ThrowsDerivedException<ArgumentException>(() => storage.Visit(-1));
             for (int i = 0; i < PROBE.Length; i++) {
@@ -53,9 +61,9 @@ namespace BallanceTasEditorTests.Utils {
             // 和在非空时的头，中，尾分别插入的结果。
 
             // 先检测空插入
-            AssertExtension.ThrowsDerivedException<ArgumentException>(() => storage.Insert(-1, PROBE));
-            AssertExtension.ThrowsDerivedException<ArgumentException>(() => storage.Insert(1, PROBE));
-            storage.Insert(0, PROBE);
+            AssertExtension.ThrowsDerivedException<ArgumentException>(() => storage.Insert(-1, GetCountableProbe()));
+            AssertExtension.ThrowsDerivedException<ArgumentException>(() => storage.Insert(1, GetCountableProbe()));
+            storage.Insert(0, GetCountableProbe());
             for (int i = 0; i < PROBE.Length; i++) {
                 Assert.AreEqual(storage.Visit(i), PROBE[i]);
             }
@@ -65,8 +73,8 @@ namespace BallanceTasEditorTests.Utils {
             foreach (var index in indices) {
                 // 清空，一次插入，然后二次插入
                 storage.Clear();
-                storage.Insert(0, PROBE);
-                storage.Insert(index, PROBE);
+                storage.Insert(0, GetCountableProbe());
+                storage.Insert(index, GetCountableProbe());
 
                 // 用List做正确模拟
                 var expected = new List<int>();
@@ -96,7 +104,7 @@ namespace BallanceTasEditorTests.Utils {
             foreach (var index in indices) {
                 // 清空，插入，删除
                 storage.Clear();
-                storage.Insert(0, PROBE);
+                storage.Insert(0, GetCountableProbe());
                 storage.Remove(index, 1);
 
                 // 用List做正确模拟
@@ -119,7 +127,7 @@ namespace BallanceTasEditorTests.Utils {
         [DynamicData(nameof(TasStorageInstanceProvider))]
         public void ClearTest(ITasStorage<int> storage) {
             // 设置数据后清空
-            storage.Insert(0, PROBE);
+            storage.Insert(0, GetCountableProbe());
             storage.Clear();
 
             // 检查是否为空
@@ -136,7 +144,7 @@ namespace BallanceTasEditorTests.Utils {
             Assert.IsTrue(storage.IsEmpty());
 
             // 插入数据后再检查
-            storage.Insert(0, PROBE);
+            storage.Insert(0, GetCountableProbe());
             Assert.IsFalse(storage.IsEmpty());
         }
 
@@ -150,7 +158,7 @@ namespace BallanceTasEditorTests.Utils {
             Assert.AreEqual(storage.GetCount(), 0);
 
             // 插入数据后再检查
-            storage.Insert(0, PROBE);
+            storage.Insert(0, GetCountableProbe());
             Assert.AreEqual(storage.GetCount(), PROBE.Length);
         }
 
@@ -166,7 +174,7 @@ namespace BallanceTasEditorTests.Utils {
             Assert.AreEqual(storage.GetCount(), 0);
 
             // 设置内容
-            storage.Insert(0, PROBE);
+            storage.Insert(0, GetCountableProbe());
             // 并再次检查大小
             Assert.IsFalse(storage.IsEmpty());
             Assert.AreEqual(storage.GetCount(), PROBE.Length);
@@ -185,7 +193,7 @@ namespace BallanceTasEditorTests.Utils {
 
             // 清空后插入0项，然后确认
             storage.Clear();
-            storage.Insert(0, BLANK);
+            storage.Insert(0, GetCountableBlank());
             AssertExtension.ThrowsDerivedException<ArgumentException>(() => storage.Visit(-1));
             AssertExtension.ThrowsDerivedException<ArgumentException>(() => storage.Visit(0));
             AssertExtension.ThrowsDerivedException<ArgumentException>(() => storage.Visit(1));

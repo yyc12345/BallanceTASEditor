@@ -30,7 +30,7 @@ namespace BallanceTasEditor.Utils {
         /// <param name="index">要在前方插入数据的元素的索引。</param>
         /// <param name="items">要插入的元素的迭代器。</param>
         /// <exception cref="ArgumentException">给定的索引超出范围。</exception>
-        void Insert(int index, IEnumerable<T> items);
+        void Insert(int index, CountableEnumerable<T> items);
         /// <summary>
         /// 从给定单元开始，移除给定个数的元素。
         /// </summary>
@@ -70,7 +70,7 @@ namespace BallanceTasEditor.Utils {
             throw new NotImplementedException();
         }
 
-        public void Insert(int index, IEnumerable<T> items) {
+        public void Insert(int index, CountableEnumerable<T> items) {
             throw new NotImplementedException();
         }
 
@@ -108,8 +108,8 @@ namespace BallanceTasEditor.Utils {
             return m_Container[index];
         }
 
-        public void Insert(int index, IEnumerable<T> items) {
-            m_Container.InsertRange(index, items);
+        public void Insert(int index, CountableEnumerable<T> items) {
+            m_Container.InsertRange(index, items.GetInner());
         }
 
         public void Remove(int index, int count) {
@@ -219,11 +219,11 @@ namespace BallanceTasEditor.Utils {
             }
         }
 
-        public void Insert(int index, IEnumerable<T> items) {
+        public void Insert(int index, CountableEnumerable<T> items) {
             if (index < 0 || index > GetCount()) {
                 throw new ArgumentOutOfRangeException("Index out of range.");
             } else if (index == GetCount()) {
-                foreach (T item in items) {
+                foreach (T item in items.GetInner()) {
                     m_Container.AddLast(item);
                 }
 
@@ -234,7 +234,7 @@ namespace BallanceTasEditor.Utils {
                 MoveToIndex(index);
 
                 int count = 0;
-                foreach (T item in items) {
+                foreach (T item in items.GetInner()) {
                     m_Container.AddBefore(m_Cursor, item);
                     ++count;
                 }
