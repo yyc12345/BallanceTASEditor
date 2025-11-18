@@ -1,235 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <LangVersion>8.0</LangVersion>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DD898514-03ED-4257-AFD1-290EEDF68113}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>BallanceTasEditor</RootNamespace>
-    <AssemblyName>BallanceTasEditor</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
     <ApplicationIcon>Assets\App.ico</ApplicationIcon>
-  </PropertyGroup>
-  <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
+    <Resource Include="Assets\*.ico" />
   </ItemGroup>
+
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="Converters\GenericConverter.cs" />
-    <Compile Include="Styles\AccessoryIcon.cs" />
-    <Compile Include="ViewModels\NewFileDialog.cs" />
-    <Compile Include="Views\AboutDialog.xaml.cs">
-      <DependentUpon>AboutDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AddFrameDialog.xaml.cs">
-      <DependentUpon>AddFrameDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EditFpsDialog.xaml.cs">
-      <DependentUpon>EditFpsDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\GotoDialog.xaml.cs">
-      <DependentUpon>GotoDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\NewFileDialog.xaml.cs">
-      <DependentUpon>NewFileDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\PreferenceDialog.xaml.cs">
-      <DependentUpon>PreferenceDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\TasViewer.xaml.cs">
-      <DependentUpon>TasViewer.xaml</DependentUpon>
-    </Compile>
-    <Page Include="Styles\AccessoryIconControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\GenericButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\NoteBanner.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\AboutDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\AddFrameDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\EditFpsDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\GotoDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Settings.cs" />
-    <Compile Include="Utils\FpsConverter.cs" />
-    <Compile Include="Utils\TasFrame.cs" />
-    <Compile Include="Utils\TasStorage.cs" />
-    <Compile Include="Views\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="Views\NewFileDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\PreferenceDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\TasViewer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+    <PackageReference Include="DotNetZip" Version="1.9.1.8" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Include="app.manifest" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\App.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\About.ico" />
-    <Resource Include="Assets\AddFrame.ico" />
-    <Resource Include="Assets\Cancel.ico" />
     <Resource Include="Assets\CloseFile.ico" />
-    <Resource Include="Assets\CopyFrame.ico" />
-    <Resource Include="Assets\CutFrame.ico" />
-    <Resource Include="Assets\DeleteFrame.ico" />
-    <Resource Include="Assets\DrawMode.ico" />
-    <Resource Include="Assets\EntrySpan.ico" />
-    <Resource Include="Assets\Exit.ico" />
-    <Resource Include="Assets\FillMode.ico" />
-    <Resource Include="Assets\FlipCell.ico" />
-    <Resource Include="Assets\Fps.ico" />
-    <Resource Include="Assets\HorizontalLayout.ico" />
-    <Resource Include="Assets\NewFile.ico" />
-    <Resource Include="Assets\Ok.ico" />
-    <Resource Include="Assets\OpenFile.ico" />
-    <Resource Include="Assets\Goto.ico" />
-    <Resource Include="Assets\NextItem.ico" />
-    <Resource Include="Assets\NextPage.ico" />
-    <Resource Include="Assets\PreviousItem.ico" />
-    <Resource Include="Assets\PreviousPage.ico" />
-    <Resource Include="Assets\PasteFrame.ico" />
-    <Resource Include="Assets\Preference.ico" />
-    <Resource Include="Assets\Redo.ico" />
-    <Resource Include="Assets\ReportBug.ico" />
-    <Resource Include="Assets\SaveFile.ico" />
-    <Resource Include="Assets\SaveFileAs.ico" />
-    <Resource Include="Assets\SaveFileThenRunGame.ico" />
-    <Resource Include="Assets\SelectMode.ico" />
-    <Resource Include="Assets\SetCell.ico" />
-    <Resource Include="Assets\SetFps.ico" />
-    <Resource Include="Assets\Undo.ico" />
-    <Resource Include="Assets\UnsetCell.ico" />
-    <Resource Include="Assets\VerticalLayout.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Count.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm">
-      <Version>8.2.1</Version>
-    </PackageReference>
-    <PackageReference Include="DotNetZip">
-      <Version>1.9.1.8</Version>
-    </PackageReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>

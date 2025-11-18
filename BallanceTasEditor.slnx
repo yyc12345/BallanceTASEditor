@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="BallanceTasEditor/BallanceTasEditor.csproj" />
+  <Project Path="BallanceTasEditorTests/BallanceTasEditorTests.csproj" />
+</Solution>
