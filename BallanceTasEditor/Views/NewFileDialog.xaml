@@ -47,18 +47,20 @@
                 <TextBlock Margin="5" Grid.Column="1" Grid.Row="2" Text="Delta Time" VerticalAlignment="Center"/>
 
                 <TextBox Margin="5" Padding="3" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center"
-                         Text="{Binding Count, Mode=TwoWay}"/>
+                         Text="{Binding Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBox Margin="5" Padding="3" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"
-                         Text="{Binding Fps, Mode=TwoWay}"/>
+                         Text="{Binding Fps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock Margin="5" Padding="3" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" 
-                           Text="{Binding Fps, Mode=OneWay, Converter={x:Static conveter:ConverterWarehouse.FpsConverter}}"/>
+                           Text="{Binding Fps, Mode=OneWay, Converter={x:Static conveter:FpsConverter.Instance}, FallbackValue=N/A}"/>
 
             </Grid>
         </Grid>
 
         <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right" Margin="10">
-            <Button Content="OK" Margin="5" Style="{StaticResource OkButtonStyle}" IsDefault="True"/>
-            <Button Content="Cancel" Margin="5" Style="{StaticResource CancelButtonStyle}"/>
+            <Button Content="OK" Margin="5" Style="{StaticResource OkButtonStyle}" IsDefault="True"
+                    Command="{Binding OkCommand}"/>
+            <Button Content="Cancel" Margin="5" Style="{StaticResource CancelButtonStyle}"
+                    Command="{Binding CancelCommand}"/>
         </StackPanel>
     </Grid>
 </Window>

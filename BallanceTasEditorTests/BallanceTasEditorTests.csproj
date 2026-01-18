@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <!--
       Displays error on console in addition to the log file. Note that this feature comes with a performance impact.
