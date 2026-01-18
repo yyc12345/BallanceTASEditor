@@ -30,7 +30,7 @@ pub enum Error {
 
 type Result<T> = std::result::Result<T, Error>;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum TasKey {
     KeyUp,
     KeyDown,
@@ -58,8 +58,12 @@ impl TasFrame {
         }
     }
 
+    pub fn with_delta_time(delta_time: f32) -> Self {
+        Self::new(delta_time, 0u32)
+    }
+
     pub fn with_fps(fps: f32) -> Result<Self> {
-        Ok(Self::new(Self::to_delta_time(fps)?, 0u32))
+        Ok(Self::with_delta_time(Self::to_delta_time(fps)?))
     }
 }
 
@@ -142,14 +146,6 @@ pub struct TasFile {
 impl TasFile {
     pub fn new(frames: Vec<TasFrame>) -> Self {
         Self { frames }
-    }
-
-    pub fn from_brandnew(count: usize, frame: TasFrame) -> Self {
-        Self::new(vec![frame; count])
-    }
-
-    pub fn from_brandnew_with_fps(count: usize, fps: f32) -> Result<Self> {
-        Ok(Self::from_brandnew(count, TasFrame::with_fps(fps)?))
     }
 
     pub fn load(filename: &str) -> Result<Self> {
