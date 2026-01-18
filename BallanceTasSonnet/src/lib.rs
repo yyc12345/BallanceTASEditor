@@ -1,11 +1,9 @@
 use pyo3::prelude::*;
 
-pub(crate) mod utils;
-pub(crate) mod tasfile;
+pub(crate) mod wrapped;
 
-/// A Python module implemented in Rust.
 #[pymodule]
-mod BallanceTasSonnet {
+mod tasfile {
     use pyo3::prelude::*;
 
     /// Formats the sum of two numbers as string.
