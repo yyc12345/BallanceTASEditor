@@ -9,7 +9,6 @@ classifiers = [
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
 ]
-dynamic = ["version"]
 dependencies = []
 
 [build-system]
@@ -17,11 +16,7 @@ requires = ["maturin>=1.11,<2.0"]
 build-backend = "maturin"
 
 [tool.maturin]
+binding = "pyo3"
 python-source = "python"
 manifest-path = "rust/Cargo.toml"
 module-name = "blctas._blctas"
-
-[tool.uv.workspace]
-members = [
-    "blctas",
-]

@@ -4,9 +4,5 @@ requires-python = ">=3.8"
 
 [[package]]
 name = "blctas"
+version = "1.0.0"
 source = { editable = "." }
-
-[package.metadata]
-
-[package.metadata.requires-dev]
-dev = []
