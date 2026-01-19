@@ -8,11 +8,6 @@ use thiserror::Error as TeError;
 
 #[derive(Debug, TeError)]
 pub enum Error {
-    #[error("delta time should not be zero or negative value")]
-    BadDeltaTime,
-    #[error("fps should should not be zero or negative value")]
-    BadFps,
-
     #[error("given index is out of range")]
     IndexOutOfRange,
     #[error("arithmetic overflow")]
@@ -61,43 +56,15 @@ impl TasFrame {
     pub fn with_delta_time(delta_time: f32) -> Self {
         Self::new(delta_time, 0u32)
     }
-
-    pub fn with_fps(fps: f32) -> Result<Self> {
-        Ok(Self::with_delta_time(Self::to_delta_time(fps)?))
-    }
 }
 
 impl TasFrame {
-    fn to_fps(delta_time: f32) -> Result<f32> {
-        if delta_time <= 0f32 {
-            Err(Error::BadDeltaTime)
-        } else {
-            Ok(1f32 / delta_time)
-        }
-    }
-
-    fn to_delta_time(fps: f32) -> Result<f32> {
-        if fps <= 0f32 {
-            Err(Error::BadFps)
-        } else {
-            Ok(1f32 / fps)
-        }
-    }
-
     pub fn get_delta_time(&self) -> f32 {
         self.delta_time
     }
 
-    pub fn get_fps(&self) -> Result<f32> {
-        Self::to_fps(self.get_delta_time())
-    }
-
     pub fn set_delta_time(&mut self, delta_time: f32) -> () {
         self.delta_time = delta_time
-    }
-
-    pub fn set_fps(&mut self, fps: f32) -> Result<()> {
-        Ok(self.set_delta_time(Self::to_delta_time(fps)?))
     }
 }
 
