@@ -23,6 +23,14 @@ mod tasfile {
         }
     }
 
+    // Copied from GH#759
+    // #[pymodule_init]
+    // fn init(m: &Bound<'_, PyModule>) -> PyResult<()> {
+    //     Python::attach(|py| {
+    //         py.import("sys")?.getattr("modules")?.set_item("_blctas.tasfile", m)
+    //     })
+    // }
+
     #[pyclass(eq, eq_int)]
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
     /// Represents the different keys that can be pressed in a TAS frame.

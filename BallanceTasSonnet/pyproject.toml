@@ -20,3 +20,9 @@ binding = "pyo3"
 python-source = "python"
 manifest-path = "rust/Cargo.toml"
 module-name = "blctas._blctas"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+    "sphinx>=7.1.2",
+]
