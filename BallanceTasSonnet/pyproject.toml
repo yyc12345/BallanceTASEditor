@@ -25,8 +25,3 @@ module-name = "blctas._blctas"
 members = [
     "blctas",
 ]
-
-[dependency-groups]
-dev = [
-    "maturin>=1.11.5",
-]
