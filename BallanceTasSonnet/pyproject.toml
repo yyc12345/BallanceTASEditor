@@ -1,9 +1,8 @@
-[build-system]
-requires = ["maturin>=1.11,<2.0"]
-build-backend = "maturin"
-
 [project]
-name = "BallanceTasSonnet"
+name = "blctas"
+version = "1.0.0"
+description = "Add your description here"
+readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Rust",
@@ -11,3 +10,23 @@ classifiers = [
     "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dynamic = ["version"]
+dependencies = []
+
+[build-system]
+requires = ["maturin>=1.11,<2.0"]
+build-backend = "maturin"
+
+[tool.maturin]
+python-source = "python"
+manifest-path = "rust/Cargo.toml"
+module-name = "blctas._blctas"
+
+[tool.uv.workspace]
+members = [
+    "blctas",
+]
+
+[dependency-groups]
+dev = [
+    "maturin>=1.11.5",
+]
