@@ -75,6 +75,9 @@ mod tasfile {
     #[pyclass]
     #[derive(Debug)]
     /// Represents a TAS file containing a sequence of frames.
+    /// 
+    /// This class provides methods for manipulating TAS files including adding, removing,
+    /// modifying frames, and getting/setting key press states.
     /// Each frame contains key press information and delta time for Ballance gameplay.
     struct TasFile {
         inner: RsTasFile
@@ -85,22 +88,28 @@ mod tasfile {
         // region: Status
 
         /// Clears all frames from the TAS file.
+        /// 
+        /// .. note::
+        ///    This operation is irreversible and will remove all frames from the TAS file.
+        /// 
+        /// :returns: None
+        /// :rtype: None
         fn clear(&mut self) -> PyResult<()> {
             Ok(self.inner.clear())
         }
 
         /// Gets the number of frames in the TAS file.
         /// 
-        /// Returns:
-        ///     The count of frames in the TAS file.
+        /// :returns: The count of frames in the TAS file.
+        /// :rtype: int
         fn get_count(&self) -> PyResult<usize> {
             Ok(self.inner.get_count())
         }
 
         /// Checks if the TAS file is empty (contains no frames).
         /// 
-        /// Returns:
-        ///     True if the TAS file is empty, False otherwise.
+        /// :returns: True if the TAS file is empty, False otherwise.
+        /// :rtype: bool
         fn is_empty(&self) -> PyResult<bool> {
             Ok(self.inner.is_empty())
         }
@@ -111,54 +120,52 @@ mod tasfile {
 
         /// Gets the delta time of a frame at the specified index.
         /// 
-        /// Args:
-        ///     index: The index of the frame to get the delta time from.
-        /// 
-        /// Returns:
-        ///     The delta time value of the frame at the specified index.
-        /// 
-        /// Raises:
-        ///     RuntimeError: If the index is out of range.
+        /// :param index: The index of the frame to get the delta time from.
+        /// :type index: int
+        /// :returns: The delta time value of the frame at the specified index.
+        /// :rtype: float
+        /// :raises RuntimeError: If the index is out of range.
         fn get_delta_time(&self, index: usize) -> PyResult<f32> {
             Ok(self.inner.visit(index)?.get_delta_time())
         }
 
         /// Sets the delta time of a frame at the specified index.
         /// 
-        /// Args:
-        ///     index: The index of the frame to set the delta time for.
-        ///     delta_time: The new delta time value to set.
-        /// 
-        /// Raises:
-        ///     RuntimeError: If the index is out of range.
+        /// :param index: The index of the frame to set the delta time for.
+        /// :type index: int
+        /// :param delta_time: The new delta time value to set.
+        /// :type delta_time: float
+        /// :returns: None
+        /// :rtype: None
+        /// :raises RuntimeError: If the index is out of range.
         fn set_delta_time(&mut self, index: usize, delta_time: f32) -> PyResult<()> {
             Ok(self.inner.visit_mut(index)?.set_delta_time(delta_time))
         }
 
         /// Checks if a specific key is pressed in the frame at the specified index.
         /// 
-        /// Args:
-        ///     index: The index of the frame to check.
-        ///     key: The key to check for press status.
-        /// 
-        /// Returns:
-        ///     True if the key is pressed, False otherwise.
-        /// 
-        /// Raises:
-        ///     RuntimeError: If the index is out of range.
+        /// :param index: The index of the frame to check.
+        /// :type index: int
+        /// :param key: The key to check for press status.
+        /// :type key: TasKey
+        /// :returns: True if the key is pressed, False otherwise.
+        /// :rtype: bool
+        /// :raises RuntimeError: If the index is out of range.
         fn is_key_pressed(&self, index: usize, key: TasKey) -> PyResult<bool> {
             Ok(self.inner.visit(index)?.is_key_pressed(key.into()))
         }
 
         /// Sets the press status of a specific key in the frame at the specified index.
         /// 
-        /// Args:
-        ///     index: The index of the frame to modify.
-        ///     key: The key to set the press status for.
-        ///     pressed: True to press the key, False to release it.
-        /// 
-        /// Raises:
-        ///     RuntimeError: If the index is out of range.
+        /// :param index: The index of the frame to modify.
+        /// :type index: int
+        /// :param key: The key to set the press status for.
+        /// :type key: TasKey
+        /// :param pressed: True to press the key, False to release it.
+        /// :type pressed: bool
+        /// :returns: None
+        /// :rtype: None
+        /// :raises RuntimeError: If the index is out of range.
         fn set_key_pressed(&mut self, index: usize, key: TasKey, pressed: bool) -> PyResult<()> {
             Ok(self.inner.visit_mut(index)?.set_key_pressed(key.into(), pressed))
         }
@@ -166,23 +173,24 @@ mod tasfile {
         /// Flips the press status of a specific key in the frame at the specified index.
         /// If the key was pressed, it becomes released; if it was released, it becomes pressed.
         /// 
-        /// Args:
-        ///     index: The index of the frame to modify.
-        ///     key: The key to flip the press status for.
-        /// 
-        /// Raises:
-        ///     RuntimeError: If the index is out of range.
+        /// :param index: The index of the frame to modify.
+        /// :type index: int
+        /// :param key: The key to flip the press status for.
+        /// :type key: TasKey
+        /// :returns: None
+        /// :rtype: None
+        /// :raises RuntimeError: If the index is out of range.
         fn flip_key_pressed(&mut self, index: usize, key: TasKey) -> PyResult<()> {
             Ok(self.inner.visit_mut(index)?.flip_key_pressed(key.into()))
         }
 
         /// Clears all key presses in the frame at the specified index, setting all keys to released state.
         /// 
-        /// Args:
-        ///     index: The index of the frame to clear key presses for.
-        /// 
-        /// Raises:
-        ///     RuntimeError: If the index is out of range.
+        /// :param index: The index of the frame to clear key presses for.
+        /// :type index: int
+        /// :returns: None
+        /// :rtype: None
+        /// :raises RuntimeError: If the index is out of range.
         fn clear_key_pressed(&mut self, index: usize) -> PyResult<()> {
             Ok(self.inner.visit_mut(index)?.clear_key_pressed())
         }
@@ -195,13 +203,18 @@ mod tasfile {
         /// This is a batch operation that modifies multiple frames in one call, which is more
         /// efficient than calling set_delta_time individually on each frame.
         /// 
-        /// Args:
-        ///     index_from: The starting index (inclusive) of the range to modify.
-        ///     index_to: The ending index (inclusive) of the range to modify.
-        ///     delta_time: The new delta time value to set for all frames in the range.
+        /// .. note::
+        ///    This function exists to reduce Python FFI call overhead during iteration.
         /// 
-        /// Raises:
-        ///     RuntimeError: If either index is out of range or if index_to < index_from.
+        /// :param index_from: The starting index (inclusive) of the range to modify.
+        /// :type index_from: int
+        /// :param index_to: The ending index (inclusive) of the range to modify.
+        /// :type index_to: int
+        /// :param delta_time: The new delta time value to set for all frames in the range.
+        /// :type delta_time: float
+        /// :returns: None
+        /// :rtype: None
+        /// :raises RuntimeError: If either index is out of range or if index_to < index_from.
         fn batchly_set_delta_time(&mut self, index_from: usize, index_to: usize, delta_time: f32) -> PyResult<()> {
             for frame in self.inner.batchly_visit_mut(index_from, index_to)? {
                 frame.set_delta_time(delta_time);
@@ -213,14 +226,20 @@ mod tasfile {
         /// This is a batch operation that modifies multiple frames in one call, which is more
         /// efficient than calling set_key_pressed individually on each frame.
         /// 
-        /// Args:
-        ///     index_from: The starting index (inclusive) of the range to modify.
-        ///     index_to: The ending index (inclusive) of the range to modify.
-        ///     key: The key to set the press status for.
-        ///     pressed: True to press the key, False to release it for all frames in the range.
+        /// .. note::
+        ///    This function exists to reduce Python FFI call overhead during iteration.
         /// 
-        /// Raises:
-        ///     RuntimeError: If either index is out of range or if index_to < index_from.
+        /// :param index_from: The starting index (inclusive) of the range to modify.
+        /// :type index_from: int
+        /// :param index_to: The ending index (inclusive) of the range to modify.
+        /// :type index_to: int
+        /// :param key: The key to set the press status for.
+        /// :type key: TasKey
+        /// :param pressed: True to press the key, False to release it for all frames in the range.
+        /// :type pressed: bool
+        /// :returns: None
+        /// :rtype: None
+        /// :raises RuntimeError: If either index is out of range or if index_to < index_from.
         fn batchly_set_key_pressed(&mut self, index_from: usize, index_to: usize, key: TasKey, pressed: bool) -> PyResult<()> {
             for frame in self.inner.batchly_visit_mut(index_from, index_to)? {
                 frame.set_key_pressed(key.into(), pressed);
@@ -232,13 +251,18 @@ mod tasfile {
         /// This is a batch operation that modifies multiple frames in one call, which is more
         /// efficient than calling flip_key_pressed individually on each frame.
         /// 
-        /// Args:
-        ///     index_from: The starting index (inclusive) of the range to modify.
-        ///     index_to: The ending index (inclusive) of the range to modify.
-        ///     key: The key to flip the press status for in all frames in the range.
+        /// .. note::
+        ///    This function exists to reduce Python FFI call overhead during iteration.
         /// 
-        /// Raises:
-        ///     RuntimeError: If either index is out of range or if index_to < index_from.
+        /// :param index_from: The starting index (inclusive) of the range to modify.
+        /// :type index_from: int
+        /// :param index_to: The ending index (inclusive) of the range to modify.
+        /// :type index_to: int
+        /// :param key: The key to flip the press status for in all frames in the range.
+        /// :type key: TasKey
+        /// :returns: None
+        /// :rtype: None
+        /// :raises RuntimeError: If either index is out of range or if index_to < index_from.
         fn batchly_flip_key_pressed(&mut self, index_from: usize, index_to: usize, key: TasKey) -> PyResult<()> {
             for frame in self.inner.batchly_visit_mut(index_from, index_to)? {
                 frame.flip_key_pressed(key.into());
@@ -251,12 +275,16 @@ mod tasfile {
         /// This is a batch operation that modifies multiple frames in one call, which is more
         /// efficient than calling clear_key_pressed individually on each frame.
         /// 
-        /// Args:
-        ///     index_from: The starting index (inclusive) of the range to modify.
-        ///     index_to: The ending index (inclusive) of the range to modify.
+        /// .. note::
+        ///    This function exists to reduce Python FFI call overhead during iteration.
         /// 
-        /// Raises:
-        ///     RuntimeError: If either index is out of range or if index_to < index_from.
+        /// :param index_from: The starting index (inclusive) of the range to modify.
+        /// :type index_from: int
+        /// :param index_to: The ending index (inclusive) of the range to modify.
+        /// :type index_to: int
+        /// :returns: None
+        /// :rtype: None
+        /// :raises RuntimeError: If either index is out of range or if index_to < index_from.
         fn batchly_clear_key_pressed(&mut self, index_from: usize, index_to: usize) -> PyResult<()> {
             for frame in self.inner.batchly_visit_mut(index_from, index_to)? {
                 frame.clear_key_pressed();
@@ -270,9 +298,12 @@ mod tasfile {
 
         /// Appends a specified number of frames with the given delta time to the end of the TAS file.
         /// 
-        /// Args:
-        ///     count: The number of frames to append.
-        ///     delta_time: The delta time value for the new frames.
+        /// :param count: The number of frames to append.
+        /// :type count: int
+        /// :param delta_time: The delta time value for the new frames.
+        /// :type delta_time: float
+        /// :returns: None
+        /// :rtype: None
         fn append(&mut self, count: usize, delta_time: f32) -> PyResult<()> {
             let frames = vec![RsTasFrame::with_delta_time(delta_time); count];
             Ok(self.inner.append(&frames))
@@ -280,13 +311,19 @@ mod tasfile {
         
         /// Inserts a specified number of frames with the given delta time at the specified index.
         /// 
-        /// Args:
-        ///     index: The position at which to insert the new frames.
-        ///     count: The number of frames to insert.
-        ///     delta_time: The delta time value for the new frames.
+        /// .. note::
+        ///    Inserting operations are expensive and should be used carefully.
+        ///    Massively calling this function may result in bad performance.
         /// 
-        /// Raises:
-        ///     RuntimeError: If the index is out of range.
+        /// :param index: The position at which to insert the new frames.
+        /// :type index: int
+        /// :param count: The number of frames to insert.
+        /// :type count: int
+        /// :param delta_time: The delta time value for the new frames.
+        /// :type delta_time: float
+        /// :returns: None
+        /// :rtype: None
+        /// :raises RuntimeError: If the index is out of range.
         fn insert(&mut self, index: usize, count: usize, delta_time: f32) -> PyResult<()> {
             let frames = vec![RsTasFrame::with_delta_time(delta_time); count];
             Ok(self.inner.insert(index, &frames)?)
@@ -294,12 +331,17 @@ mod tasfile {
 
         /// Removes frames from the TAS file within the specified range (inclusive).
         /// 
-        /// Args:
-        ///     index_from: The starting index (inclusive) of the range to remove.
-        ///     index_to: The ending index (inclusive) of the range to remove.
+        /// .. note::
+        ///    Removing operations are expensive and should be used carefully.
+        ///    Massively calling this function may result in bad performance.
         /// 
-        /// Raises:
-        ///     RuntimeError: If either index is out of range or if index_to < index_from.
+        /// :param index_from: The starting index (inclusive) of the range to remove.
+        /// :type index_from: int
+        /// :param index_to: The ending index (inclusive) of the range to remove.
+        /// :type index_to: int
+        /// :returns: None
+        /// :rtype: None
+        /// :raises RuntimeError: If either index is out of range or if index_to < index_from.
         fn remove(&mut self, index_from: usize, index_to: usize) -> PyResult<()> {
             Ok(self.inner.remove(index_from, index_to)?)
         }
@@ -310,12 +352,12 @@ mod tasfile {
     #[pyfunction]
     /// Creates a new TAS file with a specified number of frames, all having the same delta time.
     /// 
-    /// Args:
-    ///     count: The number of frames to create in the new TAS file.
-    ///     delta_time: The delta time value for all frames in the new TAS file.
-    /// 
-    /// Returns:
-    ///     A new TasFile instance with the specified number of frames.
+    /// :param count: The number of frames to create in the new TAS file.
+    /// :type count: int
+    /// :param delta_time: The delta time value for all frames in the new TAS file.
+    /// :type delta_time: float
+    /// :returns: A new TasFile instance with the specified number of frames.
+    /// :rtype: TasFile
     fn create(count: usize, delta_time: f32) -> PyResult<TasFile> {
         Ok(TasFile { inner: RsTasFile::new(vec![RsTasFrame::with_delta_time(delta_time); count]) })
     }
@@ -323,14 +365,11 @@ mod tasfile {
     #[pyfunction]
     /// Loads a TAS file from disk.
     /// 
-    /// Args:
-    ///     filename: The path to the TAS file to load.
-    /// 
-    /// Returns:
-    ///     A TasFile instance loaded from the specified file.
-    /// 
-    /// Raises:
-    ///     RuntimeError: If the file cannot be loaded or is invalid.
+    /// :param filename: The path to the TAS file to load.
+    /// :type filename: str
+    /// :returns: A TasFile instance loaded from the specified file.
+    /// :rtype: TasFile
+    /// :raises RuntimeError: If the file cannot be loaded or is invalid.
     fn load(filename: &str) -> PyResult<TasFile> {
         Ok(TasFile { inner: RsTasFile::load(filename)? })
     }
@@ -338,12 +377,13 @@ mod tasfile {
     #[pyfunction]
     /// Saves a TAS file to disk.
     /// 
-    /// Args:
-    ///     file: The TasFile instance to save.
-    ///     filename: The path where the TAS file should be saved.
-    /// 
-    /// Raises:
-    ///     RuntimeError: If the file cannot be saved.
+    /// :param file: The TasFile instance to save.
+    /// :type file: TasFile
+    /// :param filename: The path where the TAS file should be saved.
+    /// :type filename: str
+    /// :returns: None
+    /// :rtype: None
+    /// :raises RuntimeError: If the file cannot be saved.
     fn save(file: &TasFile, filename: &str) -> PyResult<()> {
         Ok(file.inner.save(filename)?)
     }
