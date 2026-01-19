@@ -2,7 +2,13 @@ use pyo3::prelude::*;
 
 pub(crate) mod wrapped;
 
-#[pymodule]
+#[pymodule(name = "_blctas")]
+mod blctas {
+    #[pymodule_export]
+    use super::tasfile;
+}
+
+#[pymodule(submodule)]
 mod tasfile {
     use pyo3::{exceptions::PyRuntimeError, prelude::*};
     use crate::wrapped::tasfile::{
