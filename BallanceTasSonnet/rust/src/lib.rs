@@ -12,7 +12,8 @@ mod blctas {
 #[pymodule(submodule)]
 /// Provides functionality for handling Ballance TAS files loading, saving and editing.
 mod tasfile {
-    use pyo3::{exceptions::PyRuntimeError, prelude::*};
+    use pyo3::prelude::*;
+    use pyo3::exceptions::PyRuntimeError;
     use crate::wrapped::tasfile::{
         Error as RsTasError, TasFile as RsTasFile, TasFrame as RsTasFrame, TasKey as RsTasKey
     };
