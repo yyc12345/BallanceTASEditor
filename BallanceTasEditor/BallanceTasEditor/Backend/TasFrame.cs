@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BallanceTasEditor.Utils {
+namespace BallanceTasEditor.Backend {
 
     /// <summary>
     /// 原始的TAS帧结构，与二进制结构保持一致。
@@ -148,6 +148,13 @@ namespace BallanceTasEditor.Utils {
         /// 获取或设置回车键的按下状态。
         /// </summary>
         public bool KeyEnterPressed { get { return IsKeyPressed(TasKey.KeyEnter); } set { SetKeyPressed(TasKey.KeyEnter, value); } }
+
+        /// <summary>
+        /// 清除所有按键，将所有按键设置为不按下。
+        /// </summary>
+        public void ClearKeyPressed() {
+            m_KeyFlags = 0;
+        }
 
     }
 

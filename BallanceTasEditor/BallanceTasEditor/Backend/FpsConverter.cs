@@ -1,0 +1,50 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BallanceTasEditor.Backend {
+    /// <summary>
+    /// FPS converter
+    /// </summary>
+    public static class FpsConverter {
+        /// <summary>
+        /// Convert float point delta time to float point FPS
+        /// </summary>
+        /// <param name="delta">Delta time in float point</param>
+        /// <returns>FPS in float point</returns>
+        public static float ToFps(float delta) {
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(delta, nameof(delta));
+            return 1f / delta;
+        }
+
+        /// <summary>
+        /// Convert float point delta time to integer FPS
+        /// </summary>
+        /// <param name="delta">Delta time in float point</param>
+        /// <returns>FPS in floor integer</returns>
+        public static uint ToFloorFps(float delta) {
+            return (uint)Math.Floor(ToFps(delta));
+        }
+
+        /// <summary>
+        /// Convert integer FPS to float point delta time
+        /// </summary>
+        /// <param name="fps">FPS in integer</param>
+        /// <returns>Delta time in float point</returns>
+        public static float ToDelta(uint fps) {
+            return ToDelta((float)fps);
+        }
+
+        /// <summary>
+        /// Convert float point FPS to float point delta time
+        /// </summary>
+        /// <param name="fps">FPS in float point</param>
+        /// <returns>Delta time in float point</returns>
+        public static float ToDelta(float fps) {
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(fps, nameof(fps));
+            return 1f / fps;
+        }
+    }
+}

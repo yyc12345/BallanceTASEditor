@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BallanceTasEditor.Utils {
+namespace BallanceTasEditor.Backend {
     /// <summary>
     /// 一种提前给定元素个数的的IEnumerable。
     /// </summary>
@@ -28,8 +28,8 @@ namespace BallanceTasEditor.Utils {
             m_Count = array.Length;
         }
 
-        private IEnumerable<T> m_Inner;
-        private int m_Count;
+        private readonly IEnumerable<T> m_Inner;
+        private readonly int m_Count;
 
         /// <summary>
         /// 获取迭代器对象。
