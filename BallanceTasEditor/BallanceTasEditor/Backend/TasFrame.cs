@@ -25,7 +25,7 @@ namespace BallanceTasEditor.Backend {
     /// <summary>
     /// 描述TAS文件中一帧的结构。
     /// </summary>
-    public class TasFrame {
+    public class TasFrame : IEquatable<TasFrame> {
         /// <summary>
         /// 以指定的FPS，无任何按键初始化当前帧。
         /// </summary>
@@ -39,6 +39,15 @@ namespace BallanceTasEditor.Backend {
         /// </summary>
         /// <param name="raw">要用来初始化的原始数据。</param>
         public TasFrame(RawTasFrame raw) {
+            m_TimeDelta = raw.TimeDelta;
+            m_KeyFlags = raw.KeyFlags;
+        }
+
+        /// <summary>
+        /// 将原始TAS数据覆写到自身
+        /// </summary>
+        /// <param name="raw">要写入的原始TAS数据</param>
+        public void FromRaw(RawTasFrame raw) {
             m_TimeDelta = raw.TimeDelta;
             m_KeyFlags = raw.KeyFlags;
         }
@@ -154,6 +163,38 @@ namespace BallanceTasEditor.Backend {
         /// </summary>
         public void ClearKeyPressed() {
             m_KeyFlags = 0;
+        }
+
+        /// <summary>
+        /// 指示当前对象是否等于另一个 TasFrame 对象。
+        /// </summary>
+        /// <param name="other">要比较的 TasFrame 对象。</param>
+        /// <returns>如果两个对象相等则为 true，否则为 false。</returns>
+        public bool Equals(TasFrame? other) {
+            return other is not null &&
+                   m_TimeDelta == other.m_TimeDelta &&
+                   m_KeyFlags == other.m_KeyFlags;
+        }
+
+        /// <summary>
+        /// 指示当前对象是否等于另一个对象。
+        /// </summary>
+        /// <param name="obj">要比较的对象。</param>
+        /// <returns>如果两个对象相等则为 true，否则为 false。</returns>
+        public override bool Equals(object? obj) {
+            if (obj is TasFrame other) {
+                return Equals(other);
+            } else {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 返回此实例的哈希代码。
+        /// </summary>
+        /// <returns>32 位有符号整数哈希代码。</returns>
+        public override int GetHashCode() {
+            return HashCode.Combine(m_TimeDelta, m_KeyFlags);
         }
 
     }

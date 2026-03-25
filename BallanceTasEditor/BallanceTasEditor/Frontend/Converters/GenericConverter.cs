@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
-namespace BallanceTasEditor.Converters {
+namespace BallanceTasEditor.Frontend.Converters {
     [ValueConversion(typeof(int), typeof(string))]
     public class FpsConverter : IValueConverter {
         public static FpsConverter Instance = new FpsConverter();
@@ -15,7 +15,7 @@ namespace BallanceTasEditor.Converters {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             if (value is int tv) {
                 if (tv <= 0) return DependencyProperty.UnsetValue;
-                else return Utils.FpsConverter.ToDelta(tv).ToString();
+                else return Backend.FpsConverter.ToDelta(tv).ToString();
             } else {
                 return DependencyProperty.UnsetValue;
             }

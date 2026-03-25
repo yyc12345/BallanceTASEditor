@@ -1,12 +1,12 @@
-﻿<Window x:Class="BallanceTasEditor.Views.MainWindow"
+<Window x:Class="BallanceTasEditor.Frontend.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BallanceTasEditor.Views"
-        xmlns:styles="clr-namespace:BallanceTasEditor.Styles"
+        xmlns:local="clr-namespace:BallanceTasEditor.Frontend.Views"
+        xmlns:styles="clr-namespace:BallanceTasEditor.Frontend.Styles"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="Ballance TAS Editor" Height="600" Width="800" Icon="/Assets/App.ico">
+        Title="Ballance TAS Editor" Height="600" Width="800" Icon="/Frontend/Assets/App.ico">
     
     <Grid>
         <Grid.RowDefinitions>
@@ -19,28 +19,28 @@
         <Menu Grid.Row="0">
             <Menu.Resources>
                 <!-- Menu Icons -->
-                <Image x:Key="IconNewFile" Source="/Assets/NewFile.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                <Image x:Key="IconOpenFile" Source="/Assets/OpenFile.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                <Image x:Key="IconSaveFile" Source="/Assets/SaveFile.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                <Image x:Key="IconSaveFileAs" Source="/Assets/SaveFileAs.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                <Image x:Key="IconSaveFileThenRunGame" Source="/Assets/SaveFileThenRunGame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                <Image x:Key="IconCloseFile" Source="/Assets/CloseFile.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                <Image x:Key="IconExit" Source="/Assets/Exit.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                <Image x:Key="IconUndo" Source="/Assets/Undo.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                <Image x:Key="IconRedo" Source="/Assets/Redo.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                <Image x:Key="IconNextItem" Source="/Assets/NextItem.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                <Image x:Key="IconNextPage" Source="/Assets/NextPage.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                <Image x:Key="IconPreviousItem" Source="/Assets/PreviousItem.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                <Image x:Key="IconPreviousPage" Source="/Assets/PreviousPage.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                <Image x:Key="IconGoto" Source="/Assets/Goto.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                <Image x:Key="IconDrawMode" Source="/Assets/DrawMode.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                <Image x:Key="IconFillMode" Source="/Assets/FillMode.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                <Image x:Key="IconSelectMode" Source="/Assets/SelectMode.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                <Image x:Key="IconClearKeys" Source="/Assets/ClearKeys.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                <Image x:Key="IconUniformFps" Source="/Assets/SetFps.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                <Image x:Key="IconPreference" Source="/Assets/Preference.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                <Image x:Key="IconReportBug" Source="/Assets/ReportBug.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                <Image x:Key="IconAbout" Source="/Assets/About.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image x:Key="IconNewFile" Source="/Frontend/Assets/NewFile.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image x:Key="IconOpenFile" Source="/Frontend/Assets/OpenFile.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image x:Key="IconSaveFile" Source="/Frontend/Assets/SaveFile.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image x:Key="IconSaveFileAs" Source="/Frontend/Assets/SaveFileAs.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image x:Key="IconSaveFileThenRunGame" Source="/Frontend/Assets/SaveFileThenRunGame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image x:Key="IconCloseFile" Source="/Frontend/Assets/CloseFile.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image x:Key="IconExit" Source="/Frontend/Assets/Exit.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image x:Key="IconUndo" Source="/Frontend/Assets/Undo.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image x:Key="IconRedo" Source="/Frontend/Assets/Redo.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image x:Key="IconNextItem" Source="/Frontend/Assets/NextItem.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image x:Key="IconNextPage" Source="/Frontend/Assets/NextPage.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image x:Key="IconPreviousItem" Source="/Frontend/Assets/PreviousItem.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image x:Key="IconPreviousPage" Source="/Frontend/Assets/PreviousPage.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image x:Key="IconGoto" Source="/Frontend/Assets/Goto.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image x:Key="IconDrawMode" Source="/Frontend/Assets/DrawMode.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image x:Key="IconFillMode" Source="/Frontend/Assets/FillMode.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image x:Key="IconSelectMode" Source="/Frontend/Assets/SelectMode.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image x:Key="IconClearKeys" Source="/Frontend/Assets/ClearKeys.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image x:Key="IconUniformFps" Source="/Frontend/Assets/SetFps.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image x:Key="IconPreference" Source="/Frontend/Assets/Preference.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image x:Key="IconReportBug" Source="/Frontend/Assets/ReportBug.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image x:Key="IconAbout" Source="/Frontend/Assets/About.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
             </Menu.Resources>
             
             <MenuItem Header="_File" Padding="5">
@@ -87,15 +87,15 @@
 
             <StackPanel Orientation="Horizontal" Grid.Column="0">
                 <Button Content="Select Mode" Margin="5" Padding="5"
-                        Style="{StaticResource AccessoryIconButton}" styles:AccessoryIcon.Icon="/Assets/SelectMode.ico"/>
+                        Style="{StaticResource AccessoryIconButton}" styles:AccessoryIcon.Icon="/Frontend/Assets/SelectMode.ico"/>
                 <Button Content="Fill Mode" Margin="5" Padding="5"
-                        Style="{StaticResource AccessoryIconButton}" styles:AccessoryIcon.Icon="/Assets/FillMode.ico"/>
+                        Style="{StaticResource AccessoryIconButton}" styles:AccessoryIcon.Icon="/Frontend/Assets/FillMode.ico"/>
                 <Button Content="Draw Mode" Margin="5" Padding="5"
-                        Style="{StaticResource AccessoryIconButton}" styles:AccessoryIcon.Icon="/Assets/DrawMode.ico"/>
+                        Style="{StaticResource AccessoryIconButton}" styles:AccessoryIcon.Icon="/Frontend/Assets/DrawMode.ico"/>
             </StackPanel>
 
             <Button Content="Save File then Run Game" Grid.Column="1" Margin="5" Padding="5"
-                    Style="{StaticResource AccessoryIconButton}" styles:AccessoryIcon.Icon="/Assets/SaveFileThenRunGame.ico"/>
+                    Style="{StaticResource AccessoryIconButton}" styles:AccessoryIcon.Icon="/Frontend/Assets/SaveFileThenRunGame.ico"/>
 
         </Grid>
 
@@ -103,7 +103,7 @@
             <Grid VerticalAlignment="Center" HorizontalAlignment="Center" AllowDrop="True">
                 <Rectangle StrokeThickness="4" Stroke="Gray" StrokeDashArray="4 4" Fill="Transparent"/>
                 <StackPanel Orientation="Horizontal" Margin="20">
-                    <Image Source="/Assets/OpenFile.ico" Width="24" Height="24" Margin="5" VerticalAlignment="Center"/>
+                    <Image Source="/Frontend/Assets/OpenFile.ico" Width="24" Height="24" Margin="5" VerticalAlignment="Center"/>
                     <TextBlock Margin="5" Text="Create, Open or Drop a TAS File in There for Editing" Foreground="Gray" FontSize="16" VerticalAlignment="Center"/>
                 </StackPanel>
             </Grid>
@@ -113,15 +113,15 @@
                     <ContextMenu>
                         <ContextMenu.Resources>
                             <!-- Context Menu Icons -->
-                            <Image x:Key="IconSet" Source="/Assets/SetCell.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                            <Image x:Key="IconUnset" Source="/Assets/UnsetCell.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                            <Image x:Key="IconFlip" Source="/Assets/FlipCell.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                            <Image x:Key="IconCut" Source="/Assets/CutFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                            <Image x:Key="IconCopy" Source="/Assets/CopyFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                            <Image x:Key="IconPaste" Source="/Assets/PasteFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                            <Image x:Key="IconDelete" Source="/Assets/DeleteFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                            <Image x:Key="IconAdd" Source="/Assets/AddFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                            <Image x:Key="IconFps" Source="/Assets/SetFps.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <Image x:Key="IconSet" Source="/Frontend/Assets/SetCell.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <Image x:Key="IconUnset" Source="/Frontend/Assets/UnsetCell.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <Image x:Key="IconFlip" Source="/Frontend/Assets/FlipCell.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <Image x:Key="IconCut" Source="/Frontend/Assets/CutFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <Image x:Key="IconCopy" Source="/Frontend/Assets/CopyFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <Image x:Key="IconPaste" Source="/Frontend/Assets/PasteFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <Image x:Key="IconDelete" Source="/Frontend/Assets/DeleteFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <Image x:Key="IconAdd" Source="/Frontend/Assets/AddFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <Image x:Key="IconFps" Source="/Frontend/Assets/SetFps.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
                         </ContextMenu.Resources>
 
                         <MenuItem Header="Set" Icon="{StaticResource IconSet}"/>

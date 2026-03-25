@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,14 +12,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace BallanceTasEditor.Views {
+namespace BallanceTasEditor.Frontend.Views {
     /// <summary>
-    /// Interaction logic for NewFileDialog.xaml
+    /// Interaction logic for PreferenceDialog.xaml
     /// </summary>
-    public partial class NewFileDialog : Window {
-        public NewFileDialog() {
+    public partial class PreferenceDialog : Window {
+        public PreferenceDialog() {
             InitializeComponent();
-            this.DataContext = new ViewModels.NewFileDialog();
         }
     }
 }

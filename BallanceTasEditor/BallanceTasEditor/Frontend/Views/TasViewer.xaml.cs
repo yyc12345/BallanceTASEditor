@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,14 +10,15 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BallanceTasEditor.Views {
+namespace BallanceTasEditor.Frontend.Views {
     /// <summary>
-    /// Interaction logic for AboutDialog.xaml
+    /// Interaction logic for TasViewer.xaml
     /// </summary>
-    public partial class AboutDialog : Window {
-        public AboutDialog() {
+    public partial class TasViewer : UserControl {
+        public TasViewer() {
             InitializeComponent();
         }
     }

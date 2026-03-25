@@ -1,4 +1,3 @@
-﻿using BallanceTasEditor.Utils;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -8,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BallanceTasEditor.ViewModels {
+namespace BallanceTasEditor.Frontend.ViewModels {
 
     public struct NewFileDialogResult {
         public int Count { get; set; }

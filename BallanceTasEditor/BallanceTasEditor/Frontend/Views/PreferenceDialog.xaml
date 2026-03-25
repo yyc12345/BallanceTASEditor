@@ -1,12 +1,12 @@
-﻿<Window x:Class="BallanceTasEditor.Views.PreferenceDialog"
+<Window x:Class="BallanceTasEditor.Frontend.Views.PreferenceDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BallanceTasEditor.Views"
-        xmlns:styles="clr-namespace:BallanceTasEditor.Styles"
+        xmlns:local="clr-namespace:BallanceTasEditor.Frontend.Views"
+        xmlns:styles="clr-namespace:BallanceTasEditor.Frontend.Styles"
         mc:Ignorable="d" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False"
-        Title="Editor Preference" Height="450" Width="400" Icon="/Assets/Preference.ico">
+        Title="Editor Preference" Height="450" Width="400" Icon="/Frontend/Assets/Preference.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -17,7 +17,7 @@
             <StackPanel Orientation="Vertical">
                 <!-- TODO: This icon is wrong. -->
                 <GroupBox Header="Editor Layout" Margin="10" Padding="10"
-                          Style="{StaticResource AccessoryIconGroupBox}" styles:AccessoryIcon.Icon="/Assets/EditorLayout.ico">
+                          Style="{StaticResource AccessoryIconGroupBox}" styles:AccessoryIcon.Icon="/Frontend/Assets/EditorLayout.ico">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -28,7 +28,7 @@
                     </Grid>
                 </GroupBox>
                 <GroupBox Header="Paste Behavior" Margin="10" Padding="10"
-                          Style="{StaticResource AccessoryIconGroupBox}" styles:AccessoryIcon.Icon="/Assets/PasteFrame.ico">
+                          Style="{StaticResource AccessoryIconGroupBox}" styles:AccessoryIcon.Icon="/Frontend/Assets/PasteFrame.ico">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -39,11 +39,11 @@
                     </Grid>
                 </GroupBox>
                 <GroupBox Header="Frame Count" Margin="10" Padding="10"
-                          Style="{StaticResource AccessoryIconGroupBox}" styles:AccessoryIcon.Icon="/Assets/Count.ico">
+                          Style="{StaticResource AccessoryIconGroupBox}" styles:AccessoryIcon.Icon="/Frontend/Assets/Count.ico">
                     <TextBox Padding="3"/>
                 </GroupBox>
                 <GroupBox Header="Game Path" Margin="10" Padding="10"
-                          Style="{StaticResource AccessoryIconGroupBox}" styles:AccessoryIcon.Icon="/Assets/SaveFileThenRunGame.ico">
+                          Style="{StaticResource AccessoryIconGroupBox}" styles:AccessoryIcon.Icon="/Frontend/Assets/SaveFileThenRunGame.ico">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>

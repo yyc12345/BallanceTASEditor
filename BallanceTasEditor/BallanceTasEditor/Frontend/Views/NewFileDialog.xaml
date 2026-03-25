@@ -1,14 +1,14 @@
-﻿<Window x:Class="BallanceTasEditor.Views.NewFileDialog"
+<Window x:Class="BallanceTasEditor.Frontend.Views.NewFileDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BallanceTasEditor.Views"
-        xmlns:vm="clr-namespace:BallanceTasEditor.ViewModels"
-        xmlns:conveter="clr-namespace:BallanceTasEditor.Converters"
+        xmlns:vm="clr-namespace:BallanceTasEditor.Frontend.ViewModels"
+        xmlns:conveter="clr-namespace:BallanceTasEditor.Frontend.Converters"
         d:DataContext="{d:DesignInstance vm:NewFileDialog}"
         mc:Ignorable="d" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False"
-        Title="New File" Height="250" Width="400" Icon="/Assets/NewFile.ico">
+        Title="New File" Height="250" Width="400" Icon="/Frontend/Assets/NewFile.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -37,9 +37,9 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Image Source="/Assets/Count.ico" RenderOptions.BitmapScalingMode="HighQuality"
+                <Image Source="/Frontend/Assets/Count.ico" RenderOptions.BitmapScalingMode="HighQuality"
                        Grid.Column="0" Grid.Row="0" Width="16" Height="16" VerticalAlignment="Center"/>
-                <Image Source="/Assets/Fps.ico" RenderOptions.BitmapScalingMode="HighQuality"
+                <Image Source="/Frontend/Assets/Fps.ico" RenderOptions.BitmapScalingMode="HighQuality"
                        Grid.Column="0" Grid.Row="1" Width="16" Height="16" VerticalAlignment="Center"/>
 
                 <TextBlock Margin="5" Grid.Column="1" Grid.Row="0" Text="Count" VerticalAlignment="Center"/>

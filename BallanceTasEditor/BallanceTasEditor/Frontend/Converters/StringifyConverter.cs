@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
-namespace BallanceTasEditor.Converters {
+namespace BallanceTasEditor.Frontend.Converters {
 
     [ValueConversion(typeof(int?), typeof(string))]
     public class StringifyIntegerConverter : IValueConverter {
