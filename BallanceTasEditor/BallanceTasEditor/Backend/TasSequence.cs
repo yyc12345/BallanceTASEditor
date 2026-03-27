@@ -44,7 +44,7 @@ namespace BallanceTasEditor.Backend {
         /// <param name="index">要在前方插入数据的元素的索引。</param>
         /// <param name="items">要插入的元素的迭代器。</param>
         /// <exception cref="ArgumentOutOfRangeException">给定的索引无效。</exception>
-        void Insert(int index, CountableEnumerable<TasFrame> items);
+        void Insert(int index, IExactSizeEnumerable<TasFrame> items);
         /// <summary>
         /// 从序列中移出给定帧区间的元素。
         /// </summary>
@@ -89,7 +89,7 @@ namespace BallanceTasEditor.Backend {
             throw new NotImplementedException();
         }
 
-        public void Insert(int index, CountableEnumerable<TasFrame> items) {
+        public void Insert(int index, IExactSizeEnumerable<TasFrame> items) {
             throw new NotImplementedException();
         }
 
@@ -139,14 +139,14 @@ namespace BallanceTasEditor.Backend {
             }
         }
 
-        public void Insert(int index, CountableEnumerable<TasFrame> items) {
+        public void Insert(int index, IExactSizeEnumerable<TasFrame> items) {
             if (index == m_Container.Count) {
-                m_Container.AddRange(items.GetInner());
+                m_Container.AddRange(items);
             } else {
                 if (index > m_Container.Count || index < 0) {
                     throw new IndexOutOfRangeException("Invalid index for frame.");
                 } else {
-                    m_Container.InsertRange(index, items.GetInner());
+                    m_Container.InsertRange(index, items);
                 }
             }
         }
@@ -272,12 +272,12 @@ namespace BallanceTasEditor.Backend {
             }
         }
 
-        public void Insert(int index, CountableEnumerable<TasFrame> items) {
+        public void Insert(int index, IExactSizeEnumerable<TasFrame> items) {
             if (index >= m_Container.Count || index < 0) {
                 throw new IndexOutOfRangeException("Invalid index for frame.");
             } else {
                 if (index == m_Container.Count) {
-                    foreach (TasFrame item in items.GetInner()) {
+                    foreach (TasFrame item in items) {
                         m_Container.AddLast(item);
                     }
 
@@ -290,7 +290,7 @@ namespace BallanceTasEditor.Backend {
                 } else {
                     MoveToIndex(index);
 
-                    foreach (TasFrame item in items.GetInner()) {
+                    foreach (TasFrame item in items) {
                         m_Container.AddBefore(m_Cursor.Node, item);
                     }
                     m_Cursor.Index += items.GetCount();

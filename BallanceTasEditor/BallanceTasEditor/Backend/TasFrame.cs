@@ -11,6 +11,7 @@ namespace BallanceTasEditor.Backend {
     /// 原始的TAS帧结构，与二进制结构保持一致。
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
+    [Serializable]
     public struct RawTasFrame {
         /// <summary>
         /// 该帧的持续时间（以秒为单位）。

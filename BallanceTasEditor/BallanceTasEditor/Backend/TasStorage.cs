@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace BallanceTasEditor.Backend {
     public static class TasStorage {
-        internal const int SIZEOF_F32 = sizeof(float);
         internal const int SIZEOF_I32 = sizeof(int);
+        internal const int SIZEOF_F32 = sizeof(float);
         internal const int SIZEOF_U32 = sizeof(uint);
         internal const int SIZEOF_RAW_TAS_FRAME = SIZEOF_F32 + SIZEOF_U32;
 
@@ -70,7 +70,7 @@ namespace BallanceTasEditor.Backend {
 
                 var memWrapper = new EnumerableMemoryStream(mem, expectedCount);
                 seq.Clear();
-                seq.Insert(0, new CountableEnumerable<TasFrame>(memWrapper, expectedCount));
+                seq.Insert(0, memWrapper);
 
                 mem.Close();
             }
@@ -105,7 +105,7 @@ namespace BallanceTasEditor.Backend {
             //target.Flush();
         }
 
-        private class EnumerableMemoryStream : IEnumerable<TasFrame> {
+        private sealed class EnumerableMemoryStream : IExactSizeEnumerable<TasFrame> {
             public EnumerableMemoryStream(MemoryStream mem, int frameCnt) {
                 m_MemoryStream = mem;
                 m_FrameCount = frameCnt;
@@ -130,6 +130,9 @@ namespace BallanceTasEditor.Backend {
                 return GetEnumerator();
             }
 
+            public int GetCount() {
+                return m_FrameCount;
+            }
         }
 
     }
