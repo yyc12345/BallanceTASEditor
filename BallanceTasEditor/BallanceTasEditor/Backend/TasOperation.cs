@@ -52,7 +52,11 @@ namespace BallanceTasEditor.Backend {
         int Occupation();
     }
 
-    internal static class OperationExceptions {
+    internal static class OperationUtils {
+        internal const int SIZEOF_DELTA_TIME = sizeof(float);
+        internal const int SIZEOF_KEYS = sizeof(uint);
+        internal const int SIZEOF_FRAME = SIZEOF_DELTA_TIME + SIZEOF_KEYS;
+
         internal static readonly InvalidOperationException ExecutionEnvironment = new InvalidOperationException("Can not execute one TAS operation multiple times.");
         internal static readonly InvalidOperationException RevokeEnvironment = new InvalidOperationException("Can not revoke an not executed TAS operation.");
     }
@@ -95,7 +99,7 @@ namespace BallanceTasEditor.Backend {
 
         public void Execute(ITasSequence seq) {
             if (IsExecuted()) {
-                throw OperationExceptions.ExecutionEnvironment;
+                throw OperationUtils.ExecutionEnvironment;
             }
 
             // Check index range.
@@ -133,7 +137,7 @@ namespace BallanceTasEditor.Backend {
 
         public void Revoke(ITasSequence seq) {
             if (!IsExecuted()) {
-                throw OperationExceptions.RevokeEnvironment;
+                throw OperationUtils.RevokeEnvironment;
             }
 
             // Index range is checked,
@@ -147,7 +151,7 @@ namespace BallanceTasEditor.Backend {
         }
 
         public int Occupation() {
-            return m_EndIndex - m_StartIndex;
+            return (m_EndIndex - m_StartIndex) * OperationUtils.SIZEOF_FRAME;
         }
 
     }
@@ -184,7 +188,7 @@ namespace BallanceTasEditor.Backend {
 
         public void Execute(ITasSequence seq) {
             if (IsExecuted()) {
-                throw OperationExceptions.ExecutionEnvironment;
+                throw OperationUtils.ExecutionEnvironment;
             }
 
             // Check index range
@@ -208,7 +212,7 @@ namespace BallanceTasEditor.Backend {
 
         public void Revoke(ITasSequence seq) {
             if (!IsExecuted()) {
-                throw OperationExceptions.RevokeEnvironment;
+                throw OperationUtils.RevokeEnvironment;
             }
 
             // Index range is checked,
@@ -222,7 +226,7 @@ namespace BallanceTasEditor.Backend {
         }
 
         public int Occupation() {
-            return m_EndIndex - m_StartIndex;
+            return (m_EndIndex - m_StartIndex) * OperationUtils.SIZEOF_DELTA_TIME;
         }
 
     }
@@ -246,7 +250,7 @@ namespace BallanceTasEditor.Backend {
 
         public void Execute(ITasSequence seq) {
             if (IsExecuted()) {
-                throw OperationExceptions.ExecutionEnvironment;
+                throw OperationUtils.ExecutionEnvironment;
             }
 
             // Check index range
@@ -267,7 +271,7 @@ namespace BallanceTasEditor.Backend {
 
         public void Revoke(ITasSequence seq) {
             if (!IsExecuted()) {
-                throw OperationExceptions.RevokeEnvironment;
+                throw OperationUtils.RevokeEnvironment;
             }
 
             // Index range is checked,
@@ -283,7 +287,7 @@ namespace BallanceTasEditor.Backend {
         }
 
         public int Occupation() {
-            return m_EndIndex - m_StartIndex;
+            return (m_EndIndex - m_StartIndex) * OperationUtils.SIZEOF_FRAME;
         }
     }
 
@@ -312,7 +316,7 @@ namespace BallanceTasEditor.Backend {
 
         public void Execute(ITasSequence seq) {
             if (IsExecuted()) {
-                throw OperationExceptions.ExecutionEnvironment;
+                throw OperationUtils.ExecutionEnvironment;
             }
 
             // Check argument.
@@ -333,7 +337,7 @@ namespace BallanceTasEditor.Backend {
 
         public void Revoke(ITasSequence seq) {
             if (!IsExecuted()) {
-                throw OperationExceptions.RevokeEnvironment;
+                throw OperationUtils.RevokeEnvironment;
             }
 
             // Arguments were checked so we directly resotre them.
@@ -346,7 +350,7 @@ namespace BallanceTasEditor.Backend {
         }
 
         public int Occupation() {
-            return 1;
+            return OperationUtils.SIZEOF_FRAME;
         }
     }
 
@@ -367,7 +371,7 @@ namespace BallanceTasEditor.Backend {
 
         public void Execute(ITasSequence seq) {
             if (IsExecuted()) {
-                throw OperationExceptions.ExecutionEnvironment;
+                throw OperationUtils.ExecutionEnvironment;
             }
 
             // Check arguments
@@ -389,7 +393,7 @@ namespace BallanceTasEditor.Backend {
 
         public void Revoke(ITasSequence seq) {
             if (!IsExecuted()) {
-                throw OperationExceptions.RevokeEnvironment;
+                throw OperationUtils.RevokeEnvironment;
             }
 
             // Arguments were checked so we directly restore them.
@@ -403,7 +407,7 @@ namespace BallanceTasEditor.Backend {
         }
 
         public int Occupation() {
-            return m_InsertedFrames.Length;
+            return m_InsertedFrames.Length * OperationUtils.SIZEOF_FRAME;
         }
     }
 
@@ -417,7 +421,7 @@ namespace BallanceTasEditor.Backend {
         public void Execute(ITasSequence seq) {
             // Check execution status first.
             if (IsExecuted()) {
-                throw OperationExceptions.ExecutionEnvironment;
+                throw OperationUtils.ExecutionEnvironment;
             }
             // Execute operation
             foreach (var frame in seq) {
@@ -443,7 +447,7 @@ namespace BallanceTasEditor.Backend {
         public void Execute(ITasSequence seq) {
             // Check execution status first.
             if (IsExecuted()) {
-                throw OperationExceptions.ExecutionEnvironment;
+                throw OperationUtils.ExecutionEnvironment;
             }
             // Execute operation
             foreach (var frame in seq) {
