@@ -51,6 +51,11 @@ namespace BallanceTasEditor.Backend {
         int Occupation();
     }
 
+    internal static class OperationExceptions {
+        internal static readonly InvalidOperationException ExecutionEnvironment = new InvalidOperationException("Can not execute one TAS operation multiple times.");
+        internal static readonly InvalidOperationException RevokeEnvironment = new InvalidOperationException("Can not revoke an not executed TAS operation.");
+    }
+
     public enum CellKeysOperationKind {
         Set, Unset, Flip
     }
@@ -88,7 +93,7 @@ namespace BallanceTasEditor.Backend {
 
         public void Execute(ITasSequence seq) {
             if (m_FramesBackup is not null) {
-                throw new InvalidOperationException("Can not execute one TAS operation multiple times.");
+                throw OperationExceptions.ExecutionEnvironment;
             }
 
             // Check index range.
@@ -126,7 +131,7 @@ namespace BallanceTasEditor.Backend {
 
         public void Revoke(ITasSequence seq) {
             if (m_FramesBackup is null) {
-                throw new InvalidOperationException("Can not revoke an not executed TAS operation.");
+                throw OperationExceptions.RevokeEnvironment;
             }
 
             // Index range is checked,
@@ -185,8 +190,10 @@ namespace BallanceTasEditor.Backend {
     public class AddFrameOperation : ITasRevocableOperation {
         public AddFrameOperation(int index, uint fps, int count) {
             // Check argument
+            if (!FpsConverter.IsValidFps(fps)) {
+                throw new ArgumentOutOfRangeException(nameof(fps));
+            }
             ArgumentOutOfRangeException.ThrowIfNegative(count);
-            ArgumentOutOfRangeException.ThrowIfZero(fps);
             // Assign argument
             m_Index = index;
             m_Fps = fps;
@@ -205,17 +212,20 @@ namespace BallanceTasEditor.Backend {
 
         public void Execute(ITasSequence seq) {
             if (m_IsExecuted) {
-                throw new InvalidOperationException("Can not execute one TAS operation multiple times.");
+                throw OperationExceptions.ExecutionEnvironment;
             }
 
             // Check argument.
             ArgumentOutOfRangeException.ThrowIfGreaterThan(m_Index, seq.GetCount());
 
-            // Prepare data builder.
-            var iter = Enumerable.Range(0, m_Count).Select((_) => TasFrame.FromFps(m_Fps));
-            var exactSizedIter = new ExactSizeEnumerableAdapter<TasFrame>(iter, m_Count);
-            // Execute inserting.
-            seq.Insert(m_Index, exactSizedIter);
+            // Skip if count is zero.
+            if (m_Count != 0) {
+                // Prepare data builder.
+                var iter = Enumerable.Range(0, m_Count).Select((_) => TasFrame.FromFps(m_Fps));
+                var exactSizedIter = new ExactSizeEnumerableAdapter<TasFrame>(iter, m_Count);
+                // Execute inserting.
+                seq.Insert(m_Index, exactSizedIter);
+            }
 
             // Set status
             m_IsExecuted = true;
@@ -223,14 +233,13 @@ namespace BallanceTasEditor.Backend {
 
         public void Revoke(ITasSequence seq) {
             if (!m_IsExecuted) {
-                throw new InvalidOperationException("Can not revoke an not executed TAS operation.");
+                throw OperationExceptions.RevokeEnvironment;
             }
 
-            // If we inserted count is not zero, remove inserted frames
+            // Arguments were checked so we directly resotre them.
+            // If we inserted count is not zero, remove inserted frames, otherwise do nothing.
             if (m_Count != 0) {
                 seq.Remove(m_Index, m_Index + m_Count - 1);
-            } else {
-                // Otherwise just skip it.
             }
             // Modify execution status
             m_IsExecuted = false;
@@ -269,7 +278,7 @@ namespace BallanceTasEditor.Backend {
         public void Execute(ITasSequence seq) {
             // Check execution status first.
             if (m_IsExecuted) {
-                throw new InvalidOperationException("Can not execute one TAS operation multiple times.");
+                throw OperationExceptions.ExecutionEnvironment;
             }
             // Execute operation
             foreach (var frame in seq) {
@@ -295,7 +304,7 @@ namespace BallanceTasEditor.Backend {
         public void Execute(ITasSequence seq) {
             // Check execution status first.
             if (m_IsExecuted) {
-                throw new InvalidOperationException("Can not execute one TAS operation multiple times.");
+                throw OperationExceptions.ExecutionEnvironment;
             }
             // Execute operation
             foreach (var frame in seq) {

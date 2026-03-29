@@ -10,6 +10,31 @@ namespace BallanceTasEditor.Backend {
     /// </summary>
     public static class FpsConverter {
         /// <summary>
+        /// Check if the FPS is valid
+        /// </summary>
+        /// <param name="fps">FPS in integer</param>
+        /// <returns>Is valid</returns>
+        public static bool IsValidFps(uint fps) {
+            return fps > 0;
+        }
+        /// <summary>
+        /// Check if the FPS is valid
+        /// </summary>
+        /// <param name="fps">FPS in float point</param>
+        /// <returns>Is valid</returns>
+        public static bool IsValidFps(float fps) {
+            return fps > 0;
+        }
+        /// <summary>
+        /// Check if the delta time is valid
+        /// </summary>
+        /// <param name="delta">Delta time in float point</param>
+        /// <returns>Is valid</returns>
+        public static bool IsValidDelta(float delta) {
+            return delta > 0;
+        }
+
+        /// <summary>
         /// Convert float point delta time to float point FPS
         /// </summary>
         /// <param name="delta">Delta time in float point</param>

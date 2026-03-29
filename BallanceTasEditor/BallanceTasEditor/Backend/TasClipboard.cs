@@ -35,14 +35,14 @@ namespace BallanceTasEditor.Backend {
             return GetClipboardObject() is not null;
         }
 
-        public static EnumerableArray? GetClipboard() {
+        public static IExactSizeEnumerable<TasFrame>? GetClipboard() {
             var rawFrames = GetClipboardObject();
             if (rawFrames is null) return null;
 
             return new EnumerableArray(rawFrames);
         }
 
-        public sealed class EnumerableArray : IExactSizeEnumerable<TasFrame> {
+        private sealed class EnumerableArray : IExactSizeEnumerable<TasFrame> {
             public EnumerableArray(RawTasFrame[] rawFrames) {
                 m_RawFrames = rawFrames;
             }

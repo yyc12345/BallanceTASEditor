@@ -46,6 +46,10 @@ namespace BallanceTasEditor.Backend {
         public const int MIN_KEY_INDEX = 0;
         public const int MAX_KEY_INDEX = 8;
 
+        public static bool IsValidIndex(int index) {
+            return index >= MIN_KEY_INDEX && index <= MAX_KEY_INDEX;
+        }
+
         public static TasKey FromIndex(int index) {
             if (index < MIN_KEY_INDEX || index > MAX_KEY_INDEX) {
                 throw new ArgumentOutOfRangeException(nameof(index));
