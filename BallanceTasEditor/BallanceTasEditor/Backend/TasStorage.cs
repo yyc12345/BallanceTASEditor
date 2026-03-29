@@ -123,7 +123,7 @@ namespace BallanceTasEditor.Backend {
                 // Convert to raw frame type.
                 var frameMemory = exactMemory.Cast<byte, RawTasFrame>();
                 // Map it and return.
-                return MemoryMarshal.ToEnumerable<RawTasFrame>(frameMemory).Select((rawFrame) => new TasFrame(rawFrame)).GetEnumerator();
+                return MemoryMarshal.ToEnumerable<RawTasFrame>(frameMemory).Select((rawFrame) => TasFrame.FromRaw(rawFrame)).GetEnumerator();
             }
 
             IEnumerator IEnumerable.GetEnumerator() {

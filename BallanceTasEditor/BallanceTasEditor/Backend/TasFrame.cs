@@ -24,31 +24,113 @@ namespace BallanceTasEditor.Backend {
     }
 
     /// <summary>
+    /// 描述TAS文件中的可能的按键。
+    /// </summary>
+    public struct TasKey : IEquatable<TasKey> {
+        private TasKey(int bitPos) {
+            m_BitPos = bitPos;
+        }
+
+        private int m_BitPos;
+
+        public static readonly TasKey KEY_UP = new TasKey(0);
+        public static readonly TasKey KEY_DOWN = new TasKey(1);
+        public static readonly TasKey KEY_LEFT = new TasKey(2);
+        public static readonly TasKey KEY_RIGHT = new TasKey(3);
+        public static readonly TasKey KEY_SHIFT = new TasKey(4);
+        public static readonly TasKey KEY_SPACE = new TasKey(5);
+        public static readonly TasKey KEY_Q = new TasKey(6);
+        public static readonly TasKey KEY_ESC = new TasKey(7);
+        public static readonly TasKey KEY_ENTER = new TasKey(8);
+
+        public const int MIN_KEY_INDEX = 0;
+        public const int MAX_KEY_INDEX = 8;
+
+        public static TasKey FromIndex(int index) {
+            if (index < MIN_KEY_INDEX || index > MAX_KEY_INDEX) {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            } else {
+                return new TasKey(index);
+            }
+        }
+
+        public int ToIndex() {
+            return m_BitPos;
+        }
+
+        public uint ToBitMaskKey() {
+            return 1u << m_BitPos;
+        }
+
+        public bool Equals(TasKey other) {
+            return m_BitPos == other.m_BitPos;
+        }
+
+        public override bool Equals(object? obj) {
+            if (obj is TasKey other) {
+                return Equals(other);
+            } else {
+                return false;
+            }
+        }
+
+        public override int GetHashCode() {
+            return m_BitPos.GetHashCode();
+        }
+
+        public static bool operator ==(TasKey left, TasKey right) {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(TasKey left, TasKey right) {
+            return !left.Equals(right);
+        }
+
+        public override string ToString() {
+            return m_BitPos switch {
+                0 => "KeyUp",
+                1 => "KeyDown",
+                2 => "KeyLeft",
+                3 => "KeyRight",
+                4 => "KeyShift",
+                5 => "KeySpace",
+                6 => "KeyQ",
+                7 => "KeyEsc",
+                8 => "KeyEnter",
+                _ => $"KeyUnknown<Pos={m_BitPos}>"
+            };
+        }
+    }
+
+    /// <summary>
     /// 描述TAS文件中一帧的结构。
     /// </summary>
     public class TasFrame : IEquatable<TasFrame> {
+        private TasFrame(float timeDelta, uint keyFlags) {
+            m_TimeDelta = timeDelta;
+            m_KeyFlags = keyFlags;
+        }
+
         /// <summary>
         /// 以指定的FPS，无任何按键初始化当前帧。
         /// </summary>
-        public TasFrame(uint fps = 60) {
-            m_TimeDelta = FpsConverter.ToDelta(fps);
-            m_KeyFlags = 0;
+        public static TasFrame FromFps(uint fps = 60) {
+            return new TasFrame(FpsConverter.ToDelta(fps), 0);
         }
 
         /// <summary>
         /// 从原始TAS数据初始化。
         /// </summary>
         /// <param name="raw">要用来初始化的原始数据。</param>
-        public TasFrame(RawTasFrame raw) {
-            m_TimeDelta = raw.TimeDelta;
-            m_KeyFlags = raw.KeyFlags;
+        public static TasFrame FromRaw(RawTasFrame raw) {
+            return new TasFrame(raw.TimeDelta, raw.KeyFlags);
         }
-
+        
         /// <summary>
         /// 将原始TAS数据覆写到自身
         /// </summary>
         /// <param name="raw">要写入的原始TAS数据</param>
-        public void FromRaw(RawTasFrame raw) {
+        public void FromRawImplace(RawTasFrame raw) {
             m_TimeDelta = raw.TimeDelta;
             m_KeyFlags = raw.KeyFlags;
         }
@@ -65,7 +147,7 @@ namespace BallanceTasEditor.Backend {
         /// 原位转换为原始TAS数据。
         /// </summary>
         /// <param name="raw">以引用传递的原始TAS数据。</param>
-        public void ToImplaceRaw(ref RawTasFrame raw) {
+        public void ToRawImplace(ref RawTasFrame raw) {
             raw.TimeDelta = m_TimeDelta;
             raw.KeyFlags = m_KeyFlags;
         }
@@ -101,7 +183,7 @@ namespace BallanceTasEditor.Backend {
         /// <param name="key">要检查的按键。</param>
         /// <returns>true表示被按下，否则为false。</returns>
         public bool IsKeyPressed(TasKey key) {
-            return (m_KeyFlags & (1u << (int)key)) != 0;
+            return (m_KeyFlags & key.ToBitMaskKey()) != 0;
         }
 
         /// <summary>
@@ -110,8 +192,8 @@ namespace BallanceTasEditor.Backend {
         /// <param name="key">要设置的按键。</param>
         /// <param name="pressed">true表示设置为按下，否则为松开。</param>
         public void SetKeyPressed(TasKey key, bool pressed = true) {
-            if (pressed) m_KeyFlags |= (1u << (int)key);
-            else m_KeyFlags &= ~(1u << (int)key);
+            if (pressed) m_KeyFlags |= key.ToBitMaskKey();
+            else m_KeyFlags &= ~key.ToBitMaskKey();
         }
 
         /// <summary>
@@ -119,45 +201,45 @@ namespace BallanceTasEditor.Backend {
         /// </summary>
         /// <param name="key">要反转的按键。</param>
         public void FlipKeyPressed(TasKey key) {
-            m_KeyFlags ^= (1u << (int)key);
+            m_KeyFlags ^= key.ToBitMaskKey();
         }
 
         /// <summary>
         /// 获取或设置Up键的按下状态。
         /// </summary>
-        public bool KeyUpPressed { get { return IsKeyPressed(TasKey.KeyUp); } set { SetKeyPressed(TasKey.KeyUp, value); } }
+        public bool KeyUpPressed { get { return IsKeyPressed(TasKey.KEY_UP); } set { SetKeyPressed(TasKey.KEY_UP, value); } }
         /// <summary>
         /// 获取或设置Down键的按下状态。
         /// </summary>
-        public bool KeyDownPressed { get { return IsKeyPressed(TasKey.KeyDown); } set { SetKeyPressed(TasKey.KeyDown, value); } }
+        public bool KeyDownPressed { get { return IsKeyPressed(TasKey.KEY_DOWN); } set { SetKeyPressed(TasKey.KEY_DOWN, value); } }
         /// <summary>
         /// 获取或设置Left键的按下状态。
         /// </summary>
-        public bool KeyLeftPressed { get { return IsKeyPressed(TasKey.KeyLeft); } set { SetKeyPressed(TasKey.KeyLeft, value); } }
+        public bool KeyLeftPressed { get { return IsKeyPressed(TasKey.KEY_LEFT); } set { SetKeyPressed(TasKey.KEY_LEFT, value); } }
         /// <summary>
         /// 获取或设置Right键的按下状态。
         /// </summary>
-        public bool KeyRightPressed { get { return IsKeyPressed(TasKey.KeyRight); } set { SetKeyPressed(TasKey.KeyRight, value); } }
+        public bool KeyRightPressed { get { return IsKeyPressed(TasKey.KEY_RIGHT); } set { SetKeyPressed(TasKey.KEY_RIGHT, value); } }
         /// <summary>
         /// 获取或设置Shift键的按下状态。
         /// </summary>
-        public bool KeyShiftPressed { get { return IsKeyPressed(TasKey.KeyShift); } set { SetKeyPressed(TasKey.KeyShift, value); } }
+        public bool KeyShiftPressed { get { return IsKeyPressed(TasKey.KEY_SHIFT); } set { SetKeyPressed(TasKey.KEY_SHIFT, value); } }
         /// <summary>
         /// 获取或设置Space键的按下状态。
         /// </summary>
-        public bool KeySpacePressed { get { return IsKeyPressed(TasKey.KeySpace); } set { SetKeyPressed(TasKey.KeySpace, value); } }
+        public bool KeySpacePressed { get { return IsKeyPressed(TasKey.KEY_SPACE); } set { SetKeyPressed(TasKey.KEY_SPACE, value); } }
         /// <summary>
         /// 获取或设置Q键的按下状态。
         /// </summary>
-        public bool KeyQPressed { get { return IsKeyPressed(TasKey.KeyQ); } set { SetKeyPressed(TasKey.KeyQ, value); } }
+        public bool KeyQPressed { get { return IsKeyPressed(TasKey.KEY_Q); } set { SetKeyPressed(TasKey.KEY_Q, value); } }
         /// <summary>
         /// 获取或设置Esc键的按下状态。
         /// </summary>
-        public bool KeyEscPressed { get { return IsKeyPressed(TasKey.KeyEsc); } set { SetKeyPressed(TasKey.KeyEsc, value); } }
+        public bool KeyEscPressed { get { return IsKeyPressed(TasKey.KEY_ESC); } set { SetKeyPressed(TasKey.KEY_ESC, value); } }
         /// <summary>
         /// 获取或设置回车键的按下状态。
         /// </summary>
-        public bool KeyEnterPressed { get { return IsKeyPressed(TasKey.KeyEnter); } set { SetKeyPressed(TasKey.KeyEnter, value); } }
+        public bool KeyEnterPressed { get { return IsKeyPressed(TasKey.KEY_ENTER); } set { SetKeyPressed(TasKey.KEY_ENTER, value); } }
 
         /// <summary>
         /// 清除所有按键，将所有按键设置为不按下。
@@ -198,21 +280,6 @@ namespace BallanceTasEditor.Backend {
             return HashCode.Combine(m_TimeDelta, m_KeyFlags);
         }
 
-    }
-
-    /// <summary>
-    /// 描述TAS文件中的可能的按键。
-    /// </summary>
-    public enum TasKey : int {
-        KeyUp = 0,
-        KeyDown = 1,
-        KeyLeft = 2,
-        KeyRight = 3,
-        KeyShift = 4,
-        KeySpace = 5,
-        KeyQ = 6,
-        KeyEsc = 7,
-        KeyEnter = 8,
     }
 
 }

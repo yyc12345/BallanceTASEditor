@@ -74,6 +74,10 @@ namespace BallanceTasEditor.Backend {
         bool IsEmpty();
     }
 
+    // TODO:
+    // We may introduce ITasSequenceSlice to have iterator on a specific range.
+    // We also need introduce a new function in ITasSequence to fetch this instance.
+
     /// <summary>
     /// 基于Gap Buffer思想的TAS存储器。
     /// </summary>

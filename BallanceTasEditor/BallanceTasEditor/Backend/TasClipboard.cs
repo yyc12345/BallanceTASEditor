@@ -50,7 +50,7 @@ namespace BallanceTasEditor.Backend {
             private RawTasFrame[] m_RawFrames;
 
             public IEnumerator<TasFrame> GetEnumerator() {
-                return m_RawFrames.Select((f) => new TasFrame(f)).GetEnumerator();
+                return m_RawFrames.Select((f) => TasFrame.FromRaw(f)).GetEnumerator();
             }
 
             IEnumerator IEnumerable.GetEnumerator() {
