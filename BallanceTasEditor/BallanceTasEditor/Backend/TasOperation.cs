@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -87,6 +88,7 @@ namespace BallanceTasEditor.Backend {
         private TasKey m_StartKey, m_EndKey;
         private RawTasFrame[]? m_FramesBackup;
 
+        [MemberNotNullWhen(true, nameof(m_FramesBackup))]
         public bool IsExecuted() {
             return m_FramesBackup is not null;
         }
@@ -175,6 +177,7 @@ namespace BallanceTasEditor.Backend {
         private float m_DeltaTime;
         private float[]? m_DeltaTimesBackup;
 
+        [MemberNotNullWhen(true, nameof(m_DeltaTimesBackup))]
         public bool IsExecuted() {
             return m_DeltaTimesBackup is not null;
         }
@@ -236,6 +239,7 @@ namespace BallanceTasEditor.Backend {
         private int m_StartIndex, m_EndIndex;
         private RawTasFrame[]? m_FramesBackup;
 
+        [MemberNotNullWhen(true, nameof(m_FramesBackup))]
         public bool IsExecuted() {
             return m_FramesBackup is not null;
         }
