@@ -92,7 +92,7 @@ namespace BallanceTasEditor.Backend {
         }
 
         public void Execute(ITasSequence seq) {
-            if (m_FramesBackup is not null) {
+            if (IsExecuted()) {
                 throw OperationExceptions.ExecutionEnvironment;
             }
 
@@ -101,7 +101,7 @@ namespace BallanceTasEditor.Backend {
             ArgumentOutOfRangeException.ThrowIfLessThan(m_StartIndex, 0);
 
             // Do backup and set values at the same time
-            var backups = new RawTasFrame[m_EndIndex - m_StartIndex];
+            var backups = new RawTasFrame[m_EndIndex - m_StartIndex + 1];
             // Pre-build key list for fast fetching.
             var keys = Enumerable.Range(m_StartKey.ToIndex(), m_EndKey.ToIndex() - m_StartKey.ToIndex()).Select((i) => TasKey.FromIndex(i)).ToArray();
             for (int index = m_StartIndex; index <= m_EndIndex; index++) {
@@ -130,7 +130,7 @@ namespace BallanceTasEditor.Backend {
         }
 
         public void Revoke(ITasSequence seq) {
-            if (m_FramesBackup is null) {
+            if (!IsExecuted()) {
                 throw OperationExceptions.RevokeEnvironment;
             }
 
@@ -145,45 +145,141 @@ namespace BallanceTasEditor.Backend {
         }
 
         public int Occupation() {
-            return (m_EndIndex - m_StartIndex) * (m_EndKey.ToIndex() - m_StartKey.ToIndex());
+            return m_EndIndex - m_StartIndex;
         }
 
     }
 
-    public class CellFpsOperation : ITasRevocableOperation {
+    public class FrameFpsOperation : ITasRevocableOperation {
+        public static FrameFpsOperation FromSingleFrame(int index, uint fps) {
+            return new FrameFpsOperation(index, index, fps);
+        }
+
+        public static FrameFpsOperation FromFrameRange(int startIndex, int endIndex, uint fps) {
+            return new FrameFpsOperation(startIndex, endIndex, fps);
+        }
+
+        private FrameFpsOperation(int startIndex, int endIndex, uint fps) {
+            // Check arguments
+            if (!FpsConverter.IsValidFps(fps)) {
+                throw new ArgumentOutOfRangeException(nameof(fps));
+            }
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(startIndex, endIndex);
+            // Assign arguments
+            m_StartIndex = startIndex;
+            m_EndIndex = endIndex;
+            m_DeltaTime = FpsConverter.ToDelta(fps);
+        }
+
+        private int m_StartIndex, m_EndIndex;
+        private float m_DeltaTime;
+        private float[]? m_DeltaTimesBackup;
+
         public bool IsExecuted() {
-            throw new NotImplementedException();
+            return m_DeltaTimesBackup is not null;
         }
 
         public void Execute(ITasSequence seq) {
-            throw new NotImplementedException();
+            if (IsExecuted()) {
+                throw OperationExceptions.ExecutionEnvironment;
+            }
+
+            // Check index range
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(m_EndIndex, seq.GetCount());
+            ArgumentOutOfRangeException.ThrowIfLessThan(m_StartIndex, 0);
+
+            // Do backup and set values at the same time
+            var backups = new float[m_EndIndex - m_StartIndex + 1];
+            for (int index = m_StartIndex; index <= m_EndIndex; index++) {
+                // Fetch frame
+                var frame = seq.Visit(index);
+                // Do backup
+                backups[index - m_StartIndex] = frame.GetTimeDelta();
+                // Modify delta time
+                frame.SetTimeDelta(m_DeltaTime);
+            }
+
+            // Assign backups
+            m_DeltaTimesBackup = backups;
         }
 
         public void Revoke(ITasSequence seq) {
-            throw new NotImplementedException();
+            if (!IsExecuted()) {
+                throw OperationExceptions.RevokeEnvironment;
+            }
+
+            // Index range is checked,
+            // so we directly restore backup.
+            for (int index = m_StartIndex; index <= m_EndIndex; index++) {
+                seq.Visit(index).SetTimeDelta(m_DeltaTimesBackup[index - m_StartIndex]);
+            }
+
+            // Clear backups
+            m_DeltaTimesBackup = null;
         }
 
         public int Occupation() {
-            throw new NotImplementedException();
+            return m_EndIndex - m_StartIndex;
         }
 
     }
 
     public class RemoveFrameOperation : ITasRevocableOperation {
+        public RemoveFrameOperation(int startIndex, int endIndex) {
+            // Check arguments
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(startIndex, endIndex);
+            // Assign arguments
+            m_StartIndex = startIndex;
+            m_EndIndex = endIndex;
+        }
+
+        private int m_StartIndex, m_EndIndex;
+        private RawTasFrame[]? m_FramesBackup;
+
         public bool IsExecuted() {
-            throw new NotImplementedException();
+            return m_FramesBackup is not null;
         }
 
         public void Execute(ITasSequence seq) {
-            throw new NotImplementedException();
+            if (IsExecuted()) {
+                throw OperationExceptions.ExecutionEnvironment;
+            }
+
+            // Check index range
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(m_EndIndex, seq.GetCount());
+            ArgumentOutOfRangeException.ThrowIfLessThan(m_StartIndex, 0);
+
+            // Do backups
+            var backups = new RawTasFrame[m_EndIndex - m_StartIndex + 1];
+            for (int index = m_StartIndex; index <= m_EndIndex; index++) {
+                seq.Visit(index).ToRawImplace(ref backups[index - m_StartIndex]);
+            }
+            // Do remove
+            seq.Remove(m_StartIndex, m_EndIndex);
+
+            // Assign backups
+            m_FramesBackup = backups;
         }
 
         public void Revoke(ITasSequence seq) {
-            throw new NotImplementedException();
+            if (!IsExecuted()) {
+                throw OperationExceptions.RevokeEnvironment;
+            }
+
+            // Index range is checked,
+            // so we directly restore backup.
+            // Build iterator first
+            var iter = m_FramesBackup.Select((frame) => TasFrame.FromRaw(frame));
+            var exactSizedIter = new ExactSizeEnumerableAdapter<TasFrame>(iter, m_EndIndex - m_StartIndex + 1);
+            // Insert at start index
+            seq.Insert(m_StartIndex, exactSizedIter);
+
+            // Clear backups
+            m_FramesBackup = null;
         }
 
         public int Occupation() {
-            throw new NotImplementedException();
+            return m_EndIndex - m_StartIndex;
         }
     }
 
@@ -211,7 +307,7 @@ namespace BallanceTasEditor.Backend {
         }
 
         public void Execute(ITasSequence seq) {
-            if (m_IsExecuted) {
+            if (IsExecuted()) {
                 throw OperationExceptions.ExecutionEnvironment;
             }
 
@@ -232,7 +328,7 @@ namespace BallanceTasEditor.Backend {
         }
 
         public void Revoke(ITasSequence seq) {
-            if (!m_IsExecuted) {
+            if (!IsExecuted()) {
                 throw OperationExceptions.RevokeEnvironment;
             }
 
@@ -251,20 +347,59 @@ namespace BallanceTasEditor.Backend {
     }
 
     public class InsertFrameOperation : ITasRevocableOperation {
+        public InsertFrameOperation(int index, IExactSizeEnumerable<TasFrame> frames) {
+            m_Index = index;
+            m_InsertedFrames = frames.Select((frame) => frame.ToRaw()).ToArray();
+            m_IsExecuted = false;
+        }
+
+        private int m_Index;
+        private RawTasFrame[] m_InsertedFrames;
+        private bool m_IsExecuted;
+
         public bool IsExecuted() {
-            throw new NotImplementedException();
+            return m_IsExecuted;
         }
 
         public void Execute(ITasSequence seq) {
-            throw new NotImplementedException();
+            if (IsExecuted()) {
+                throw OperationExceptions.ExecutionEnvironment;
+            }
+
+            // Check arguments
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(m_Index, seq.GetCount());
+
+            // Skip if count is zero
+            var count = m_InsertedFrames.Length;
+            if (count != 0) {
+                // Prepare iterator
+                var iter = m_InsertedFrames.Select((frame) => TasFrame.FromRaw(frame));
+                var exactSizedIter = new ExactSizeEnumerableAdapter<TasFrame>(iter, count);
+                // Execute inserting.
+                seq.Insert(m_Index, exactSizedIter);
+            }
+
+            // Set execution status
+            m_IsExecuted = true;
         }
 
         public void Revoke(ITasSequence seq) {
-            throw new NotImplementedException();
+            if (!IsExecuted()) {
+                throw OperationExceptions.RevokeEnvironment;
+            }
+
+            // Arguments were checked so we directly restore them.
+            var count = m_InsertedFrames.Length;
+            if (count != 0) {
+                seq.Remove(m_Index, m_Index + count - 1);
+            }
+
+            // Modify execution status
+            m_IsExecuted = false;
         }
 
         public int Occupation() {
-            throw new NotImplementedException();
+            return m_InsertedFrames.Length;
         }
     }
 
@@ -277,7 +412,7 @@ namespace BallanceTasEditor.Backend {
 
         public void Execute(ITasSequence seq) {
             // Check execution status first.
-            if (m_IsExecuted) {
+            if (IsExecuted()) {
                 throw OperationExceptions.ExecutionEnvironment;
             }
             // Execute operation
@@ -303,7 +438,7 @@ namespace BallanceTasEditor.Backend {
 
         public void Execute(ITasSequence seq) {
             // Check execution status first.
-            if (m_IsExecuted) {
+            if (IsExecuted()) {
                 throw OperationExceptions.ExecutionEnvironment;
             }
             // Execute operation
