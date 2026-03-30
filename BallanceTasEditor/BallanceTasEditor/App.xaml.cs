@@ -1,7 +1,3 @@
-﻿// Import LanguageExt globally
-global using LanguageExt;
-global using static LanguageExt.Prelude;
-
 using System.Configuration;
 using System.Data;
 using System.Windows;

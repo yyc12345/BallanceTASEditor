@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
@@ -354,13 +355,19 @@ namespace BallanceTasEditor.Backend {
         }
     }
 
+    public enum InsertFrameOperationKind {
+        Before, After
+    }
+
     public class InsertFrameOperation : ITasRevocableOperation {
-        public InsertFrameOperation(int index, IExactSizeEnumerable<TasFrame> frames) {
+        public InsertFrameOperation(InsertFrameOperationKind kind, int index, IExactSizeEnumerable<TasFrame> frames) {
+            m_Kind = kind;
             m_Index = index;
             m_InsertedFrames = frames.Select((frame) => frame.ToRaw()).ToArray();
             m_IsExecuted = false;
         }
 
+        private InsertFrameOperationKind m_Kind;
         private int m_Index;
         private RawTasFrame[] m_InsertedFrames;
         private bool m_IsExecuted;
@@ -375,7 +382,18 @@ namespace BallanceTasEditor.Backend {
             }
 
             // Check arguments
-            ArgumentOutOfRangeException.ThrowIfGreaterThan(m_Index, seq.GetCount());
+            // If we insert before some frame, the valid index can be [0, count],
+            // however, if we insert after some frame, the valid index is [0, count),
+            switch (m_Kind) {
+                case InsertFrameOperationKind.Before:
+                    ArgumentOutOfRangeException.ThrowIfGreaterThan(m_Index, seq.GetCount());
+                    break;
+                case InsertFrameOperationKind.After:
+                    ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(m_Index, seq.GetCount());
+                    break;
+                default:
+                    throw new UnreachableException("Unknown InsertFrameOperationKind");
+            }
 
             // Skip if count is zero
             var count = m_InsertedFrames.Length;
@@ -383,8 +401,14 @@ namespace BallanceTasEditor.Backend {
                 // Prepare iterator
                 var iter = m_InsertedFrames.Select((frame) => TasFrame.FromRaw(frame));
                 var exactSizedIter = new ExactSizeEnumerableAdapter<TasFrame>(iter, count);
+                // Compute the insert index
+                var index = m_Kind switch {
+                    InsertFrameOperationKind.Before => m_Index,
+                    InsertFrameOperationKind.After => m_Index + 1,
+                    _ => throw new UnreachableException("Unknown InsertFrameOperationKind"),
+                };
                 // Execute inserting.
-                seq.Insert(m_Index, exactSizedIter);
+                seq.Insert(index, exactSizedIter);
             }
 
             // Set execution status
@@ -399,7 +423,14 @@ namespace BallanceTasEditor.Backend {
             // Arguments were checked so we directly restore them.
             var count = m_InsertedFrames.Length;
             if (count != 0) {
-                seq.Remove(m_Index, m_Index + count - 1);
+                // Compute the index for removing
+                var index = m_Kind switch {
+                    InsertFrameOperationKind.Before => m_Index,
+                    InsertFrameOperationKind.After => m_Index + 1,
+                    _ => throw new UnreachableException("Unknown InsertFrameOperationKind"),
+                };
+                // Execute removing.
+                seq.Remove(index, index + count - 1);
             }
 
             // Modify execution status
