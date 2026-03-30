@@ -44,21 +44,21 @@ namespace BallanceTasEditor.Frontend.ViewModels {
         // 就直接把string绑定到TextBox.Text上，然后再辅以我自己定义的一套可复用验证逻辑。
 
         [ObservableProperty]
-        [CustomValidation(typeof(NewFileDialog), nameof(ValidateCount))]
+        //[CustomValidation(typeof(NewFileDialog), nameof(ValidateCount))]
         [NotifyCanExecuteChangedFor(nameof(OkCommand))]
         private string count;
 
         [ObservableProperty]
-        [CustomValidation(typeof(NewFileDialog), nameof(ValidateFps))]
+        //[CustomValidation(typeof(NewFileDialog), nameof(ValidateFps))]
         [NotifyCanExecuteChangedFor(nameof(OkCommand))]
         private string fps;
 
-        public static ValidationResult ValidateCount(string count, ValidationContext context) {
-            return CountValidator.Instance.Validate(count);
-        }
-        public static ValidationResult ValidateFps(string fps, ValidationContext context) {
-            return FpsValidator.Instance.Validate(fps);
-        }
+        //public static ValidationResult ValidateCount(string count, ValidationContext context) {
+        //    return CountValidator.Instance.Validate(count);
+        //}
+        //public static ValidationResult ValidateFps(string fps, ValidationContext context) {
+        //    return FpsValidator.Instance.Validate(fps);
+        //}
 
         [RelayCommand(CanExecute = nameof(CanOk))]
         private void Ok() {
@@ -73,12 +73,12 @@ namespace BallanceTasEditor.Frontend.ViewModels {
 
         }
 
-        public NewFileDialogResult ToResult() {
-            return new NewFileDialogResult {
-                Count = CountValidator.Instance.Fetch(Count),
-                DeltaTime = FpsConverter.ToDelta(FpsValidator.Instance.Fetch(Fps)),
-            };
-        }
+        //public NewFileDialogResult ToResult() {
+        //    return new NewFileDialogResult {
+        //        Count = CountValidator.Instance.Fetch(Count),
+        //        DeltaTime = FpsConverter.ToDelta(FpsValidator.Instance.Fetch(Fps)),
+        //    };
+        //}
 
     }
 }

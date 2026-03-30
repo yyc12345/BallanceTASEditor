@@ -44,18 +44,18 @@ namespace BallanceTasEditorTests.Backend {
         [DynamicData(nameof(TasSequenceInstanceProvider))]
         public void VisitTest(ITasSequence sequence) {
             // 空时访问
-            AssertExtension.ThrowsDerivedException<ArgumentException>(() => sequence.Visit(-1));
-            AssertExtension.ThrowsDerivedException<ArgumentException>(() => sequence.Visit(0));
-            AssertExtension.ThrowsDerivedException<ArgumentException>(() => sequence.Visit(1));
+            AssertExtension.ThrowsDerivedException<IndexOutOfRangeException>(() => sequence.Visit(-1));
+            AssertExtension.ThrowsDerivedException<IndexOutOfRangeException>(() => sequence.Visit(0));
+            AssertExtension.ThrowsDerivedException<IndexOutOfRangeException>(() => sequence.Visit(1));
 
             // 设置数据
             sequence.Insert(0, GetExactSizeProbe());
             // 访问数据
-            AssertExtension.ThrowsDerivedException<ArgumentException>(() => sequence.Visit(-1));
+            AssertExtension.ThrowsDerivedException<IndexOutOfRangeException>(() => sequence.Visit(-1));
             for (int i = 0; i < PROBE.Length; i++) {
                 Assert.AreEqual(sequence.Visit(i), PROBE[i]);
             }
-            AssertExtension.ThrowsDerivedException<ArgumentException>(() => sequence.Visit(PROBE.Length));
+            AssertExtension.ThrowsDerivedException<IndexOutOfRangeException>(() => sequence.Visit(PROBE.Length));
         }
 
         /// <summary>
@@ -68,8 +68,8 @@ namespace BallanceTasEditorTests.Backend {
             // 和在非空时的头，中，尾分别插入的结果。
 
             // 先检测空插入
-            AssertExtension.ThrowsDerivedException<ArgumentException>(() => sequence.Insert(-1, GetExactSizeProbe()));
-            AssertExtension.ThrowsDerivedException<ArgumentException>(() => sequence.Insert(1, GetExactSizeProbe()));
+            AssertExtension.ThrowsDerivedException<IndexOutOfRangeException>(() => sequence.Insert(-1, GetExactSizeProbe()));
+            AssertExtension.ThrowsDerivedException<IndexOutOfRangeException>(() => sequence.Insert(1, GetExactSizeProbe()));
             sequence.Insert(0, GetExactSizeProbe());
             for (int i = 0; i < PROBE.Length; i++) {
                 Assert.AreEqual(sequence.Visit(i), PROBE[i]);
@@ -103,16 +103,13 @@ namespace BallanceTasEditorTests.Backend {
         [DataTestMethod]
         [DynamicData(nameof(TasSequenceInstanceProvider))]
         public void RemoveTest(ITasSequence sequence) {
-            // 在空的时候删除0项
-            sequence.Remove(0, 0);
-
             // 插入项目后尝试在头中尾分别删除
             var indices = new int[] { 0, PROBE.Length / 2, PROBE.Length - 1 };
             foreach (var index in indices) {
                 // 清空，插入，删除
                 sequence.Clear();
                 sequence.Insert(0, GetExactSizeProbe());
-                sequence.Remove(index, 1);
+                sequence.Remove(index, index);
 
                 // 用List做正确模拟
                 var expected = new List<TasFrame>();
@@ -201,9 +198,9 @@ namespace BallanceTasEditorTests.Backend {
             // 清空后插入0项，然后确认
             sequence.Clear();
             sequence.Insert(0, GetExactSizeBlank());
-            AssertExtension.ThrowsDerivedException<ArgumentException>(() => sequence.Visit(-1));
-            AssertExtension.ThrowsDerivedException<ArgumentException>(() => sequence.Visit(0));
-            AssertExtension.ThrowsDerivedException<ArgumentException>(() => sequence.Visit(1));
+            AssertExtension.ThrowsDerivedException<IndexOutOfRangeException>(() => sequence.Visit(-1));
+            AssertExtension.ThrowsDerivedException<IndexOutOfRangeException>(() => sequence.Visit(0));
+            AssertExtension.ThrowsDerivedException<IndexOutOfRangeException>(() => sequence.Visit(1));
         }
     }
 }

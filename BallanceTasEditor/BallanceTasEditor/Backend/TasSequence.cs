@@ -27,7 +27,7 @@ namespace BallanceTasEditor.Backend {
         /// </remarks>
         /// <param name="index">要访问的单元的索引。</param>
         /// <returns>被访问的单元。</returns>
-        /// <exception cref="ArgumentOutOfRangeException">给定的索引无效。</exception>
+        /// <exception cref="IndexOutOfRangeException">给定的索引无效。</exception>
         TasFrame Visit(int index);
         /// <summary>
         /// 在给定的帧索引<b>之前</b>插入给定的项目。
@@ -43,7 +43,7 @@ namespace BallanceTasEditor.Backend {
         /// </remarks>
         /// <param name="index">要在前方插入数据的元素的索引。</param>
         /// <param name="items">要插入的元素的迭代器。</param>
-        /// <exception cref="ArgumentOutOfRangeException">给定的索引无效。</exception>
+        /// <exception cref="IndexOutOfRangeException">给定的索引无效。</exception>
         void Insert(int index, IExactSizeEnumerable<TasFrame> items);
         /// <summary>
         /// 从序列中移出给定帧区间的元素。
@@ -55,7 +55,7 @@ namespace BallanceTasEditor.Backend {
         /// </remarks>
         /// <param name="startIndex">要移除的帧区间的起始索引（包含）。</param>
         /// <param name="endIndex">要移除的帧区间的终止索引（包含）</param>
-        /// <exception cref="ArgumentOutOfRangeException">给定的索引无效。</exception>
+        /// <exception cref="IndexOutOfRangeException">给定的索引无效。</exception>
         void Remove(int startIndex, int endIndex);
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace BallanceTasEditor.Backend {
             if (endIndex < startIndex || startIndex < 0 || endIndex >= m_Container.Count) {
                 throw new IndexOutOfRangeException("Invalid index for frame.");
             } else {
-                m_Container.RemoveRange(startIndex, endIndex - startIndex);
+                m_Container.RemoveRange(startIndex, endIndex - startIndex + 1);
             }
         }
 
@@ -277,20 +277,22 @@ namespace BallanceTasEditor.Backend {
         }
 
         public void Insert(int index, IExactSizeEnumerable<TasFrame> items) {
-            if (index >= m_Container.Count || index < 0) {
-                throw new IndexOutOfRangeException("Invalid index for frame.");
-            } else {
-                if (index == m_Container.Count) {
-                    foreach (TasFrame item in items) {
-                        m_Container.AddLast(item);
-                    }
+            // YYC MARK:
+            // We must test the equal first, to handle back appending properly.
+            if (index == m_Container.Count) {
+                foreach (TasFrame item in items) {
+                    m_Container.AddLast(item);
+                }
 
-                    var pendingCursor = m_Container.First;
-                    if (pendingCursor is null) {
-                        m_Cursor = null;
-                    } else {
-                        m_Cursor = new LinkedListCursor<TasFrame>(pendingCursor, 0);
-                    }
+                var pendingCursor = m_Container.First;
+                if (pendingCursor is null) {
+                    m_Cursor = null;
+                } else {
+                    m_Cursor = new LinkedListCursor<TasFrame>(pendingCursor, 0);
+                }
+            } else {
+                if (index >= m_Container.Count || index < 0) {
+                    throw new IndexOutOfRangeException("Invalid index for frame.");
                 } else {
                     MoveToIndex(index);
 
@@ -308,7 +310,7 @@ namespace BallanceTasEditor.Backend {
             }
 
             // Compute count and move to index.
-            var count = endIndex - startIndex;
+            var count = endIndex - startIndex + 1;
             MoveToIndex(startIndex);
 
             // 我们总是获取要删除的项目的前一项来作为参照。

@@ -5,12 +5,16 @@
     <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>Assets\App.ico</ApplicationIcon>
+    <ApplicationIcon>Frontend\Assets\App.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>
     <Resource Include="Frontend\Assets\*.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Frontend\Assets\App.ico" />
   </ItemGroup>
 
   <ItemGroup>
