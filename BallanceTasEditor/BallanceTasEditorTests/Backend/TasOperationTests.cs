@@ -70,7 +70,7 @@ namespace BallanceTasEditorTests.Backend {
         }
 
         private static string SummarizeSequence(ITasSequence sequence) {
-            return string.Join(
+            return String.Join(
                 ";",
                 sequence.Select((f) => {
                     var rawFrame = f.ToRaw();
@@ -321,14 +321,20 @@ namespace BallanceTasEditorTests.Backend {
             public required string Inserted { get; init; }
             public required string Expected { get; init; }
 
-            public required InsertFrameOperationKind Kind { get; init; }
+            public required InsertFrameOperationPosition Position { get; init; }
+            public required InsertFrameOperationMode Mode { get; init; }
             public required int Index { get; init; }
-            public required uint Fps { get; init; }
-            public required int Count { get; init; }
         }
 
         private static IEnumerable<InsertFrameOperationTestPayload> GetInsertFrameOperationTestPayload() {
-            yield break;
+            yield return new InsertFrameOperationTestPayload {
+                Source = "1,1;1,2;1,3;1,4;1,5",
+                Inserted = "1,6;1,7;1,8;1,9;1,10",
+                Expected = "1,1;1,2;2,1;2,2;1,3;1,4;1,5",
+                Position = InsertFrameOperationPosition.After,
+                Mode = InsertFrameOperationMode.Overwrite,
+                Index = 0
+            };
         }
 
         private static IEnumerable<object[]> InsertFrameOperationTestDataProvider {
@@ -343,8 +349,17 @@ namespace BallanceTasEditorTests.Backend {
         [DataTestMethod]
         [DynamicData(nameof(InsertFrameOperationTestDataProvider))]
         public void InsertFrameOperationTest(ITasSequence sequence, InsertFrameOperationTestPayload payload) {
-            //var op = new InsertFrameOperation(payload.Kind, payload.Index, payload.Fps, payload.Count);
-            //AssertRevocableOperation(sequence, op, payload.Source, payload.Expected);
+            // YYC MARK:
+            // I use a nasty way to extract "inserted" data from given string,
+            // because we only support parsing pattern string into TAS sequence.
+            GenerateSequence(sequence, payload.Inserted);
+            var inserted = sequence.ToArray();
+            var insertedIter = new ExactSizeEnumerableAdapter<TasFrame>(inserted, inserted.Length);
+            sequence.Clear();
+
+            // Now we can test it
+            var op = new InsertFrameOperation(payload.Position, payload.Mode, payload.Index, insertedIter);
+            AssertRevocableOperation(sequence, op, payload.Source, payload.Expected);
         }
 
         #endregion
@@ -357,7 +372,10 @@ namespace BallanceTasEditorTests.Backend {
         }
 
         private static IEnumerable<ClearKeysOperationTestPayload> GetClearKeysOperationTestPayload() {
-            yield break;
+            yield return new ClearKeysOperationTestPayload {
+                Source = "1,1;1,2;1,3;1,4;1,5",
+                Expected = "1,0;1,0;1,0;1,0;1,0"
+            };
         }
 
         private static IEnumerable<object[]> ClearKeysOperationTestDataProvider {
@@ -388,7 +406,11 @@ namespace BallanceTasEditorTests.Backend {
         }
 
         private static IEnumerable<UniformFpsOperationTestPayload> GetUniformFpsOperationTestPayload() {
-            yield break;
+            yield return new UniformFpsOperationTestPayload {
+                Source = "1,1;1,2;1,3;1,4;1,5",
+                Expected = "240,1;240,2;240,3;240,4;240,5",
+                Fps = 240
+            };
         }
 
         private static IEnumerable<object[]> UniformFpsOperationTestDataProvider {

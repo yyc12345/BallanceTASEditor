@@ -385,19 +385,25 @@ namespace BallanceTasEditor.Backend {
         }
     }
 
-    public enum InsertFrameOperationKind {
+    public enum InsertFrameOperationPosition {
         Before, After
     }
 
+    public enum InsertFrameOperationMode {
+        Insert, Overwrite
+    }
+
     public class InsertFrameOperation : ITasRevocableOperation {
-        public InsertFrameOperation(InsertFrameOperationKind kind, int index, IExactSizeEnumerable<TasFrame> frames) {
-            m_Kind = kind;
+        public InsertFrameOperation(InsertFrameOperationPosition pos, InsertFrameOperationMode mode, int index, IExactSizeEnumerable<TasFrame> frames) {
+            m_Position = pos;
+            m_Mode = mode;
             m_Index = index;
             m_InsertedFrames = frames.Select((frame) => frame.ToRaw()).ToArray();
             m_IsExecuted = false;
         }
 
-        private InsertFrameOperationKind m_Kind;
+        private InsertFrameOperationPosition m_Position;
+        private InsertFrameOperationMode m_Mode;
         private int m_Index;
         private RawTasFrame[] m_InsertedFrames;
         private bool m_IsExecuted;
@@ -414,11 +420,11 @@ namespace BallanceTasEditor.Backend {
             // Check arguments
             // If we insert before some frame, the valid index can be [0, count],
             // however, if we insert after some frame, the valid index is [0, count),
-            switch (m_Kind) {
-                case InsertFrameOperationKind.Before:
+            switch (m_Position) {
+                case InsertFrameOperationPosition.Before:
                     ArgumentOutOfRangeException.ThrowIfGreaterThan(m_Index, seq.GetCount());
                     break;
-                case InsertFrameOperationKind.After:
+                case InsertFrameOperationPosition.After:
                     ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(m_Index, seq.GetCount());
                     break;
                 default:
@@ -432,9 +438,9 @@ namespace BallanceTasEditor.Backend {
                 var iter = m_InsertedFrames.Select((frame) => TasFrame.FromRaw(frame));
                 var exactSizedIter = new ExactSizeEnumerableAdapter<TasFrame>(iter, count);
                 // Compute the insert index
-                var index = m_Kind switch {
-                    InsertFrameOperationKind.Before => m_Index,
-                    InsertFrameOperationKind.After => m_Index + 1,
+                var index = m_Position switch {
+                    InsertFrameOperationPosition.Before => m_Index,
+                    InsertFrameOperationPosition.After => m_Index + 1,
                     _ => throw new UnreachableException("Unknown InsertFrameOperationKind"),
                 };
                 // Execute inserting.
@@ -454,9 +460,9 @@ namespace BallanceTasEditor.Backend {
             var count = m_InsertedFrames.Length;
             if (count != 0) {
                 // Compute the index for removing
-                var index = m_Kind switch {
-                    InsertFrameOperationKind.Before => m_Index,
-                    InsertFrameOperationKind.After => m_Index + 1,
+                var index = m_Position switch {
+                    InsertFrameOperationPosition.Before => m_Index,
+                    InsertFrameOperationPosition.After => m_Index + 1,
                     _ => throw new UnreachableException("Unknown InsertFrameOperationKind"),
                 };
                 // Execute removing.
@@ -497,8 +503,13 @@ namespace BallanceTasEditor.Backend {
     }
 
     public class UniformFpsOperation : ITasOperation {
-        public UniformFpsOperation(float deltaTime) {
-            m_DeltaTime = deltaTime;
+        public UniformFpsOperation(uint fps) {
+            // Check arguments
+            if (!FpsConverter.IsValidFps(fps)) {
+                throw new ArgumentOutOfRangeException(nameof(fps));
+            }
+            // Assign arguments
+            m_DeltaTime = FpsConverter.ToDelta(fps);
             m_IsExecuted = false;
         }
 

@@ -1,14 +1,14 @@
-﻿<Application x:Class="BallanceTasEditor.App"
+<Application x:Class="BallanceTasEditor.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:BallanceTasEditor"
-             StartupUri="Views/MainWindow.xaml">
+             StartupUri="Frontend/Views/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles/AccessoryIconControl.xaml"/>
-                <ResourceDictionary Source="/Styles/NoteBanner.xaml"/>
-                <ResourceDictionary Source="/Styles/GenericButton.xaml"/>
+                <ResourceDictionary Source="/Frontend/Styles/AccessoryIconControl.xaml"/>
+                <ResourceDictionary Source="/Frontend/Styles/NoteBanner.xaml"/>
+                <ResourceDictionary Source="/Frontend/Styles/GenericButton.xaml"/>
                 <ResourceDictionary>
 
                 </ResourceDictionary>
