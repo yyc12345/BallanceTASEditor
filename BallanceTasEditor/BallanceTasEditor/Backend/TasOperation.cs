@@ -110,7 +110,7 @@ namespace BallanceTasEditor.Backend {
             // Do backup and set values at the same time
             var backups = new RawTasFrame[m_EndIndex - m_StartIndex + 1];
             // Pre-build key list for fast fetching.
-            var keys = Enumerable.Range(m_StartKey.ToIndex(), m_EndKey.ToIndex() - m_StartKey.ToIndex()).Select((i) => TasKey.FromIndex(i)).ToArray();
+            var keys = Enumerable.Range(m_StartKey.ToIndex(), m_EndKey.ToIndex() - m_StartKey.ToIndex() + 1).Select((i) => TasKey.FromIndex(i)).ToArray();
             for (int index = m_StartIndex; index <= m_EndIndex; index++) {
                 // Fetch frame
                 var frame = seq.Visit(index);
@@ -292,20 +292,26 @@ namespace BallanceTasEditor.Backend {
         }
     }
 
+    public enum AddFrameOperationKind {
+        Before, After
+    }
+
     public class AddFrameOperation : ITasRevocableOperation {
-        public AddFrameOperation(int index, uint fps, int count) {
+        public AddFrameOperation(AddFrameOperationKind kind, int index, uint fps, int count) {
             // Check argument
             if (!FpsConverter.IsValidFps(fps)) {
                 throw new ArgumentOutOfRangeException(nameof(fps));
             }
             ArgumentOutOfRangeException.ThrowIfNegative(count);
             // Assign argument
+            m_Kind = kind;
             m_Index = index;
             m_Fps = fps;
             m_Count = count;
             m_IsExecuted = false;
         }
 
+        private AddFrameOperationKind m_Kind;
         private int m_Index;
         private uint m_Fps;
         private int m_Count;
@@ -320,16 +326,32 @@ namespace BallanceTasEditor.Backend {
                 throw OperationUtils.ExecutionEnvironment;
             }
 
-            // Check argument.
-            ArgumentOutOfRangeException.ThrowIfGreaterThan(m_Index, seq.GetCount());
+            // Check arguments
+            // If we add before some frame, the valid index can be [0, count],
+            // however, if we add after some frame, the valid index is [0, count),
+            switch (m_Kind) {
+                case AddFrameOperationKind.Before:
+                    ArgumentOutOfRangeException.ThrowIfGreaterThan(m_Index, seq.GetCount());
+                    break;
+                case AddFrameOperationKind.After:
+                    ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(m_Index, seq.GetCount());
+                    break;
+                default:
+                    throw new UnreachableException("Unknown AddFrameOperationKind");
+            }
 
             // Skip if count is zero.
             if (m_Count != 0) {
                 // Prepare data builder.
                 var iter = Enumerable.Range(0, m_Count).Select((_) => TasFrame.FromFps(m_Fps));
                 var exactSizedIter = new ExactSizeEnumerableAdapter<TasFrame>(iter, m_Count);
-                // Execute inserting.
-                seq.Insert(m_Index, exactSizedIter);
+                // Compute the insert index
+                var index = m_Kind switch {
+                    AddFrameOperationKind.Before => m_Index,
+                    AddFrameOperationKind.After => m_Index + 1,
+                    _ => throw new UnreachableException("Unknown AddFrameOperationKind"),
+                };
+                seq.Insert(index, exactSizedIter);
             }
 
             // Set status
@@ -344,8 +366,16 @@ namespace BallanceTasEditor.Backend {
             // Arguments were checked so we directly resotre them.
             // If we inserted count is not zero, remove inserted frames, otherwise do nothing.
             if (m_Count != 0) {
-                seq.Remove(m_Index, m_Index + m_Count - 1);
+                // Compute the index for removing
+                var index = m_Kind switch {
+                    AddFrameOperationKind.Before => m_Index,
+                    AddFrameOperationKind.After => m_Index + 1,
+                    _ => throw new UnreachableException("Unknown AddFrameOperationKind"),
+                };
+                // Execute removing.
+                seq.Remove(index, index + m_Count - 1);
             }
+
             // Modify execution status
             m_IsExecuted = false;
         }

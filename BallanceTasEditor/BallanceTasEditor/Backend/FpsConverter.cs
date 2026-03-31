@@ -48,9 +48,9 @@ namespace BallanceTasEditor.Backend {
         /// Convert float point delta time to integer FPS
         /// </summary>
         /// <param name="delta">Delta time in float point</param>
-        /// <returns>FPS in floor integer</returns>
-        public static uint ToFloorFps(float delta) {
-            return (uint)Math.Floor(ToFps(delta));
+        /// <returns>FPS in round integer</returns>
+        public static uint ToRoundFps(float delta) {
+            return Convert.ToUInt32(ToFps(delta));
         }
 
         /// <summary>

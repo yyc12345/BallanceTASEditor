@@ -28,12 +28,9 @@ namespace BallanceTasEditorTests.Backend {
             return new ExactSizeEnumerableAdapter<TasFrame>(BLANK, BLANK.Length);
         }
 
-        private static IEnumerable<object[]> TasSequenceInstanceProvider {
+        private static IEnumerable<object[]> CommonTestDataProvider {
             get {
-                yield return new object[] { new ListTasSequence() };
-                yield return new object[] { new LegacyTasSequence() };
-                // TODO: Add GapBufferTasSequence once we finish it.
-                //yield return new object[] { new GapBufferTasSequence() };
+                return TasSequenceUtils.EnumerateTasSequenceImplementation().Select((seq) => new object[] { seq });
             }
         }
 
@@ -41,7 +38,7 @@ namespace BallanceTasEditorTests.Backend {
         /// Visit函数独立测试。
         /// </summary>
         [DataTestMethod]
-        [DynamicData(nameof(TasSequenceInstanceProvider))]
+        [DynamicData(nameof(CommonTestDataProvider))]
         public void VisitTest(ITasSequence sequence) {
             // 空时访问
             AssertExtension.ThrowsDerivedException<IndexOutOfRangeException>(() => sequence.Visit(-1));
@@ -62,7 +59,7 @@ namespace BallanceTasEditorTests.Backend {
         /// Insert函数独立测试。
         /// </summary>
         [DataTestMethod]
-        [DynamicData(nameof(TasSequenceInstanceProvider))]
+        [DynamicData(nameof(CommonTestDataProvider))]
         public void InsertTest(ITasSequence sequence) {
             // 需要在不同的存储器上，分别检测在空的时候插入，
             // 和在非空时的头，中，尾分别插入的结果。
@@ -101,7 +98,7 @@ namespace BallanceTasEditorTests.Backend {
         /// Remove函数独立测试。
         /// </summary>
         [DataTestMethod]
-        [DynamicData(nameof(TasSequenceInstanceProvider))]
+        [DynamicData(nameof(CommonTestDataProvider))]
         public void RemoveTest(ITasSequence sequence) {
             // 插入项目后尝试在头中尾分别删除
             var indices = new int[] { 0, PROBE.Length / 2, PROBE.Length - 1 };
@@ -128,7 +125,7 @@ namespace BallanceTasEditorTests.Backend {
         /// Clear函数独立测试。
         /// </summary>
         [DataTestMethod]
-        [DynamicData(nameof(TasSequenceInstanceProvider))]
+        [DynamicData(nameof(CommonTestDataProvider))]
         public void ClearTest(ITasSequence sequence) {
             // 设置数据后清空
             sequence.Insert(0, GetExactSizeProbe());
@@ -142,7 +139,7 @@ namespace BallanceTasEditorTests.Backend {
         /// IsEmpty函数独立测试。
         /// </summary>
         [DataTestMethod]
-        [DynamicData(nameof(TasSequenceInstanceProvider))]
+        [DynamicData(nameof(CommonTestDataProvider))]
         public void IsEmptyTest(ITasSequence sequence) {
             // 检查是否为空
             Assert.IsTrue(sequence.IsEmpty());
@@ -156,7 +153,7 @@ namespace BallanceTasEditorTests.Backend {
         /// GetCount函数独立测试。
         /// </summary>
         [DataTestMethod]
-        [DynamicData(nameof(TasSequenceInstanceProvider))]
+        [DynamicData(nameof(CommonTestDataProvider))]
         public void GetCountTest(ITasSequence sequence) {
             // 检查长度为0
             Assert.AreEqual(sequence.GetCount(), 0);
@@ -171,7 +168,7 @@ namespace BallanceTasEditorTests.Backend {
         /// </summary>
         /// <param name="sequence"></param>
         [DataTestMethod]
-        [DynamicData(nameof(TasSequenceInstanceProvider))]
+        [DynamicData(nameof(CommonTestDataProvider))]
         public void HybridTest(ITasSequence sequence) {
             // 检查空和大小
             Assert.IsTrue(sequence.IsEmpty());

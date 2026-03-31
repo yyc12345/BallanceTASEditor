@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,8 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BallanceTasEditorTests {
-    public static class AssertExtension {
-        public static T ThrowsDerivedException<T>(Action action) where T : Exception {
+    internal static class AssertExtension {
+        internal static T ThrowsDerivedException<T>(Action action) where T : Exception {
             try {
                 action();
             } catch (T ex) {
