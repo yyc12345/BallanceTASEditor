@@ -321,18 +321,37 @@ namespace BallanceTasEditorTests.Backend {
             public required string Inserted { get; init; }
             public required string Expected { get; init; }
 
-            public required InsertFrameOperationPosition Position { get; init; }
-            public required InsertFrameOperationMode Mode { get; init; }
+            public required InsertFrameOperationKind Kind { get; init; }
             public required int Index { get; init; }
         }
 
         private static IEnumerable<InsertFrameOperationTestPayload> GetInsertFrameOperationTestPayload() {
             yield return new InsertFrameOperationTestPayload {
                 Source = "1,1;1,2;1,3;1,4;1,5",
-                Inserted = "1,6;1,7;1,8;1,9;1,10",
-                Expected = "1,1;1,2;2,1;2,2;1,3;1,4;1,5",
-                Position = InsertFrameOperationPosition.After,
-                Mode = InsertFrameOperationMode.Overwrite,
+                Inserted = "1,6;1,7;1,8",
+                Expected = "1,1;1,2;1,6;1,7;1,8;1,3;1,4;1,5",
+                Kind = InsertFrameOperationKind.Before,
+                Index = 2
+            };
+            yield return new InsertFrameOperationTestPayload {
+                Source = "1,1;1,2;1,3;1,4;1,5",
+                Inserted = "1,6;1,7;1,8",
+                Expected = "1,1;1,2;1,3;1,6;1,7;1,8;1,4;1,5",
+                Kind = InsertFrameOperationKind.After,
+                Index = 2
+            };
+            yield return new InsertFrameOperationTestPayload {
+                Source = "1,1;1,2;1,3;1,4;1,5",
+                Inserted = "1,6;1,7",
+                Expected = "1,1;1,2;1,3;1,4;1,5;1,6;1,7",
+                Kind = InsertFrameOperationKind.After,
+                Index = 4
+            };
+            yield return new InsertFrameOperationTestPayload {
+                Source = "1,1;1,2;1,3;1,4;1,5",
+                Inserted = "1,6;1,7",
+                Expected = "1,6;1,7;1,1;1,2;1,3;1,4;1,5",
+                Kind = InsertFrameOperationKind.Before,
                 Index = 0
             };
         }
@@ -358,7 +377,7 @@ namespace BallanceTasEditorTests.Backend {
             sequence.Clear();
 
             // Now we can test it
-            var op = new InsertFrameOperation(payload.Position, payload.Mode, payload.Index, insertedIter);
+            var op = new InsertFrameOperation(payload.Kind, payload.Index, insertedIter);
             AssertRevocableOperation(sequence, op, payload.Source, payload.Expected);
         }
 
