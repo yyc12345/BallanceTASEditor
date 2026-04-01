@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -108,14 +109,13 @@ namespace BallanceTasEditor.Backend {
             ArgumentOutOfRangeException.ThrowIfLessThan(m_StartIndex, 0);
 
             // Do backup and set values at the same time
+            int backupIndex = 0;
             var backups = new RawTasFrame[m_EndIndex - m_StartIndex + 1];
             // Pre-build key list for fast fetching.
             var keys = Enumerable.Range(m_StartKey.ToIndex(), m_EndKey.ToIndex() - m_StartKey.ToIndex() + 1).Select((i) => TasKey.FromIndex(i)).ToArray();
-            for (int index = m_StartIndex; index <= m_EndIndex; index++) {
-                // Fetch frame
-                var frame = seq.Visit(index);
+            foreach (var frame in seq.BatchlyVisit(m_StartIndex, m_EndIndex)) {
                 // Do backup
-                frame.ToRawImplace(ref backups[index - m_StartIndex]);
+                frame.ToRawImplace(ref backups[backupIndex++]);
                 // Modify keys
                 foreach (var key in keys) {
                     switch (m_Kind) {
@@ -143,8 +143,9 @@ namespace BallanceTasEditor.Backend {
 
             // Index range is checked,
             // so we directly restore backup.
-            for (int index = m_StartIndex; index <= m_EndIndex; index++) {
-                seq.Visit(index).FromRawImplace(m_FramesBackup[index - m_StartIndex]);
+            int backupIndex = 0;
+            foreach (var frame in seq.BatchlyVisit(m_StartIndex, m_EndIndex)) {
+                frame.FromRawImplace(m_FramesBackup[backupIndex++]);
             }
 
             // Clear backups
@@ -197,12 +198,11 @@ namespace BallanceTasEditor.Backend {
             ArgumentOutOfRangeException.ThrowIfLessThan(m_StartIndex, 0);
 
             // Do backup and set values at the same time
+            int backupIndex = 0;
             var backups = new float[m_EndIndex - m_StartIndex + 1];
-            for (int index = m_StartIndex; index <= m_EndIndex; index++) {
-                // Fetch frame
-                var frame = seq.Visit(index);
+            foreach (var frame in seq.BatchlyVisit(m_StartIndex, m_EndIndex)) {
                 // Do backup
-                backups[index - m_StartIndex] = frame.GetTimeDelta();
+                backups[backupIndex++] = frame.GetTimeDelta();
                 // Modify delta time
                 frame.SetTimeDelta(m_DeltaTime);
             }
@@ -218,8 +218,9 @@ namespace BallanceTasEditor.Backend {
 
             // Index range is checked,
             // so we directly restore backup.
-            for (int index = m_StartIndex; index <= m_EndIndex; index++) {
-                seq.Visit(index).SetTimeDelta(m_DeltaTimesBackup[index - m_StartIndex]);
+            int backupIndex = 0;
+            foreach (var frame in seq.BatchlyVisit(m_StartIndex, m_EndIndex)) {
+                frame.SetTimeDelta(m_DeltaTimesBackup[backupIndex++]);
             }
 
             // Clear backups
@@ -259,9 +260,10 @@ namespace BallanceTasEditor.Backend {
             ArgumentOutOfRangeException.ThrowIfLessThan(m_StartIndex, 0);
 
             // Do backups
+            int backupIndex = 0;
             var backups = new RawTasFrame[m_EndIndex - m_StartIndex + 1];
-            for (int index = m_StartIndex; index <= m_EndIndex; index++) {
-                seq.Visit(index).ToRawImplace(ref backups[index - m_StartIndex]);
+            foreach (var frame in seq.BatchlyVisit(m_StartIndex, m_EndIndex)) {
+                frame.ToRawImplace(ref backups[backupIndex++]);
             }
             // Do remove
             seq.Remove(m_StartIndex, m_EndIndex);

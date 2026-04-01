@@ -30,6 +30,21 @@ namespace BallanceTasEditor.Backend {
         /// <exception cref="IndexOutOfRangeException">给定的索引无效。</exception>
         TasFrame Visit(int index);
         /// <summary>
+        /// 按顺序访问给定索引区间内的帧的值。
+        /// </summary>
+        /// <remarks>
+        /// 实现此函数时需要格外注意以下事项：
+        /// <para/>
+        /// 该函数如果可以进行顺序访问优化，则应当优化。
+        /// 即使用此函数可以获得等于或大于单独一次使用<see cref="Visit(int)"/>函数。
+        /// <para/>
+        /// 该函数理论上的复杂度应为O(1)。
+        /// </remarks>
+        /// <param name="startIndex">要访问的帧区间的起始索引（包含）。</param>
+        /// <param name="endIndex">要访问的帧区间的终止索引（包含）</param>
+        /// <exception cref="IndexOutOfRangeException">给定的索引无效。</exception>
+        IExactSizeEnumerable<TasFrame> BatchlyVisit(int startIndex, int endIndex);
+        /// <summary>
         /// 在给定的帧索引<b>之前</b>插入给定的项目。
         /// </summary>
         /// <remarks>
@@ -93,6 +108,10 @@ namespace BallanceTasEditor.Backend {
             throw new NotImplementedException();
         }
 
+        public IExactSizeEnumerable<TasFrame> BatchlyVisit(int startIndex, int endIndex) {
+            throw new NotImplementedException();
+        }
+
         public void Insert(int index, IExactSizeEnumerable<TasFrame> items) {
             throw new NotImplementedException();
         }
@@ -120,6 +139,7 @@ namespace BallanceTasEditor.Backend {
         IEnumerator IEnumerable.GetEnumerator() {
             return GetEnumerator();
         }
+
     }
 
     /// <summary>
@@ -141,6 +161,21 @@ namespace BallanceTasEditor.Backend {
             } else {
                 return m_Container[index];
             }
+        }
+
+        private IEnumerable<TasFrame> BatchlyVisitEx(int startIndex, int endIndex) {
+            if (endIndex < startIndex || startIndex < 0 || endIndex >= m_Container.Count) {
+                throw new IndexOutOfRangeException("Invalid index for frame.");
+            }
+
+            // Iterate items one by one.
+            for (int i = startIndex; i <= endIndex; ++i) {
+                yield return m_Container[i];
+            }
+        }
+
+        public IExactSizeEnumerable<TasFrame> BatchlyVisit(int startIndex, int endIndex) {
+            return new ExactSizeEnumerableAdapter<TasFrame>(BatchlyVisitEx(startIndex, endIndex), endIndex - startIndex + 1);
         }
 
         public void Insert(int index, IExactSizeEnumerable<TasFrame> items) {
@@ -274,6 +309,29 @@ namespace BallanceTasEditor.Backend {
                 MoveToIndex(index);
                 return m_Cursor.Node.Value;
             }
+        }
+
+        private IEnumerable<TasFrame> BatchlyVisitEx(int startIndex, int endIndex) {
+            if (endIndex < startIndex || startIndex < 0 || endIndex >= m_Container.Count) {
+                throw new IndexOutOfRangeException("Invalid index for frame.");
+            }
+
+            // We move to start index first.
+            MoveToIndex(startIndex);
+            // Then we copy its reference
+            LinkedListNode<TasFrame>? node = m_Cursor.Node;
+            // Then compute count
+            var count = endIndex - startIndex + 1;
+            // Now we can iterate items one by one.
+            for (int i = 0; i < count; ++i) {
+                node = node.Unwrap();
+                yield return node.Unwrap().Value;
+                node = node.Next;
+            }
+        }
+
+        public IExactSizeEnumerable<TasFrame> BatchlyVisit(int startIndex, int endIndex) {
+            return new ExactSizeEnumerableAdapter<TasFrame>(BatchlyVisitEx(startIndex, endIndex), endIndex - startIndex + 1);
         }
 
         public void Insert(int index, IExactSizeEnumerable<TasFrame> items) {
