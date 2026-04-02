@@ -9,11 +9,6 @@ using System.Threading.Tasks;
 
 namespace BallanceTasEditor.Frontend.ViewModels {
 
-    public struct NewFileDialogResult {
-        public int Count { get; set; }
-        public float DeltaTime { get; set; }
-    }
-
     public partial class NewFileDialog : ObservableValidator {
         public NewFileDialog() {
             Count = 10000.ToString();

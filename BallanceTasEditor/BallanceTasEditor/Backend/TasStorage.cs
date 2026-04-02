@@ -10,11 +10,31 @@ using System.Threading.Tasks;
 
 namespace BallanceTasEditor.Backend {
     public static class TasStorage {
+
+        /// <summary>
+        /// Initialize given TAS sequence with given count frame which has given FPS.
+        /// </summary>
+        /// <param name="seq">The TAS sequence to initialize.</param>
+        /// <param name="count">The count of frame.</param>
+        /// <param name="fps">The FPS of frame.</param>
+        public static void Init(ITasSequence seq, int count, uint fps) {
+            var frame = TasFrame.FromFps(fps);
+            var iter = Enumerable.Range(0, count).Select((_) => frame.Clone());
+            var exactSizeIter = new ExactSizeEnumerableAdapter<TasFrame>(iter, count);
+            seq.Insert(seq.GetCount(), exactSizeIter);
+        }
+
         internal const int SIZEOF_I32 = sizeof(int);
         internal const int SIZEOF_F32 = sizeof(float);
         internal const int SIZEOF_U32 = sizeof(uint);
         internal const int SIZEOF_RAW_TAS_FRAME = SIZEOF_F32 + SIZEOF_U32;
 
+        /// <summary>
+        /// Save given TAS sequence into given file path.
+        /// </summary>
+        /// <param name="filepath">The path to file for saving.</param>
+        /// <param name="seq">The TAS sequence to save.</param>
+        /// <exception cref="Exception">Any exception occurs when saving.</exception>
         public static void Save(string filepath, ITasSequence seq) {
             using (var fs = new FileStream(filepath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None)) {
                 Save(fs, seq);
@@ -22,6 +42,12 @@ namespace BallanceTasEditor.Backend {
             }
         }
 
+        /// <summary>
+        /// Save given TAS sequence into given file stream.
+        /// </summary>
+        /// <param name="fs">The file stream for saving.</param>
+        /// <param name="seq">The TAS sequence to save.</param>
+        /// <exception cref="Exception">Any exception occurs when saving.</exception>
         public static void Save(Stream fs, ITasSequence seq) {
             var totalByte = seq.GetCount() * SIZEOF_RAW_TAS_FRAME;
             fs.Write(BitConverter.GetBytes(totalByte), 0, SIZEOF_I32);
@@ -46,6 +72,12 @@ namespace BallanceTasEditor.Backend {
             //zo.Close();
         }
 
+        /// <summary>
+        /// Load TAS sequence from given file path into given sequence.
+        /// </summary>
+        /// <param name="filepath">The path to file for loading.</param>
+        /// <param name="seq">The TAS sequence to load.</param>
+        /// <exception cref="Exception">Any exception occurs when loading.</exception>
         public static void Load(string filepath, ITasSequence seq) {
             using (var fs = new FileStream(filepath, FileMode.Open, FileAccess.Read, FileShare.Read)) {
                 Load(fs, seq);
@@ -53,6 +85,12 @@ namespace BallanceTasEditor.Backend {
             }
         }
 
+        /// <summary>
+        /// Load TAS sequence from given file stream into given sequence.
+        /// </summary>
+        /// <param name="fs">The file stream for loading.</param>
+        /// <param name="seq">The TAS sequence to load.</param>
+        /// <exception cref="Exception">Any exception occurs when loading.</exception>
         public static void Load(Stream fs, ITasSequence seq) {
             // Read total bytes
             var lenCache = new byte[SIZEOF_I32];

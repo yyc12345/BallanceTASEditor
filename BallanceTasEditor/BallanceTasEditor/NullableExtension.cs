@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BallanceTasEditor.Backend {
+namespace BallanceTasEditor {
     public static class NullableExtensions {
         public static T Unwrap<T>(this T? value, [CallerArgumentExpression(nameof(value))] string? paramName = null) where T : class {
             ArgumentNullException.ThrowIfNull(value, paramName);

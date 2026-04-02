@@ -157,6 +157,14 @@ namespace BallanceTasEditor.Backend {
         }
 
         /// <summary>
+        /// 返回自身的克隆（深拷贝）。
+        /// </summary>
+        /// <returns>自身的克隆。</returns>
+        public TasFrame Clone() {
+            return new TasFrame(m_TimeDelta, m_KeyFlags);
+        }
+
+        /// <summary>
         /// 该帧的持续时间（以秒为单位）。
         /// </summary>
         private float m_TimeDelta;

@@ -20,48 +20,8 @@ namespace BallanceTasEditor.Frontend.Views {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
-        }
-
-        private void MenuItem_Click_3(object sender, RoutedEventArgs e) {
-            var dialog = new NewFileDialog();
-            dialog.Owner = this;
-            dialog.ShowDialog();
-        }
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e) {
-            var dialog = new PreferenceDialog();
-            dialog.Owner = this;
-            dialog.ShowDialog();
-        }
-
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e) {
-            var dialog = new AboutDialog();
-            dialog.Owner = this;
-            dialog.ShowDialog();
-        }
-
-        private void MenuItem_Click_4(object sender, RoutedEventArgs e) {
-            var dialog =new GotoDialog();
-            dialog.Owner = this;
-            dialog.ShowDialog();
-        }
-
-        private void MenuItem_Click_5(object sender, RoutedEventArgs e) {
-            var dialog = new EditFpsDialog();
-            dialog.Owner = this;
-            dialog.ShowDialog();
-        }
-
-        private void MenuItem_Click_6(object sender, RoutedEventArgs e) {
-            var dialog = new EditFpsDialog();
-            dialog.Owner = this;
-            dialog.ShowDialog();
-        }
-
-        private void MenuItem_Click_2(object sender, RoutedEventArgs e) {
-            var dialog = new AddFrameDialog();
-            dialog.Owner = this;
-            dialog.ShowDialog();
+            var dialogService = new DialogService(this);
+            this.DataContext = new ViewModels.MainWindow(dialogService);
         }
 
     }

@@ -5,8 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BallanceTasEditor.Frontend.Views"
         xmlns:styles="clr-namespace:BallanceTasEditor.Frontend.Styles"
-        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="Ballance TAS Editor" Height="600" Width="800" Icon="/Frontend/Assets/App.ico">
+        xmlns:vm="clr-namespace:BallanceTasEditor.Frontend.ViewModels"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance vm:MainWindow}"
+        WindowStartupLocation="CenterScreen"
+        Title="{Binding WindowTitle, Mode=OneWay}" Height="600" Width="800" Icon="/Frontend/Assets/App.ico">
     
     <Grid>
         <Grid.RowDefinitions>
@@ -44,14 +47,14 @@
             </Menu.Resources>
             
             <MenuItem Header="_File" Padding="5">
-                <MenuItem Header="_New File" Icon="{StaticResource IconNewFile}" InputGestureText="Ctrl+N" Click="MenuItem_Click_3"/>
-                <MenuItem Header="_Open File" Icon="{StaticResource IconOpenFile}" InputGestureText="Ctrl+O"/>
+                <MenuItem Header="_New File" Icon="{StaticResource IconNewFile}" InputGestureText="Ctrl+N" Command="{Binding NewFileCommand}"/>
+                <MenuItem Header="_Open File" Icon="{StaticResource IconOpenFile}" InputGestureText="Ctrl+O" Command="{Binding OpenFileCommand}"/>
                 <Separator/>
-                <MenuItem Header="_Save File" Icon="{StaticResource IconSaveFile}" InputGestureText="Ctrl+S"/>
-                <MenuItem Header="Save File as ..." Icon="{StaticResource IconSaveFileAs}"/>
+                <MenuItem Header="_Save File" Icon="{StaticResource IconSaveFile}" InputGestureText="Ctrl+S" Command="{Binding SaveFileCommand}"/>
+                <MenuItem Header="Save File as ..." Icon="{StaticResource IconSaveFileAs}" Command="{Binding SaveFileAsCommand}"/>
                 <MenuItem Header="Save File then _Run Game" Icon="{StaticResource IconSaveFileThenRunGame}" InputGestureText="B"/>
                 <Separator/>
-                <MenuItem Header="Close File" Icon="{StaticResource IconCloseFile}"/>
+                <MenuItem Header="Close File" Icon="{StaticResource IconCloseFile}" Command="{Binding CloseFileCommand}"/>
                 <MenuItem Header="Exit" Icon="{StaticResource IconExit}"/>
             </MenuItem>
             <MenuItem Header="_Edit" Padding="5">
@@ -62,20 +65,20 @@
                 <MenuItem Header="Previous Item" Icon="{StaticResource IconPreviousItem}" InputGestureText="S"/>
                 <MenuItem Header="Next Page" Icon="{StaticResource IconNextPage}" InputGestureText="D"/>
                 <MenuItem Header="Next Item" Icon="{StaticResource IconNextItem}" InputGestureText="F"/>
-                <MenuItem Header="Goto Item" Icon="{StaticResource IconGoto}" InputGestureText="G" Click="MenuItem_Click_4"/>
+                <MenuItem Header="Goto Item" Icon="{StaticResource IconGoto}" InputGestureText="G"/>
                 <Separator/>
                 <MenuItem Header="Select Mode" Icon="{StaticResource IconSelectMode}"/>
                 <MenuItem Header="Fill Mode" Icon="{StaticResource IconFillMode}"/>
                 <MenuItem Header="Draw Mode" Icon="{StaticResource IconDrawMode}"/>
                 <Separator/>
                 <MenuItem Header="Clear Keys" Icon="{StaticResource IconClearKeys}"/>
-                <MenuItem Header="Uniform FPS" Icon="{StaticResource IconUniformFps}" Click="MenuItem_Click_5"/>
+                <MenuItem Header="Uniform FPS" Icon="{StaticResource IconUniformFps}"/>
                 <Separator/>
-                <MenuItem Header="Preference" Icon="{StaticResource IconPreference}" InputGestureText="Ctrl+P" Click="MenuItem_Click"/>
+                <MenuItem Header="Preference" Icon="{StaticResource IconPreference}" InputGestureText="Ctrl+P"/>
             </MenuItem>
             <MenuItem Header="_Help" Padding="5">
                 <MenuItem Header="Report Bug" Icon="{StaticResource IconReportBug}"/>
-                <MenuItem Header="About" Icon="{StaticResource IconAbout}" Click="MenuItem_Click_1"/>
+                <MenuItem Header="About" Icon="{StaticResource IconAbout}"/>
             </MenuItem>
         </Menu>
 
@@ -133,14 +136,14 @@
                         <MenuItem Header="Paste after This" Icon="{StaticResource IconPaste}" InputGestureText="Ctrl+V"/>
                         <MenuItem Header="Paste before This"/>
                         <Separator/>
-                        <MenuItem Header="Delete This" Icon="{StaticResource IconDelete}"/>
+                        <MenuItem Header="Delete" Icon="{StaticResource IconDelete}"/>
                         <MenuItem Header="Delete after This" InputGestureText="Del"/>
                         <MenuItem Header="Delete before This" InputGestureText="Backspace"/>
                         <Separator/>
-                        <MenuItem Header="Add after This" Icon="{StaticResource IconAdd}" Click="MenuItem_Click_2"/>
+                        <MenuItem Header="Add after This" Icon="{StaticResource IconAdd}"/>
                         <MenuItem Header="Add before This"/>
                         <Separator/>
-                        <MenuItem Header="Set FPS" Icon="{StaticResource IconFps}" Click="MenuItem_Click_6"/>
+                        <MenuItem Header="Set FPS" Icon="{StaticResource IconFps}"/>
                     </ContextMenu>
                 </local:TasViewer.ContextMenu>
             </local:TasViewer>
@@ -149,8 +152,6 @@
         <StatusBar Grid.Row="3">
             <!-- 这玩意要逆序排列才能达到我想要的需求也是奇葩 -->
             <StatusBarItem Content="v2.0 stable" DockPanel.Dock="Right" Foreground="Gray" FontStyle="Italic"/>
-            <Separator DockPanel.Dock="Right"/>
-            <StatusBarItem Content="$PasteMode" DockPanel.Dock="Right"/>
             <Separator DockPanel.Dock="Right"/>
             <StatusBarItem Content="$Selection" DockPanel.Dock="Right"/>
             <Separator DockPanel.Dock="Right"/>
