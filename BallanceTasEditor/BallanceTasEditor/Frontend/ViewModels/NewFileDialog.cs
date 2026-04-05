@@ -9,11 +9,10 @@ using System.Threading.Tasks;
 
 namespace BallanceTasEditor.Frontend.ViewModels {
 
-    public partial class NewFileDialog : ObservableValidator {
+    public partial class NewFileDialog : ObservableObject {
         public NewFileDialog() {
-            Count = 10000.ToString();
-            // 132 or 264
-            Fps = 264.ToString();
+            Count = Shared.Constant.DEFAULT_NEW_COUNT.ToString();
+            Fps = Shared.Constant.DEFAULT_FPS.ToString();
         }
 
         // YYC MARK:
@@ -39,33 +38,49 @@ namespace BallanceTasEditor.Frontend.ViewModels {
         // 就直接把string绑定到TextBox.Text上，然后再辅以我自己定义的一套可复用验证逻辑。
 
         [ObservableProperty]
-        //[CustomValidation(typeof(NewFileDialog), nameof(ValidateCount))]
         [NotifyCanExecuteChangedFor(nameof(OkCommand))]
         private string count;
-
         [ObservableProperty]
-        //[CustomValidation(typeof(NewFileDialog), nameof(ValidateFps))]
         [NotifyCanExecuteChangedFor(nameof(OkCommand))]
         private string fps;
 
-        //public static ValidationResult ValidateCount(string count, ValidationContext context) {
-        //    return CountValidator.Instance.Validate(count);
-        //}
-        //public static ValidationResult ValidateFps(string fps, ValidationContext context) {
-        //    return FpsValidator.Instance.Validate(fps);
-        //}
+        //[ObservableProperty]
+        ////[CustomValidation(typeof(NewFileDialog), nameof(ValidateCount))]
+        //[NotifyCanExecuteChangedFor(nameof(OkCommand))]
+        //private string count;
+
+        //[ObservableProperty]
+        ////[CustomValidation(typeof(NewFileDialog), nameof(ValidateFps))]
+        //[NotifyCanExecuteChangedFor(nameof(OkCommand))]
+        //private string fps;
+
+        ////public static ValidationResult ValidateCount(string count, ValidationContext context) {
+        ////    return CountValidator.Instance.Validate(count);
+        ////}
+        ////public static ValidationResult ValidateFps(string fps, ValidationContext context) {
+        ////    return FpsValidator.Instance.Validate(fps);
+        ////}
 
         [RelayCommand(CanExecute = nameof(CanOk))]
         private void Ok() {
-
+            OnRequestCloseDialog(true);
         }
+
         private bool CanOk() {
-            return !HasErrors;
+            // TODO
+            return true;
         }
 
         [RelayCommand]
         private void Cancel() {
+            OnRequestCloseDialog(false);
+        }
 
+
+        public event Shared.RequestCloseDialogEventHandler? RequestCloseDialog;
+
+        private void OnRequestCloseDialog(bool result) {
+            RequestCloseDialog?.Invoke(new Shared.RequestCloseDialogEventArgs { Result = result});
         }
 
         //public NewFileDialogResult ToResult() {

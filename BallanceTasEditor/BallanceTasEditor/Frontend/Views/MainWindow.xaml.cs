@@ -20,9 +20,15 @@ namespace BallanceTasEditor.Frontend.Views {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
-            var dialogService = new DialogService(this);
-            this.DataContext = new ViewModels.MainWindow(dialogService);
+
+            var dialogService = new Shared.DialogService(this);
+            var vm = new ViewModels.MainWindow(dialogService);
+            vm.RequestCloseWindow += ViewModel_RequestCloseWindow;
+            this.DataContext = vm;
         }
 
+        private void ViewModel_RequestCloseWindow() {
+            this.Close();
+        }
     }
 }

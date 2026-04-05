@@ -5,33 +5,71 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace BallanceTasEditor.Frontend.Views {
+namespace BallanceTasEditor.Frontend.Shared {
 
-    public class DialogService : ViewModels.IDialogService {
+    public interface IDialogService {
+        NewFileDialogResult? ShowNewFileDialog();
+        OpenFileDialogResult? ShowOpenFileDialog();
+        void ShowOpenFileFailedDialog(Exception e);
+        SaveFileDialogResult? ShowSaveFileDialog();
+        void ShowSaveFileFailedDialog(Exception e);
+        bool ShowConfirmCloseFileDialog(string message);
+        bool ShowConfirmExitWhenOpeningFileDialog();
+        bool ShowFileChangedDialog();
+        GotoDialogResult? ShowGotoDialog();
+        EditFpsDialogResult? ShowEditFpsDialog();
+        AddFrameDialogResult? ShowAddFrameDialog();
+        PreferenceDialogResult? ShowPreferenceDialog();
+        void ShowManuallyReportBugDialog();
+        void ShowAboutDialog();
+    }
+
+    public record NewFileDialogResult {
+        public required uint Fps { get; init; }
+        public required int Count { get; init; }
+    }
+
+    public record OpenFileDialogResult {
+        public required string Path { get; init; }
+    }
+
+    public record SaveFileDialogResult {
+        public required string Path { get; init; }
+    }
+
+    public record GotoDialogResult { }
+
+    public record EditFpsDialogResult { }
+
+    public record AddFrameDialogResult { }
+
+    public record PreferenceDialogResult { }
+
+    public class DialogService : IDialogService {
         public DialogService(Window parent) {
             m_Parent = parent;
         }
 
         private readonly Window m_Parent;
 
-        public ViewModels.NewFileDialogResult? ShowNewFileDialog() {
-            var dialog = new NewFileDialog();
+        public NewFileDialogResult? ShowNewFileDialog() {
+            var dialog = new Views.NewFileDialog();
             dialog.Owner = m_Parent;
             if (dialog.ShowDialog() is true) {
                 // TODO: Finish result extraction
-                return new ViewModels.NewFileDialogResult() { Count = 0, Fps = 60 };
+                return new NewFileDialogResult() { Count = 0, Fps = 60 };
             } else {
                 return null;
             }
         }
 
-        public ViewModels.OpenFileDialogResult? ShowOpenFileDialog() {
+        public OpenFileDialogResult? ShowOpenFileDialog() {
             Microsoft.Win32.OpenFileDialog op = new Microsoft.Win32.OpenFileDialog();
             op.RestoreDirectory = true;
             op.Multiselect = false;
             op.Filter = "TAS file(*.tas)|*.tas|All file(*.*)|*.*";
             if (op.ShowDialog() is true) {
-                return new ViewModels.OpenFileDialogResult() { Path = op.FileName };
+                return new OpenFileDialogResult() { Path = op.FileName };
             } else {
                 return null;
             }
@@ -43,12 +81,12 @@ namespace BallanceTasEditor.Frontend.Views {
                 MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        public ViewModels.SaveFileDialogResult? ShowSaveFileDialog() {
+        public SaveFileDialogResult? ShowSaveFileDialog() {
             Microsoft.Win32.SaveFileDialog op = new Microsoft.Win32.SaveFileDialog();
             op.RestoreDirectory = true;
             op.Filter = "TAS file(*.tas)|*.tas|All file(*.*)|*.*";
             if (op.ShowDialog() is true) {
-                return new ViewModels.SaveFileDialogResult() { Path = op.FileName };
+                return new SaveFileDialogResult() { Path = op.FileName };
             } else {
                 return null;
             }
@@ -85,55 +123,62 @@ namespace BallanceTasEditor.Frontend.Views {
             return rv == MessageBoxResult.Yes;
         }
 
-        public ViewModels.GotoDialogResult? ShowGotoDialog() {
-            var dialog = new GotoDialog();
+        public GotoDialogResult? ShowGotoDialog() {
+            var dialog = new Views.GotoDialog();
             dialog.Owner = m_Parent;
             if (dialog.ShowDialog() is true) {
                 // TODO: Finish result extraction
-                return new ViewModels.GotoDialogResult();
+                return new GotoDialogResult();
             } else {
                 return null;
             }
         }
 
-        public ViewModels.EditFpsDialogResult? ShowEditFpsDialog() {
-            var dialog = new EditFpsDialog();
+        public EditFpsDialogResult? ShowEditFpsDialog() {
+            var dialog = new Views.EditFpsDialog();
             dialog.Owner = m_Parent;
             if (dialog.ShowDialog() is true) {
                 // TODO: Finish result extraction
-                return new ViewModels.EditFpsDialogResult();
+                return new EditFpsDialogResult();
             } else {
                 return null;
             }
         }
 
-        public ViewModels.AddFrameDialogResult? ShowAddFrameDialog() {
-            var dialog = new AddFrameDialog();
+        public AddFrameDialogResult? ShowAddFrameDialog() {
+            var dialog = new Views.AddFrameDialog();
             dialog.Owner = m_Parent;
             if (dialog.ShowDialog() is true) {
                 // TODO: Finish result extraction
-                return new ViewModels.AddFrameDialogResult();
+                return new AddFrameDialogResult();
             } else {
                 return null;
             }
         }
 
-        public ViewModels.PreferenceDialogResult? ShowPreferenceDialog() {
-            var dialog = new PreferenceDialog();
+        public PreferenceDialogResult? ShowPreferenceDialog() {
+            var dialog = new Views.PreferenceDialog();
             dialog.Owner = m_Parent;
             if (dialog.ShowDialog() is true) {
                 // TODO: Finish result extraction
-                return new ViewModels.PreferenceDialogResult();
+                return new PreferenceDialogResult();
             } else {
                 return null;
             }
+        }
+
+        public void ShowManuallyReportBugDialog() {
+            MessageBox.Show($"We can not open browser automatically for you. Please visit {Shared.Constant.REPORT_BUG_URL} manually to report bug.",
+                "Can not Open Browser",
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public void ShowAboutDialog() {
-            var dialog = new AboutDialog();
+            var dialog = new Views.AboutDialog();
             dialog.Owner = m_Parent;
             dialog.ShowDialog();
         }
+
     }
 
 }

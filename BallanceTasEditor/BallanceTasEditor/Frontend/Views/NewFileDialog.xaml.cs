@@ -19,7 +19,15 @@ namespace BallanceTasEditor.Frontend.Views {
     public partial class NewFileDialog : Window {
         public NewFileDialog() {
             InitializeComponent();
-            this.DataContext = new ViewModels.NewFileDialog();
+
+            var vm = new ViewModels.NewFileDialog();
+            vm.RequestCloseDialog += ViewModel_RequestCloseDialog;
+            this.DataContext = vm;
+        }
+
+        private void ViewModel_RequestCloseDialog(Shared.RequestCloseDialogEventArgs e) {
+            this.DialogResult = e.Result;
+            this.Close();
         }
     }
 }

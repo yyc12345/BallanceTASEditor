@@ -19,6 +19,14 @@ namespace BallanceTasEditor.Frontend.Views {
     public partial class AddFrameDialog : Window {
         public AddFrameDialog() {
             InitializeComponent();
+
+            var vm = new ViewModels.AddFrameDialog();
+            vm.RequestCloseDialog += ViewModel_RequestCloseDialog;
+            this.DataContext = vm;
+        }
+        private void ViewModel_RequestCloseDialog(Shared.RequestCloseDialogEventArgs e) {
+            this.DialogResult = e.Result;
+            this.Close();
         }
     }
 }

@@ -4,7 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BallanceTasEditor.Frontend.Views"
+        xmlns:vm="clr-namespace:BallanceTasEditor.Frontend.ViewModels"
         xmlns:styles="clr-namespace:BallanceTasEditor.Frontend.Styles"
+        d:DataContext="{d:DesignInstance vm:PreferenceDialog}"
         mc:Ignorable="d" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False"
         Title="Editor Preference" Height="450" Width="400" Icon="/Frontend/Assets/Preference.ico">
     <Grid>
@@ -57,8 +59,10 @@
         </ScrollViewer>
 
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" Margin="10">
-            <Button Content="OK" Margin="5" Style="{StaticResource OkButtonStyle}" IsDefault="True"/>
-            <Button Content="Cancel" Margin="5" Style="{StaticResource CancelButtonStyle}"/>
+            <Button Content="OK" Margin="5" Style="{StaticResource OkButtonStyle}" IsDefault="True"
+                    Command="{Binding OkCommand}"/>
+            <Button Content="Cancel" Margin="5" Style="{StaticResource CancelButtonStyle}"
+                    Command="{Binding CancelCommand}"/>
         </StackPanel>
     </Grid>
 </Window>

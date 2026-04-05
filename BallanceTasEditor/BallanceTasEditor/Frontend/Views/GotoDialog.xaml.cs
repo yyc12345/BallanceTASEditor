@@ -19,6 +19,15 @@ namespace BallanceTasEditor.Frontend.Views {
     public partial class GotoDialog : Window {
         public GotoDialog() {
             InitializeComponent();
+
+            var vm = new ViewModels.GotoDialog();
+            vm.RequestCloseDialog += ViewModel_RequestCloseDialog;
+            this.DataContext = vm;
+        }
+
+        private void ViewModel_RequestCloseDialog(Shared.RequestCloseDialogEventArgs e) {
+            this.DialogResult = e.Result;
+            this.Close();
         }
     }
 }

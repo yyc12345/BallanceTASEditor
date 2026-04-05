@@ -55,7 +55,7 @@
                 <MenuItem Header="Save File then _Run Game" Icon="{StaticResource IconSaveFileThenRunGame}" InputGestureText="B"/>
                 <Separator/>
                 <MenuItem Header="Close File" Icon="{StaticResource IconCloseFile}" Command="{Binding CloseFileCommand}"/>
-                <MenuItem Header="Exit" Icon="{StaticResource IconExit}"/>
+                <MenuItem Header="Exit" Icon="{StaticResource IconExit}" Command="{Binding ExitCommand}"/>
             </MenuItem>
             <MenuItem Header="_Edit" Padding="5">
                 <MenuItem Header="_Undo" Icon="{StaticResource IconUndo}" InputGestureText="Ctrl+Z"/>
@@ -77,8 +77,8 @@
                 <MenuItem Header="Preference" Icon="{StaticResource IconPreference}" InputGestureText="Ctrl+P"/>
             </MenuItem>
             <MenuItem Header="_Help" Padding="5">
-                <MenuItem Header="Report Bug" Icon="{StaticResource IconReportBug}"/>
-                <MenuItem Header="About" Icon="{StaticResource IconAbout}"/>
+                <MenuItem Header="Report Bug" Icon="{StaticResource IconReportBug}" Command="{Binding ReportBugCommand}"/>
+                <MenuItem Header="About" Icon="{StaticResource IconAbout}" Command="{Binding AboutCommand}"/>
             </MenuItem>
         </Menu>
 

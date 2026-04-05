@@ -2,20 +2,23 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BallanceTasEditor.Frontend.ViewModels {
     public partial class MainWindow : ObservableObject {
-        public MainWindow(IDialogService dialogService) {
+        public MainWindow(Shared.IDialogService dialogService) {
             m_DialogService = dialogService;
 
             this.TasFile = null;
             this.TasFilePath = null;
         }
 
-        private IDialogService m_DialogService;
+        private Shared.IDialogService m_DialogService;
 
         #region File Operation
 
@@ -130,6 +133,40 @@ namespace BallanceTasEditor.Frontend.ViewModels {
 
         private bool CanCloseFile() {
             return this.TasFile is not null;
+        }
+
+        #endregion
+
+        #region Exit Stuff
+
+        [RelayCommand]
+        private void Exit() {
+            // TODO
+            OnRequestCloseWindow();
+        }
+
+        public event Shared.RequestCloseWindowEventHandler? RequestCloseWindow;
+
+        private void OnRequestCloseWindow() {
+            RequestCloseWindow?.Invoke();
+        }
+
+        #endregion
+
+        #region Help Menu
+
+        [RelayCommand]
+        private void ReportBug() {
+            try {
+                Shared.BrowserHelper.OpenInDefaultBrowser(Shared.Constant.REPORT_BUG_URL);
+            } catch (Exception) {
+                m_DialogService.ShowManuallyReportBugDialog();
+            }
+        }
+
+        [RelayCommand]
+        private void About() {
+            m_DialogService.ShowAboutDialog();
         }
 
         #endregion
