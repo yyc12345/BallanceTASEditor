@@ -17,20 +17,16 @@ namespace BallanceTasEditor.Frontend.Validator {
         private readonly IValidator<TIn, TOut> m_Validator;
 
         public ValidationResult? Validate(TIn value, ValidationContext validationContext) {
-            // YYC MARK:
-            // Due to the shitty behavior of LanguageExt
-            // which do not allow I return nullable class from Match,
-            // I was forcely use MatchUnsafe.
-            return m_Validator.Validate(value).MatchUnsafe(
-                Left: v => ValidationResult.Success,
-                Right: err => new ValidationResult(err)
+            return m_Validator.Validate(value).Match(
+                v => ValidationResult.Success,
+                err => new ValidationResult(err)
             );
         }
 
         public TOut Conclude(TIn value) {
             return m_Validator.Validate(value).Match(
-                Left: v => v,
-                Right: _ => throw new InvalidOperationException("Can not unwrap an error casting.")
+                v => v,
+                _ => throw new InvalidOperationException("Can not unwrap an error casting.")
             );
         }
 

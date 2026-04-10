@@ -1,4 +1,4 @@
-using LanguageExt;
+using OneOf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 namespace BallanceTasEditor.Frontend.Validator {
 
     public interface IValidator<TIn, TOut> {
-         Either<TOut, string> Validate(TIn value);
+         OneOf<TOut, string> Validate(TIn value);
     }
 
     public sealed class FpsValidator : IValidator<string, uint> {
-        public Either<uint, string> Validate(string value) {
+        public OneOf<uint, string> Validate(string value) {
             if (uint.TryParse(value, System.Globalization.CultureInfo.InvariantCulture, out uint fps)) {
                 if (Backend.FpsConverter.IsValidFps(fps)) {
                     return fps;
@@ -26,7 +26,7 @@ namespace BallanceTasEditor.Frontend.Validator {
     }
 
     public sealed class CountValidator : IValidator<string, int> {
-        public Either<int, string> Validate(string value) {
+        public OneOf<int, string> Validate(string value) {
             if (int.TryParse(value, System.Globalization.CultureInfo.InvariantCulture, out int count)) {
                 if (count > 0) {
                     return count;
