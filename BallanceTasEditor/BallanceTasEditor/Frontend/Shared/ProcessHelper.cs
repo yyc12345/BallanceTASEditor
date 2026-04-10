@@ -7,8 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BallanceTasEditor.Frontend.Shared {
-    public static class BrowserHelper {
-        public static void OpenInDefaultBrowser(string url) {
+    public static class ProcessHelper {
+        public static void OpenUrl(string url) {
             if (string.IsNullOrWhiteSpace(url)) {
                 throw new ArgumentException("The content of URL should not be empty.", nameof(url));
             }

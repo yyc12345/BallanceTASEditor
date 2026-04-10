@@ -158,7 +158,7 @@ namespace BallanceTasEditor.Frontend.ViewModels {
         [RelayCommand]
         private void ReportBug() {
             try {
-                Shared.BrowserHelper.OpenInDefaultBrowser(Shared.Constant.REPORT_BUG_URL);
+                Shared.ProcessHelper.OpenUrl(Shared.Constant.REPORT_BUG_URL);
             } catch (Exception) {
                 m_DialogService.ShowManuallyReportBugDialog();
             }

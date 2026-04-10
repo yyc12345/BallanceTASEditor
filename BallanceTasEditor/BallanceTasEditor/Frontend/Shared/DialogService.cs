@@ -56,8 +56,7 @@ namespace BallanceTasEditor.Frontend.Shared {
             var dialog = new Views.NewFileDialog();
             dialog.Owner = m_Parent;
             if (dialog.ShowDialog() is true) {
-                // TODO: Finish result extraction
-                return new NewFileDialogResult() { Count = 0, Fps = 60 };
+                return dialog.ViewModel.GetUserInput();
             } else {
                 return null;
             }
