@@ -51,8 +51,8 @@
                 <TextBox Margin="5" Padding="3" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"
                          Text="{Binding Fps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}"/>
                 <TextBlock Margin="5" Padding="3" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" 
-                           Text="{Binding Fps, Mode=OneWay, Converter={x:Static conveter:FpsConverter.Instance}, FallbackValue=N/A}"/>
-
+                           Text="{Binding Fps, Mode=OneWay, Converter={x:Static conveter:StringifiedDeltaTimeConverter.Instance}}"
+                           Validation.ErrorTemplate="{x:Null}"/>
             </Grid>
         </Grid>
 
