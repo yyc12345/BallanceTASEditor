@@ -5,9 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BallanceTasEditor.Frontend.Views"
         xmlns:vm="clr-namespace:BallanceTasEditor.Frontend.ViewModels"
+        xmlns:conveter="clr-namespace:BallanceTasEditor.Frontend.Converters"
+        xmlns:widget="clr-namespace:BallanceTasEditor.Frontend.Widgets"
         d:DataContext="{d:DesignInstance vm:AddFrameDialog}"
         mc:Ignorable="d" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False"
-        Title="Add Frame" Height="250" Width="400" Icon="/Frontend/Assets/AddFrame.ico">
+        Title="Add Frame" Height="250" Width="400" Icon="/Frontend/Assets/App.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -15,8 +17,9 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Add frames with given FPS and frame count." 
-                   Style="{StaticResource NoteBannerStyle}"/>
+        <widget:BannerBar Grid.Row="0"
+                          BannerText="Add frames with given FPS and frame count."
+                          BannerIcon="/Frontend/Assets/AddFrame.ico"/>
 
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
@@ -45,9 +48,15 @@
                 <TextBlock Margin="5" Grid.Column="1" Grid.Row="1" Text="FPS" VerticalAlignment="Center"/>
                 <TextBlock Margin="5" Grid.Column="1" Grid.Row="2" Text="Delta Time" VerticalAlignment="Center"/>
 
-                <TextBox Margin="5" Padding="3" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center"/>
-                <TextBox Margin="5" Padding="3" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"/>
-                <TextBlock Margin="5" Padding="3" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Text="N/A"/>
+                <TextBox Margin="5" Padding="3" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center"
+                         Text="{Binding Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}"
+                         Style="{StaticResource TextBoxWithErrorNotifyStyle}"/>
+                <TextBox Margin="5" Padding="3" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"
+                         Text="{Binding Fps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}"
+                         Style="{StaticResource TextBoxWithErrorNotifyStyle}"/>
+                <TextBlock Margin="5" Padding="3" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center"
+                           Text="{Binding Fps, Mode=OneWay, Converter={x:Static conveter:StringifiedDeltaTimeConverter.Instance}}"
+                           Validation.ErrorTemplate="{x:Null}"/>
 
             </Grid>
         </Grid>

@@ -1,8 +1,0 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Style x:Key="NoteBannerStyle" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-        <Setter Property="Background" Value="#0097A7"/>
-        <Setter Property="Foreground" Value="#CDDC39"/>
-        <Setter Property="Padding" Value="10"/>
-    </Style>
-</ResourceDictionary>

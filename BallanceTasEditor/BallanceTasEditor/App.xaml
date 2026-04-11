@@ -7,7 +7,6 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Frontend/Styles/AccessoryIconControl.xaml"/>
-                <ResourceDictionary Source="/Frontend/Styles/NoteBanner.xaml"/>
                 <ResourceDictionary Source="/Frontend/Styles/GenericButton.xaml"/>
                 <ResourceDictionary Source="/Frontend/Styles/TextboxErrorTemplate.xaml"/>
             </ResourceDictionary.MergedDictionaries>
