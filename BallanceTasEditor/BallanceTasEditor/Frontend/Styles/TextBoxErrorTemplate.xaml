@@ -1,0 +1,40 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ControlTemplate x:Key="TextBoxErrorTemplate">
+        <Grid>
+            <Image Source="/Frontend/Assets/Cancel.ico" RenderOptions.BitmapScalingMode="HighQuality"
+                   Width="16" Height="16" Margin="0, 0, 4, 0" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <Image.ToolTip>
+                    <ToolTip>
+                        <ItemsControl ItemsSource="{Binding}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ErrorContent}" MaxWidth="250" Margin="2" TextWrapping="Wrap"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ToolTip>
+                </Image.ToolTip>
+            </Image>
+            <AdornedElementPlaceholder/>
+        </Grid>
+    </ControlTemplate>
+    
+    <Style x:Key="TextBoxWithErrorNotifyStyle" TargetType="TextBox">
+        <Setter Property="Validation.ErrorTemplate" Value="{StaticResource TextBoxErrorTemplate}"/>
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="#F44336" Direction="0" ShadowDepth="0" BlurRadius="6"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

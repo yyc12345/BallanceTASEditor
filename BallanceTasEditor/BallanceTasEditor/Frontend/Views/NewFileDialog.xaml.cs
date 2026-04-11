@@ -20,12 +20,14 @@ namespace BallanceTasEditor.Frontend.Views {
         public NewFileDialog() {
             InitializeComponent();
 
-            ViewModel = new ViewModels.NewFileDialog();
-            ViewModel.RequestCloseDialog += ViewModel_RequestCloseDialog;
-            this.DataContext = ViewModel;
+            var vm = new ViewModels.NewFileDialog();
+            vm.RequestCloseDialog += ViewModel_RequestCloseDialog;
+            this.DataContext = vm;
         }
 
-        public ViewModels.NewFileDialog ViewModel { get; private set; }
+        public ViewModels.NewFileDialog ViewModel {
+            get => (this.DataContext as ViewModels.NewFileDialog).Unwrap();
+        }
 
         private void ViewModel_RequestCloseDialog(Shared.RequestCloseDialogEventArgs e) {
             this.DialogResult = e.Result;
