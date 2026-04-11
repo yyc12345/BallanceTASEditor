@@ -52,7 +52,7 @@ namespace BallanceTasEditor.Backend {
             var totalByte = seq.GetCount() * SIZEOF_RAW_TAS_FRAME;
             fs.Write(BitConverter.GetBytes(totalByte), 0, SIZEOF_I32);
 
-            using (var zo = new Ionic.Zlib.ZlibStream(fs, Ionic.Zlib.CompressionMode.Compress, Ionic.Zlib.CompressionLevel.Level9, true)) {
+            using (var zo = new System.IO.Compression.ZLibStream(fs, System.IO.Compression.CompressionLevel.SmallestSize, true)) {
                 foreach (var item in seq) {
                     var rawItem = item.ToRaw();
                     zo.Write(BitConverter.GetBytes(rawItem.TimeDelta), 0, SIZEOF_F32);
@@ -101,8 +101,8 @@ namespace BallanceTasEditor.Backend {
             ArgumentOutOfRangeException.ThrowIfNotEqual(remainder, 0);
 
             using (var mem = new MemoryStream()) {
-                using (var zo = new Ionic.Zlib.ZlibStream(mem, Ionic.Zlib.CompressionMode.Decompress, true)) {
-                    CopyStream(fs, zo);
+                using (var zo = new System.IO.Compression.ZLibStream(fs, System.IO.Compression.CompressionMode.Decompress, true)) {
+                    zo.CopyTo(mem);
                     zo.Close();
                 }
 
@@ -130,17 +130,6 @@ namespace BallanceTasEditor.Backend {
             //}
             //mem.Close();
             //zo.Close();
-        }
-
-        private const int STREAM_COPY_CHUNK_SIZE = 10240;
-
-        private static void CopyStream(Stream origin, Stream target) {
-            var buffer = new byte[STREAM_COPY_CHUNK_SIZE];
-            int len;
-            while ((len = origin.Read(buffer, 0, STREAM_COPY_CHUNK_SIZE)) > 0) {
-                target.Write(buffer, 0, len);
-            }
-            //target.Flush();
         }
 
         private sealed class EnumerableMemoryStream : IExactSizeEnumerable<TasFrame> {
