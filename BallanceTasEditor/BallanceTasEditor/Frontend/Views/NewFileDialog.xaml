@@ -6,9 +6,10 @@
         xmlns:local="clr-namespace:BallanceTasEditor.Frontend.Views"
         xmlns:vm="clr-namespace:BallanceTasEditor.Frontend.ViewModels"
         xmlns:conveter="clr-namespace:BallanceTasEditor.Frontend.Converters"
+        xmlns:widget="clr-namespace:BallanceTasEditor.Frontend.Widgets"
         d:DataContext="{d:DesignInstance vm:NewFileDialog}"
         mc:Ignorable="d" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False"
-        Title="New File" Height="250" Width="400" Icon="/Frontend/Assets/NewFile.ico">
+        Title="New File" Height="250" Width="400" Icon="/Frontend/Assets/App.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -16,8 +17,9 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Create new TAS file with given FPS and frame count." 
-                   Style="{StaticResource NoteBannerStyle}"/>
+        <widget:BannerBar Grid.Row="0"
+                          BannerText="Create new TAS file with given FPS and frame count."
+                          BannerIcon="/Frontend/Assets/NewFile.ico"/>
 
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
