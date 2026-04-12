@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BallanceTasEditor.Frontend.Validator {
+namespace BallanceTasEditor.Frontend.Validators {
 
     public interface IValidator<TIn, TOut> {
          OneOf<TOut, string> Validate(TIn value);

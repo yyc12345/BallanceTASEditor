@@ -14,10 +14,10 @@ namespace BallanceTasEditor.Frontend.Converters {
         public static readonly StringifiedDeltaTimeConverter Instance = new StringifiedDeltaTimeConverter();
         
         public StringifiedDeltaTimeConverter() {
-            m_Validator = new Validator.FpsValidator();
+            m_Validator = new Validators.FpsValidator();
         }
 
-        private Validator.FpsValidator m_Validator;
+        private Validators.FpsValidator m_Validator;
         private static readonly string INVALID_DELTA_TIME = "N/A";
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {

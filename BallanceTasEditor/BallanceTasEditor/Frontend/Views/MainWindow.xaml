@@ -67,9 +67,9 @@
                 <MenuItem Header="Next Item" Icon="{StaticResource IconNextItem}" InputGestureText="F"/>
                 <MenuItem Header="Goto Item" Icon="{StaticResource IconGoto}" InputGestureText="G"/>
                 <Separator/>
-                <MenuItem Header="Select Mode" Icon="{StaticResource IconSelectMode}"/>
-                <MenuItem Header="Fill Mode" Icon="{StaticResource IconFillMode}"/>
-                <MenuItem Header="Draw Mode" Icon="{StaticResource IconDrawMode}"/>
+                <MenuItem Header="Select Mode" Icon="{StaticResource IconSelectMode}" InputGestureText="Q"/>
+                <MenuItem Header="Fill Mode" Icon="{StaticResource IconFillMode}" InputGestureText="W"/>
+                <MenuItem Header="Draw Mode" Icon="{StaticResource IconDrawMode}" InputGestureText="E"/>
                 <Separator/>
                 <MenuItem Header="Clear Keys" Icon="{StaticResource IconClearKeys}"/>
                 <MenuItem Header="Uniform FPS" Icon="{StaticResource IconUniformFps}"/>

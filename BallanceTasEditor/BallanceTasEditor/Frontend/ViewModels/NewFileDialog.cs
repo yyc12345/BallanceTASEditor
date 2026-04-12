@@ -28,15 +28,15 @@ namespace BallanceTasEditor.Frontend.ViewModels {
 
         #region Validators
 
-        private static readonly Validator.ValidatorAdapter<string, int, Validator.CountValidator> g_CountValidator =
-            new Validator.ValidatorAdapter<string, int, Validator.CountValidator>(new Validator.CountValidator());
+        private static readonly Validators.ValidatorAdapter<string, int, Validators.CountValidator> g_CountValidator =
+            new Validators.ValidatorAdapter<string, int, Validators.CountValidator>(new Validators.CountValidator());
 
         public static ValidationResult? ValidateCount(string value, ValidationContext context) {
             return g_CountValidator.Validate(value, context);
         }
 
-        private static readonly Validator.ValidatorAdapter<string, uint, Validator.FpsValidator> g_FpsValidator =
-            new Validator.ValidatorAdapter<string, uint, Validator.FpsValidator>(new Validator.FpsValidator());
+        private static readonly Validators.ValidatorAdapter<string, uint, Validators.FpsValidator> g_FpsValidator =
+            new Validators.ValidatorAdapter<string, uint, Validators.FpsValidator>(new Validators.FpsValidator());
 
         public static ValidationResult? ValidateFps(string value, ValidationContext context) {
             return g_FpsValidator.Validate(value, context);

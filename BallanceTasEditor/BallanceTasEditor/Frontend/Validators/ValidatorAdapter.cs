@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BallanceTasEditor.Frontend.Validator {
+namespace BallanceTasEditor.Frontend.Validators {
 
     public sealed class ValidatorAdapter<TIn, TOut, V> where V: IValidator<TIn, TOut> {
         public ValidatorAdapter(IValidator<TIn, TOut> validator) {
