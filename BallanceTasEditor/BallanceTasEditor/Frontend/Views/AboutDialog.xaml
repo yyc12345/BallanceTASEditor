@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BallanceTasEditor.Frontend.Views"
         xmlns:vm="clr-namespace:BallanceTasEditor.Frontend.ViewModels"
+        xmlns:widget="clr-namespace:BallanceTasEditor.Frontend.Widgets"
         d:DataContext="{d:DesignInstance vm:AboutDialog}"
         mc:Ignorable="d" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False"
         Title="About Ballance TAS Editor" Width="340" Height="480" Icon="/Frontend/Assets/About.ico">
@@ -35,6 +36,8 @@ Version: 1.2 stable&#13;
 Build Date: October 21, 2025&#13;"/>
 
         <!-- 确认按钮 -->
-        <Button Grid.Row="4" Content="OK" Margin="10" HorizontalAlignment="Center" Style="{StaticResource OkButtonStyle}" IsDefault="True" Command="{Binding OkCommand}"/>
+        <widget:IconButton Grid.Row="4" Margin="10" HorizontalAlignment="Center"
+                           Style="{StaticResource OkIconButtonStyle}" IsDefault="True"
+                           Command="{Binding OkCommand}"/>
     </Grid>
 </Window>

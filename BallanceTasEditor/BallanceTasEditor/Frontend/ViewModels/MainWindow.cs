@@ -20,6 +20,8 @@ namespace BallanceTasEditor.Frontend.ViewModels {
 
         private Shared.IDialogService m_DialogService;
 
+        #region File Menu
+
         #region File Operation
 
         [ObservableProperty]
@@ -150,6 +152,22 @@ namespace BallanceTasEditor.Frontend.ViewModels {
         private void OnRequestCloseWindow() {
             RequestCloseWindow?.Invoke();
         }
+
+        #endregion
+
+        #endregion
+
+        #region Edit Menu
+
+
+        #region Preference
+
+        [RelayCommand]
+        private void Preference() {
+            m_DialogService.ShowPreferenceDialog();
+        }
+
+        #endregion
 
         #endregion
 

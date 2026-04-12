@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BallanceTasEditor.Frontend.Views"
-        xmlns:styles="clr-namespace:BallanceTasEditor.Frontend.Styles"
         xmlns:vm="clr-namespace:BallanceTasEditor.Frontend.ViewModels"
+        xmlns:widget="clr-namespace:BallanceTasEditor.Frontend.Widgets"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance vm:MainWindow}"
         WindowStartupLocation="CenterScreen"
@@ -74,7 +74,7 @@
                 <MenuItem Header="Clear Keys" Icon="{StaticResource IconClearKeys}"/>
                 <MenuItem Header="Uniform FPS" Icon="{StaticResource IconUniformFps}"/>
                 <Separator/>
-                <MenuItem Header="Preference" Icon="{StaticResource IconPreference}" InputGestureText="Ctrl+P"/>
+                <MenuItem Header="Preference" Icon="{StaticResource IconPreference}" InputGestureText="Ctrl+P" Command="{Binding PreferenceCommand}"/>
             </MenuItem>
             <MenuItem Header="_Help" Padding="5">
                 <MenuItem Header="Report Bug" Icon="{StaticResource IconReportBug}" Command="{Binding ReportBugCommand}"/>
@@ -89,16 +89,20 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Orientation="Horizontal" Grid.Column="0">
-                <Button Content="Select Mode" Margin="5" Padding="5"
-                        Style="{StaticResource AccessoryIconButton}" styles:AccessoryIcon.Icon="/Frontend/Assets/SelectMode.ico"/>
-                <Button Content="Fill Mode" Margin="5" Padding="5"
-                        Style="{StaticResource AccessoryIconButton}" styles:AccessoryIcon.Icon="/Frontend/Assets/FillMode.ico"/>
-                <Button Content="Draw Mode" Margin="5" Padding="5"
-                        Style="{StaticResource AccessoryIconButton}" styles:AccessoryIcon.Icon="/Frontend/Assets/DrawMode.ico"/>
+                <widget:IconButton ButtonText="Select Mode"
+                                   ButtonIcon="/Frontend/Assets/SelectMode.ico"
+                                   Margin="5" Padding="5"/>
+                <widget:IconButton ButtonText="Fill Mode"
+                                   ButtonIcon="/Frontend/Assets/FillMode.ico"
+                                   Margin="5" Padding="5"/>
+                <widget:IconButton ButtonText="Draw Mode"
+                                   ButtonIcon="/Frontend/Assets/DrawMode.ico"
+                                   Margin="5" Padding="5"/>
             </StackPanel>
 
-            <Button Content="Save File then Run Game" Grid.Column="1" Margin="5" Padding="5"
-                    Style="{StaticResource AccessoryIconButton}" styles:AccessoryIcon.Icon="/Frontend/Assets/SaveFileThenRunGame.ico"/>
+            <widget:IconButton ButtonText="Save File then Run Game"
+                               ButtonIcon="/Frontend/Assets/SaveFileThenRunGame.ico"
+                               Grid.Column="1" Margin="5" Padding="5"/>
 
         </Grid>
 

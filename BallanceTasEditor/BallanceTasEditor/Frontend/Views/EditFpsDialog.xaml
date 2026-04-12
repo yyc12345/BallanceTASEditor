@@ -55,10 +55,10 @@
         </Grid>
 
         <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right" Margin="10">
-            <Button Content="OK" Margin="5" Style="{StaticResource OkButtonStyle}" IsDefault="True"
-                    Command="{Binding OkCommand}"/>
-            <Button Content="Cancel" Margin="5" Style="{StaticResource CancelButtonStyle}"
-                    Command="{Binding CancelCommand}"/>
+            <widget:IconButton Margin="5" Style="{StaticResource OkIconButtonStyle}" IsDefault="True"
+                               Command="{Binding OkCommand}"/>
+            <widget:IconButton Margin="5" Style="{StaticResource CancelIconButtonStyle}"
+                               Command="{Binding CancelCommand}"/>
         </StackPanel>
     </Grid>
 </Window>
