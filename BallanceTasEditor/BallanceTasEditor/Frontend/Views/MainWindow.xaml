@@ -162,7 +162,7 @@
             <StatusBarItem Content="$ToolMode" DockPanel.Dock="Right"/>
             <Separator DockPanel.Dock="Right"/>
 
-            <StatusBarItem Content="$Status" HorizontalAlignment="Stretch"/>
+            <StatusBarItem Content="{Binding StatusMessage, Mode=OneWay}" HorizontalAlignment="Stretch"/>
         </StatusBar>
 
     </Grid>

@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace BallanceTasEditor.Frontend.ViewModels {
     public partial class MainWindow : ObservableObject {
@@ -16,6 +17,12 @@ namespace BallanceTasEditor.Frontend.ViewModels {
 
             this.TasFile = null;
             this.TasFilePath = null;
+
+            this.StatusMessage = "";
+            m_StatusMessageDimmer = new DispatcherTimer();
+            m_StatusMessageDimmer.Interval = TimeSpan.FromSeconds(5);
+            m_StatusMessageDimmer.Tick += StatusMessageDimmer_Tick;
+            UpdateStatusMessage("Ready");
         }
 
         private Shared.IDialogService m_DialogService;
@@ -49,6 +56,7 @@ namespace BallanceTasEditor.Frontend.ViewModels {
             // Set members
             this.TasFile = seq;
             this.TasFilePath = null;
+            UpdateStatusMessage($"New TAS file is created.");
         }
 
         private bool CanNewFile() {
@@ -73,6 +81,7 @@ namespace BallanceTasEditor.Frontend.ViewModels {
             // Set members
             this.TasFile = seq;
             this.TasFilePath = dialog.Path;
+            UpdateStatusMessage($"TAS file {this.TasFilePath} is loaded.");
         }
 
         private bool CanOpenFile() {
@@ -100,6 +109,7 @@ namespace BallanceTasEditor.Frontend.ViewModels {
             }
             // Update member
             this.TasFilePath = filePath;
+            UpdateStatusMessage($"TAS file {this.TasFilePath} is saved.");
         }
 
         private bool CanSaveFile() {
@@ -121,6 +131,7 @@ namespace BallanceTasEditor.Frontend.ViewModels {
             }
             // Set file path
             TasFilePath = dialog.Path;
+            UpdateStatusMessage($"TAS file {this.TasFilePath} is saved.");
         }
         
         private bool CanSaveFileAs() {
@@ -131,6 +142,7 @@ namespace BallanceTasEditor.Frontend.ViewModels {
         private void CloseFile() {
             this.TasFile = null;
             this.TasFilePath = null;
+            UpdateStatusMessage($"TAS file is closed.");
         }
 
         private bool CanCloseFile() {
@@ -186,6 +198,29 @@ namespace BallanceTasEditor.Frontend.ViewModels {
         private void About() {
             m_DialogService.ShowAboutDialog();
         }
+
+        #endregion
+
+        #region Status Bar
+
+        #region Status Message
+
+        [ObservableProperty]
+        private string statusMessage;
+
+        private DispatcherTimer m_StatusMessageDimmer;
+
+        private void UpdateStatusMessage(string msg) {
+            m_StatusMessageDimmer.Stop();
+            StatusMessage = msg;
+            m_StatusMessageDimmer.Start();
+        }
+
+        private void StatusMessageDimmer_Tick(object? sender, EventArgs e) {
+            StatusMessage = "";
+        }
+
+        #endregion
 
         #endregion
 
