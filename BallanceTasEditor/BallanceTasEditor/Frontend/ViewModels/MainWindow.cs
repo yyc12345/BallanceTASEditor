@@ -15,8 +15,9 @@ namespace BallanceTasEditor.Frontend.ViewModels {
         public MainWindow(Shared.IDialogService dialogService) {
             m_DialogService = dialogService;
 
-            this.TasFile = null;
-            this.TasFilePath = null;
+            TasFile = new Models.TasFile();
+            TasFile.PropertyChanged += TasFile_PropertyChanged;
+            TasFilePath = null;
 
             this.StatusMessage = "";
             m_StatusMessageDimmer = new DispatcherTimer();
@@ -33,15 +34,21 @@ namespace BallanceTasEditor.Frontend.ViewModels {
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(WindowTitle))]
-        [NotifyCanExecuteChangedFor(nameof(NewFileCommand))]
-        [NotifyCanExecuteChangedFor(nameof(OpenFileCommand))]
-        [NotifyCanExecuteChangedFor(nameof(SaveFileCommand))]
-        [NotifyCanExecuteChangedFor(nameof(SaveFileAsCommand))]
-        [NotifyCanExecuteChangedFor(nameof(CloseFileCommand))]
-        private Backend.ITasSequence? tasFile;
+        private Models.TasFile tasFile;
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(WindowTitle))]
         private string? tasFilePath;
+
+        private void TasFile_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
+            // YYC MARK:
+            // Due to the shitty limit of MVVM Toolkit,
+            // I was forced trigger these command manually.
+            NewFileCommand.NotifyCanExecuteChanged();
+            OpenFileCommand.NotifyCanExecuteChanged();
+            SaveFileCommand.NotifyCanExecuteChanged();
+            SaveFileAsCommand.NotifyCanExecuteChanged();
+            CloseFileCommand.NotifyCanExecuteChanged();
+        }
 
         [RelayCommand(CanExecute = nameof(CanNewFile))]
         private void NewFile() {
@@ -49,18 +56,16 @@ namespace BallanceTasEditor.Frontend.ViewModels {
             var dialog = m_DialogService.ShowNewFileDialog();
             if (dialog is null) return;
 
-            // Initialize sequence
-            var seq = new Backend.ListTasSequence();
-            // Initialize items
-            Backend.TasStorage.Init(seq, dialog.Count, dialog.Fps);
+            // Create new file
+            TasFile.NewFile(Models.TasSequenceKind.Array, dialog.Count, dialog.Fps);
             // Set members
-            this.TasFile = seq;
-            this.TasFilePath = null;
+            TasFilePath = null;
+            // Send notification
             UpdateStatusMessage($"New TAS file is created.");
         }
 
         private bool CanNewFile() {
-            return this.TasFile is null;
+            return TasFile.IsFileNotLoaded;
         }
 
         [RelayCommand(CanExecute = nameof(CanOpenFile))]
@@ -69,23 +74,21 @@ namespace BallanceTasEditor.Frontend.ViewModels {
             var dialog = m_DialogService.ShowOpenFileDialog();
             if (dialog is null) return;
 
-            // Initialize sequence
-            var seq = new Backend.ListTasSequence();
-            // Load into sequence
+            // Load file
             try {
-                Backend.TasStorage.Load(dialog.Path, seq);
+                TasFile.LoadFile(Models.TasSequenceKind.Array, dialog.Path);
             } catch (Exception e) {
                 m_DialogService.ShowOpenFileFailedDialog(e);
                 return;
             }
             // Set members
-            this.TasFile = seq;
-            this.TasFilePath = dialog.Path;
+            TasFilePath = dialog.Path;
+            // Send notification
             UpdateStatusMessage($"TAS file {this.TasFilePath} is loaded.");
         }
 
         private bool CanOpenFile() {
-            return this.TasFile is null;
+            return TasFile.IsFileNotLoaded;
         }
 
         [RelayCommand(CanExecute = nameof(CanSaveFile))]
@@ -102,18 +105,19 @@ namespace BallanceTasEditor.Frontend.ViewModels {
 
             // Save file
             try {
-                Backend.TasStorage.Save(filePath, this.TasFile.Unwrap());
+                TasFile.SaveFile(filePath);
             } catch (Exception e) {
                 m_DialogService.ShowSaveFileFailedDialog(e);
                 return;
             }
             // Update member
-            this.TasFilePath = filePath;
+            TasFilePath = filePath;
+            // Send notification
             UpdateStatusMessage($"TAS file {this.TasFilePath} is saved.");
         }
 
         private bool CanSaveFile() {
-            return this.TasFile is not null;
+            return TasFile.IsFileLoaded;
         }
 
         [RelayCommand(CanExecute = nameof(CanSaveFileAs))]
@@ -124,29 +128,33 @@ namespace BallanceTasEditor.Frontend.ViewModels {
 
             // Save file
             try {
-                Backend.TasStorage.Save(dialog.Path, this.TasFile.Unwrap());
+                TasFile.SaveFile(dialog.Path);
             } catch (Exception e) {
                 m_DialogService.ShowSaveFileFailedDialog(e);
                 return;
             }
             // Set file path
             TasFilePath = dialog.Path;
+            // Send notification
             UpdateStatusMessage($"TAS file {this.TasFilePath} is saved.");
         }
         
         private bool CanSaveFileAs() {
-            return this.TasFile is not null;
+            return TasFile.IsFileLoaded;
         }
 
         [RelayCommand(CanExecute = nameof(CanCloseFile))]
         private void CloseFile() {
-            this.TasFile = null;
-            this.TasFilePath = null;
+            // Close file
+            TasFile.CloseFile();
+            // Set members
+            TasFilePath = null;
+            // Send notification
             UpdateStatusMessage($"TAS file is closed.");
         }
 
         private bool CanCloseFile() {
-            return this.TasFile is not null;
+            return TasFile.IsFileLoaded;
         }
 
         #endregion
@@ -228,7 +236,7 @@ namespace BallanceTasEditor.Frontend.ViewModels {
 
         public string WindowTitle {
             get {
-                if (TasFile is null) {
+                if (TasFile.IsFileNotLoaded) {
                     return "Ballance TAS Editor";
                 } else {
                     if (TasFilePath is null) {
