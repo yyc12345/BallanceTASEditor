@@ -60,4 +60,29 @@ namespace BallanceTasEditor.Frontend.Converters {
         }
     }
 
+    [ValueConversion(typeof(bool), typeof(Brush))]
+    public class HeaderIsSelectedToColorConverter : IValueConverter {
+        public static readonly HeaderIsSelectedToColorConverter Instance = new HeaderIsSelectedToColorConverter();
+
+        private static readonly SolidColorBrush SELECTED_BRUSH = new(Color.FromRgb(30, 144, 255));
+        private static readonly SolidColorBrush DESELECTED_BRUSH = new(Color.FromRgb(255, 255, 255));
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+            var isSelected = value as bool?;
+            if (isSelected is null) {
+                return Binding.DoNothing;
+            } else {
+                if (isSelected.Value) {
+                    return SELECTED_BRUSH;
+                } else {
+                    return DESELECTED_BRUSH;
+                }
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
+            return Binding.DoNothing;
+        }
+    }
+
 }
