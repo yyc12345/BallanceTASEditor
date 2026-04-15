@@ -30,28 +30,28 @@ namespace BallanceTasEditor.Frontend.Models {
             get => FileBody is null;
         }
 
-        public void NewFile(TasSequenceKind kind, int count, uint fps) {
+        public void NewFile(Shared.TasSequenceKind kind, int count, uint fps) {
             // Check status
             if (IsFileLoaded) {
                 throw new InvalidOperationException();
             }
 
             // Initialize sequence
-            var seq = TasSequenceKindHelper.CreateSequenceByKind(kind);
+            var seq = Shared.TasSequenceKindHelper.CreateSequenceByKind(kind);
             // Initialize items
             Backend.TasStorage.Init(seq, count, fps);
             // Set members
             FileBody = seq;
         }
 
-        public void LoadFile(TasSequenceKind kind, string path) {
+        public void LoadFile(Shared.TasSequenceKind kind, string path) {
             // Check status
             if (IsFileLoaded) {
                 throw new InvalidOperationException();
             }
 
             // Initialize sequence
-            var seq = TasSequenceKindHelper.CreateSequenceByKind(kind);
+            var seq = Shared.TasSequenceKindHelper.CreateSequenceByKind(kind);
             // Load into sequence
             Backend.TasStorage.Load(path, seq);
             // Set members
