@@ -58,21 +58,21 @@
                 <MenuItem Header="Exit" Icon="{StaticResource IconExit}" Command="{Binding ExitCommand}"/>
             </MenuItem>
             <MenuItem Header="_Edit" Padding="5">
-                <MenuItem Header="_Undo" Icon="{StaticResource IconUndo}" InputGestureText="Ctrl+Z"/>
-                <MenuItem Header="_Redo" Icon="{StaticResource IconRedo}" InputGestureText="Ctrl+Y"/>
+                <MenuItem Header="_Undo" Icon="{StaticResource IconUndo}" InputGestureText="Ctrl+Z" Command="{Binding UndoCommand}"/>
+                <MenuItem Header="_Redo" Icon="{StaticResource IconRedo}" InputGestureText="Ctrl+Y" Command="{Binding RedoCommand}"/>
                 <Separator/>
-                <MenuItem Header="Previous Page" Icon="{StaticResource IconPreviousPage}" InputGestureText="A"/>
-                <MenuItem Header="Previous Item" Icon="{StaticResource IconPreviousItem}" InputGestureText="S"/>
-                <MenuItem Header="Next Page" Icon="{StaticResource IconNextPage}" InputGestureText="D"/>
-                <MenuItem Header="Next Item" Icon="{StaticResource IconNextItem}" InputGestureText="F"/>
-                <MenuItem Header="Goto Item" Icon="{StaticResource IconGoto}" InputGestureText="G"/>
+                <MenuItem Header="Previous Page" Icon="{StaticResource IconPreviousPage}" InputGestureText="A" Command="{Binding PreviousPageCommand}"/>
+                <MenuItem Header="Previous Item" Icon="{StaticResource IconPreviousItem}" InputGestureText="S" Command="{Binding PreviousItemCommand}"/>
+                <MenuItem Header="Next Page" Icon="{StaticResource IconNextPage}" InputGestureText="D" Command="{Binding NextPageCommand}"/>
+                <MenuItem Header="Next Item" Icon="{StaticResource IconNextItem}" InputGestureText="F" Command="{Binding NextItemCommand}"/>
+                <MenuItem Header="Goto Item" Icon="{StaticResource IconGoto}" InputGestureText="G" Command="{Binding GotoCommand}"/>
                 <Separator/>
-                <MenuItem Header="Select Mode" Icon="{StaticResource IconSelectMode}" InputGestureText="Q"/>
-                <MenuItem Header="Fill Mode" Icon="{StaticResource IconFillMode}" InputGestureText="W"/>
-                <MenuItem Header="Draw Mode" Icon="{StaticResource IconDrawMode}" InputGestureText="E"/>
+                <MenuItem Header="Select Mode" Icon="{StaticResource IconSelectMode}" InputGestureText="Q" Command="{Binding SelectModeCommand}"/>
+                <MenuItem Header="Fill Mode" Icon="{StaticResource IconFillMode}" InputGestureText="W" Command="{Binding FillModeCommand}"/>
+                <MenuItem Header="Draw Mode" Icon="{StaticResource IconDrawMode}" InputGestureText="E" Command="{Binding DrawModeCommand}"/>
                 <Separator/>
-                <MenuItem Header="Clear Keys" Icon="{StaticResource IconClearKeys}"/>
-                <MenuItem Header="Uniform FPS" Icon="{StaticResource IconUniformFps}"/>
+                <MenuItem Header="Clear Keys" Icon="{StaticResource IconClearKeys}" Command="{Binding ClearKeysCommand}"/>
+                <MenuItem Header="Uniform FPS" Icon="{StaticResource IconUniformFps}" Command="{Binding UniformFpsCommand}"/>
                 <Separator/>
                 <MenuItem Header="Preference" Icon="{StaticResource IconPreference}" InputGestureText="Ctrl+P" Command="{Binding PreferenceCommand}"/>
             </MenuItem>

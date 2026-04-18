@@ -179,6 +179,89 @@ namespace BallanceTasEditor.Frontend.ViewModels {
 
         #region Edit Menu
 
+        #region Undo and Redo
+
+        [RelayCommand]
+        private void Undo() {
+
+        }
+
+        [RelayCommand]
+        private void Redo() {
+
+        }
+
+        #endregion
+
+        #region Viewer Operation
+
+        [RelayCommand]
+        private void PreviousPage() {
+        }
+
+
+        [RelayCommand]
+        private void PreviousItem() {
+
+        }
+
+
+        [RelayCommand]
+        private void NextPage() {
+
+        }
+
+
+        [RelayCommand]
+        private void NextItem() {
+
+        }
+
+
+        [RelayCommand]
+        private void Goto() {
+
+        }
+
+        #endregion
+
+        #region Tool Mode
+
+
+        [RelayCommand]
+        private void SelectMode() {
+
+        }
+
+
+        [RelayCommand]
+        private void FillMode() {
+
+        }
+
+
+        [RelayCommand]
+        private void DrawMode() {
+
+        }
+
+        #endregion
+
+        #region Misc Edit Operations
+
+
+        [RelayCommand]
+        private void ClearKeys() {
+
+        }
+
+
+        [RelayCommand]
+        private void UniformFps() {
+
+        }
+
+        #endregion
 
         #region Preference
 
@@ -216,6 +299,9 @@ namespace BallanceTasEditor.Frontend.ViewModels {
         [ObservableProperty]
         private string statusMessage;
 
+        /// <summary>
+        /// The UI thread timer for dimming status message after specific duration.
+        /// </summary>
         private DispatcherTimer m_StatusMessageDimmer;
 
         private void UpdateStatusMessage(string msg) {
