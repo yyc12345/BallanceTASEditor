@@ -181,86 +181,130 @@ namespace BallanceTasEditor.Frontend.ViewModels {
 
         #region Undo and Redo
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanUndo))]
         private void Undo() {
 
         }
 
-        [RelayCommand]
+        private bool CanUndo() {
+            return true;
+        }
+
+        [RelayCommand(CanExecute = nameof(CanRedo))]
         private void Redo() {
 
+        }
+
+        private bool CanRedo() {
+            return true;
         }
 
         #endregion
 
         #region Viewer Operation
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanPreviousPage))]
         private void PreviousPage() {
+
         }
 
+        private bool CanPreviousPage() {
+            return true;
+        }
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanPreviousItem))]
         private void PreviousItem() {
 
         }
 
+        private bool CanPreviousItem() {
+            return true;
+        }
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanNextPage))]
         private void NextPage() {
 
         }
 
+        private bool CanNextPage() {
+            return true;
+        }
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanNextItem))]
         private void NextItem() {
 
         }
 
+        private bool CanNextItem() {
+            return true;
+        }
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanGoto))]
         private void Goto() {
 
+        }
+
+        private bool CanGoto() {
+            return true;
         }
 
         #endregion
 
         #region Tool Mode
 
-
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanSelectMode))]
         private void SelectMode() {
 
         }
 
+        private bool CanSelectMode() {
+            return true;
+        }
 
-        [RelayCommand]
+
+        [RelayCommand(CanExecute = nameof(CanFillMode))]
         private void FillMode() {
 
         }
 
+        private bool CanFillMode() {
+            return true;
+        }
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanDrawMode))]
         private void DrawMode() {
 
+        }
+
+        private bool CanDrawMode() {
+            return true;
         }
 
         #endregion
 
         #region Misc Edit Operations
 
-
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanUniformFps))]
         private void ClearKeys() {
-
+            m_DialogService.ShowConfirmClearKeysDialog();
         }
 
+        private bool CanClearKeys() {
+            return true;
+        }
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanUniformFps))]
         private void UniformFps() {
-
+            var rv = m_DialogService.ShowEditFpsDialog();
+            if (rv is not null) {
+                m_DialogService.ShowConfirmUniformFpsDialog();
+            }
         }
 
+        private bool CanUniformFps() {
+            return true;
+        }
+        
         #endregion
 
         #region Preference

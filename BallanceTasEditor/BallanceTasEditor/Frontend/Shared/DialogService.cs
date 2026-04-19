@@ -17,7 +17,9 @@ namespace BallanceTasEditor.Frontend.Shared {
         bool ShowConfirmExitWhenOpeningFileDialog();
         bool ShowFileChangedDialog();
         GotoDialogResult? ShowGotoDialog();
+        bool ShowConfirmClearKeysDialog();
         EditFpsDialogResult? ShowEditFpsDialog();
+        bool ShowConfirmUniformFpsDialog();
         AddFrameDialogResult? ShowAddFrameDialog();
         PreferenceDialogResult? ShowPreferenceDialog();
         void ShowManuallyReportBugDialog();
@@ -133,6 +135,14 @@ namespace BallanceTasEditor.Frontend.Shared {
             }
         }
 
+        public bool ShowConfirmClearKeysDialog() {
+            var rv = MessageBox.Show(
+                "Do you really want to clear keys for all frames?\nThis operation can not be revoked.",
+                "Clear Keys",
+                MessageBoxButton.YesNo, MessageBoxImage.Question);
+            return rv == MessageBoxResult.Yes;
+        }
+
         public EditFpsDialogResult? ShowEditFpsDialog() {
             var dialog = new Views.EditFpsDialog();
             dialog.Owner = m_Parent;
@@ -142,6 +152,14 @@ namespace BallanceTasEditor.Frontend.Shared {
             } else {
                 return null;
             }
+        }
+
+        public bool ShowConfirmUniformFpsDialog() {
+            var rv = MessageBox.Show(
+                "Do you really want to set an uniform FPS value for all frames?\nThis operation can not be revoked.",
+                "Uniform FPS",
+                MessageBoxButton.YesNo, MessageBoxImage.Question);
+            return rv == MessageBoxResult.Yes;
         }
 
         public AddFrameDialogResult? ShowAddFrameDialog() {
