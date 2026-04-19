@@ -33,7 +33,6 @@ namespace BallanceTasEditor.Frontend.ViewModels {
         #region File Operation
 
         [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(WindowTitle))]
         private Models.TasFile tasFile;
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(WindowTitle))]
@@ -42,11 +41,16 @@ namespace BallanceTasEditor.Frontend.ViewModels {
         private void TasFile_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
             // YYC MARK:
             // Due to the shitty limit of MVVM Toolkit,
-            // I was forced trigger these command manually.
+            // I was forced trigger these manually.
+            OnPropertyChanged(nameof(IsVisibleForLoadedFile));
+            OnPropertyChanged(nameof(WindowTitle));
+            OnPropertyChanged(nameof(IsVisibleForNotLoadedFile));
+
             NewFileCommand.NotifyCanExecuteChanged();
             OpenFileCommand.NotifyCanExecuteChanged();
             SaveFileCommand.NotifyCanExecuteChanged();
             SaveFileAsCommand.NotifyCanExecuteChanged();
+            SaveFileThenRunGameCommand.NotifyCanExecuteChanged();
             CloseFileCommand.NotifyCanExecuteChanged();
         }
 
@@ -155,6 +159,19 @@ namespace BallanceTasEditor.Frontend.ViewModels {
 
         private bool CanCloseFile() {
             return TasFile.IsFileLoaded;
+        }
+
+        #endregion
+
+        #region Special Save with Running Game
+
+        [RelayCommand(CanExecute = nameof(CanSaveFileThenRunGame))]
+        private void SaveFileThenRunGame() {
+            SaveFile();
+        }
+
+        private bool CanSaveFileThenRunGame() {
+            return CanSaveFile() && true;
         }
 
         #endregion
@@ -376,6 +393,14 @@ namespace BallanceTasEditor.Frontend.ViewModels {
                     }
                 }
             }
+        }
+
+        public bool IsVisibleForLoadedFile {
+            get => TasFile.IsFileLoaded;
+        }
+
+        public bool IsVisibleForNotLoadedFile {
+            get => TasFile.IsFileNotLoaded;
         }
 
         #endregion

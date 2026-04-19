@@ -5,15 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BallanceTasEditor.Frontend.Views"
         xmlns:vm="clr-namespace:BallanceTasEditor.Frontend.ViewModels"
+        xmlns:conveter="clr-namespace:BallanceTasEditor.Frontend.Converters"
         xmlns:widget="clr-namespace:BallanceTasEditor.Frontend.Widgets"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance vm:MainWindow}"
         WindowStartupLocation="CenterScreen"
-        Title="{Binding WindowTitle, Mode=OneWay}" Height="600" Width="800" Icon="/Frontend/Assets/App.ico">
-    
+        Title="{Binding WindowTitle, Mode=OneWay}" Height="800" Width="600" Icon="/Frontend/Assets/App.ico">
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
@@ -45,14 +45,14 @@
                 <Image x:Key="IconReportBug" Source="/Frontend/Assets/ReportBug.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
                 <Image x:Key="IconAbout" Source="/Frontend/Assets/About.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
             </Menu.Resources>
-            
+
             <MenuItem Header="_File" Padding="5">
                 <MenuItem Header="_New File" Icon="{StaticResource IconNewFile}" InputGestureText="Ctrl+N" Command="{Binding NewFileCommand}"/>
                 <MenuItem Header="_Open File" Icon="{StaticResource IconOpenFile}" InputGestureText="Ctrl+O" Command="{Binding OpenFileCommand}"/>
                 <Separator/>
                 <MenuItem Header="_Save File" Icon="{StaticResource IconSaveFile}" InputGestureText="Ctrl+S" Command="{Binding SaveFileCommand}"/>
                 <MenuItem Header="Save File as ..." Icon="{StaticResource IconSaveFileAs}" Command="{Binding SaveFileAsCommand}"/>
-                <MenuItem Header="Save File then _Run Game" Icon="{StaticResource IconSaveFileThenRunGame}" InputGestureText="B"/>
+                <MenuItem Header="Save File then _Run Game" Icon="{StaticResource IconSaveFileThenRunGame}" InputGestureText="B" Command="{Binding SaveFileThenRunGameCommand}"/>
                 <Separator/>
                 <MenuItem Header="Close File" Icon="{StaticResource IconCloseFile}" Command="{Binding CloseFileCommand}"/>
                 <MenuItem Header="Exit" Icon="{StaticResource IconExit}" Command="{Binding ExitCommand}"/>
@@ -82,31 +82,7 @@
             </MenuItem>
         </Menu>
 
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-
-            <StackPanel Orientation="Horizontal" Grid.Column="0">
-                <widget:IconButton ButtonText="Select Mode"
-                                   ButtonIcon="/Frontend/Assets/SelectMode.ico"
-                                   Margin="5" Padding="5"/>
-                <widget:IconButton ButtonText="Fill Mode"
-                                   ButtonIcon="/Frontend/Assets/FillMode.ico"
-                                   Margin="5" Padding="5"/>
-                <widget:IconButton ButtonText="Draw Mode"
-                                   ButtonIcon="/Frontend/Assets/DrawMode.ico"
-                                   Margin="5" Padding="5"/>
-            </StackPanel>
-
-            <widget:IconButton ButtonText="Save File then Run Game"
-                               ButtonIcon="/Frontend/Assets/SaveFileThenRunGame.ico"
-                               Grid.Column="1" Margin="5" Padding="5"/>
-
-        </Grid>
-
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="1" Visibility="{Binding IsVisibleForNotLoadedFile, Mode=OneWay, Converter={x:Static conveter:IsVisibleToVisibilityConverter.Instance}}">
             <Grid VerticalAlignment="Center" HorizontalAlignment="Center" AllowDrop="True">
                 <Rectangle StrokeThickness="4" Stroke="Gray" StrokeDashArray="4 4" Fill="Transparent"/>
                 <StackPanel Orientation="Horizontal" Margin="20">
@@ -114,46 +90,83 @@
                     <TextBlock Margin="5" Text="Create, Open or Drop a TAS File in There for Editing" Foreground="Gray" FontSize="16" VerticalAlignment="Center"/>
                 </StackPanel>
             </Grid>
-
-            <local:TasViewer>
-                <local:TasViewer.ContextMenu>
-                    <ContextMenu>
-                        <ContextMenu.Resources>
-                            <!-- Context Menu Icons -->
-                            <Image x:Key="IconSet" Source="/Frontend/Assets/SetCell.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                            <Image x:Key="IconUnset" Source="/Frontend/Assets/UnsetCell.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                            <Image x:Key="IconFlip" Source="/Frontend/Assets/FlipCell.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                            <Image x:Key="IconCut" Source="/Frontend/Assets/CutFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                            <Image x:Key="IconCopy" Source="/Frontend/Assets/CopyFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                            <Image x:Key="IconPaste" Source="/Frontend/Assets/PasteFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                            <Image x:Key="IconDelete" Source="/Frontend/Assets/DeleteFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                            <Image x:Key="IconAdd" Source="/Frontend/Assets/AddFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                            <Image x:Key="IconFps" Source="/Frontend/Assets/SetFps.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
-                        </ContextMenu.Resources>
-
-                        <MenuItem Header="Set" Icon="{StaticResource IconSet}"/>
-                        <MenuItem Header="Unset" Icon="{StaticResource IconUnset}"/>
-                        <MenuItem Header="Flip" Icon="{StaticResource IconFlip}"/>
-                        <Separator/>
-                        <MenuItem Header="Cut" Icon="{StaticResource IconCut}" InputGestureText="Ctrl+X"/>
-                        <MenuItem Header="Copy" Icon="{StaticResource IconCopy}" InputGestureText="Ctrl+C"/>
-                        <MenuItem Header="Paste after This" Icon="{StaticResource IconPaste}" InputGestureText="Ctrl+V"/>
-                        <MenuItem Header="Paste before This"/>
-                        <Separator/>
-                        <MenuItem Header="Delete" Icon="{StaticResource IconDelete}"/>
-                        <MenuItem Header="Delete after This" InputGestureText="Del"/>
-                        <MenuItem Header="Delete before This" InputGestureText="Backspace"/>
-                        <Separator/>
-                        <MenuItem Header="Add after This" Icon="{StaticResource IconAdd}"/>
-                        <MenuItem Header="Add before This"/>
-                        <Separator/>
-                        <MenuItem Header="Set FPS" Icon="{StaticResource IconFps}"/>
-                    </ContextMenu>
-                </local:TasViewer.ContextMenu>
-            </local:TasViewer>
         </Grid>
 
-        <StatusBar Grid.Row="3">
+        <Grid Grid.Row="1" Visibility="{Binding IsVisibleForLoadedFile, Mode=OneWay, Converter={x:Static conveter:IsVisibleToVisibilityConverter.Instance}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" Grid.Column="0">
+                    <widget:IconButton ButtonText="Select Mode"
+                                       ButtonIcon="/Frontend/Assets/SelectMode.ico"
+                                       Margin="5" Padding="5"
+                                       Command="{Binding SelectModeCommand}"/>
+                    <widget:IconButton ButtonText="Fill Mode"
+                                       ButtonIcon="/Frontend/Assets/FillMode.ico"
+                                       Margin="5" Padding="5"
+                                       Command="{Binding FillModeCommand}"/>
+                    <widget:IconButton ButtonText="Draw Mode"
+                                       ButtonIcon="/Frontend/Assets/DrawMode.ico"
+                                       Margin="5" Padding="5"
+                                       Command="{Binding DrawModeCommand}"/>
+                </StackPanel>
+
+                <widget:IconButton ButtonText="Save File then Run Game"
+                                   ButtonIcon="/Frontend/Assets/SaveFileThenRunGame.ico"
+                                   Grid.Column="1" Margin="5" Padding="5"
+                                   Command="{Binding SaveFileThenRunGameCommand}"/>
+
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <local:TasViewer>
+                    <local:TasViewer.ContextMenu>
+                        <ContextMenu>
+                            <ContextMenu.Resources>
+                                <!-- Context Menu Icons -->
+                                <Image x:Key="IconSet" Source="/Frontend/Assets/SetCell.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                <Image x:Key="IconUnset" Source="/Frontend/Assets/UnsetCell.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                <Image x:Key="IconFlip" Source="/Frontend/Assets/FlipCell.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                <Image x:Key="IconCut" Source="/Frontend/Assets/CutFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                <Image x:Key="IconCopy" Source="/Frontend/Assets/CopyFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                <Image x:Key="IconPaste" Source="/Frontend/Assets/PasteFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                <Image x:Key="IconDelete" Source="/Frontend/Assets/DeleteFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                <Image x:Key="IconAdd" Source="/Frontend/Assets/AddFrame.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                <Image x:Key="IconFps" Source="/Frontend/Assets/SetFps.ico" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            </ContextMenu.Resources>
+
+                            <MenuItem Header="Set" Icon="{StaticResource IconSet}"/>
+                            <MenuItem Header="Unset" Icon="{StaticResource IconUnset}"/>
+                            <MenuItem Header="Flip" Icon="{StaticResource IconFlip}"/>
+                            <Separator/>
+                            <MenuItem Header="Cut" Icon="{StaticResource IconCut}" InputGestureText="Ctrl+X"/>
+                            <MenuItem Header="Copy" Icon="{StaticResource IconCopy}" InputGestureText="Ctrl+C"/>
+                            <MenuItem Header="Paste after This" Icon="{StaticResource IconPaste}" InputGestureText="Ctrl+V"/>
+                            <MenuItem Header="Paste before This"/>
+                            <Separator/>
+                            <MenuItem Header="Delete" Icon="{StaticResource IconDelete}"/>
+                            <MenuItem Header="Delete after This" InputGestureText="Del"/>
+                            <MenuItem Header="Delete before This" InputGestureText="Backspace"/>
+                            <Separator/>
+                            <MenuItem Header="Add after This" Icon="{StaticResource IconAdd}"/>
+                            <MenuItem Header="Add before This"/>
+                            <Separator/>
+                            <MenuItem Header="Set FPS" Icon="{StaticResource IconFps}"/>
+                        </ContextMenu>
+                    </local:TasViewer.ContextMenu>
+                </local:TasViewer>
+            </Grid>
+        </Grid>
+
+        <StatusBar Grid.Row="2">
             <!-- 这玩意要逆序排列才能达到我想要的需求也是奇葩 -->
             <StatusBarItem Content="v2.0 stable" DockPanel.Dock="Right" Foreground="Gray" FontStyle="Italic"/>
             <Separator DockPanel.Dock="Right"/>
