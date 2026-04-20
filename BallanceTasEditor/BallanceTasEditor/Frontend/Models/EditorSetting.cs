@@ -23,11 +23,11 @@ namespace BallanceTasEditor.Frontend.Models {
         }
 
         [ObservableProperty]
-        private Shared.TasSequenceKind sequenceKind;
+        private Shared.SequenceKind sequenceKind;
         [ObservableProperty]
         private Shared.EditorLayoutKind editorLayout;
         [ObservableProperty]
-        private Shared.EditorPasteMode pasteMode;
+        private Shared.EditorPasteBehavior pasteBehavior;
         [ObservableProperty]
         private int frameCount;
         [ObservableProperty]
@@ -35,7 +35,7 @@ namespace BallanceTasEditor.Frontend.Models {
 
         [MemberNotNull(nameof(SequenceKind))]
         [MemberNotNull(nameof(EditorLayout))]
-        [MemberNotNull(nameof(PasteMode))]
+        [MemberNotNull(nameof(PasteBehavior))]
         [MemberNotNull(nameof(FrameCount))]
         [MemberNotNull(nameof(GamePath))]
         private void FromSingleton() {
@@ -43,7 +43,7 @@ namespace BallanceTasEditor.Frontend.Models {
 
             SequenceKind = singleton.SequenceKind;
             EditorLayout = singleton.EditorLayout;
-            PasteMode = singleton.PasteMode;
+            PasteBehavior = singleton.PasteBehavior;
             FrameCount = singleton.FrameCount;
             GamePath = singleton.GamePath;
         }
@@ -53,7 +53,7 @@ namespace BallanceTasEditor.Frontend.Models {
 
             singleton.SequenceKind = SequenceKind;
             singleton.EditorLayout = EditorLayout;
-            singleton.PasteMode = PasteMode;
+            singleton.PasteBehavior = PasteBehavior;
             singleton.FrameCount = FrameCount;
             singleton.GamePath = GamePath;
         }

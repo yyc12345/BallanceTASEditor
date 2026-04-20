@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BallanceTasEditor.Frontend.Views"
         xmlns:vm="clr-namespace:BallanceTasEditor.Frontend.ViewModels"
+        xmlns:conveter="clr-namespace:BallanceTasEditor.Frontend.Converters"
+        xmlns:shared="clr-namespace:BallanceTasEditor.Frontend.Shared"
         xmlns:widget="clr-namespace:BallanceTasEditor.Frontend.Widgets"
         d:DataContext="{d:DesignInstance vm:PreferenceDialog}"
         mc:Ignorable="d" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False"
-        Title="Editor Preference" Height="450" Width="400" Icon="/Frontend/Assets/Preference.ico">
+        Title="Editor Preference" Height="500" Width="400" Icon="/Frontend/Assets/Preference.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -17,7 +19,7 @@
 
         <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Visible">
             <StackPanel Orientation="Vertical">
-                <widget:IconGroupBox GroupBoxText="Editor Layout" 
+                <widget:IconGroupBox GroupBoxText="Sequence Kind" 
                                      GroupBoxIcon="/Frontend/Assets/EditorLayout.ico"
                                      Margin="10" Padding="10">
                     <Grid>
@@ -25,26 +27,56 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <RadioButton Content="Horizontal Layout" GroupName="EditorLayout" Grid.Column="0"/>
-                        <RadioButton Content="Vertical Layout" GroupName="EditorLayout" Grid.Column="1"/>
+                        <RadioButton Content="Array" GroupName="SequenceKind" 
+                                     ToolTip="Good for browsing. Bad for frequently inserting and removing frames."
+                                     IsChecked="{Binding SequenceKind, Mode=TwoWay, Converter={x:Static conveter:SequenceKindRadioButtonConverter.Instance}, ConverterParameter={x:Static shared:SequenceKind.Array}}"
+                                     Grid.Column="0"/>
+                        <RadioButton Content="Double Linked List" GroupName="SequenceKind" 
+                                     ToolTip="Good for frequently inserting and removing frames. Bad for browsing."
+                                     IsChecked="{Binding SequenceKind, Mode=TwoWay, Converter={x:Static conveter:SequenceKindRadioButtonConverter.Instance}, ConverterParameter={x:Static shared:SequenceKind.DoubleLinkedList}}"
+                                     Grid.Column="1"/>
                     </Grid>
                 </widget:IconGroupBox>
-                <widget:IconGroupBox GroupBoxText="Paste Behavior" 
-                                     GroupBoxIcon="/Frontend/Assets/PasteFrame.ico"
-                                     Margin="10" Padding="10">
+                <widget:IconGroupBox GroupBoxText="Editor Layout" 
+                                     GroupBoxIcon="/Frontend/Assets/EditorLayout.ico"
+                                     Margin="10" Padding="10"
+                                     IsEnabled="False">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <RadioButton Content="Insert Paste" GroupName="PasteBehavior" Grid.Column="0"/>
-                        <RadioButton Content="Overwritten Paste" GroupName="PasteBehavior" Grid.Column="1"/>
+                        <RadioButton Content="Horizontal Layout" GroupName="EditorLayout" 
+                                     IsChecked="{Binding LayoutKind, Mode=TwoWay, Converter={x:Static conveter:EditorLayoutKindRadioButtonConverter.Instance}, ConverterParameter={x:Static shared:EditorLayoutKind.Horizontal}}"
+                                     Grid.Column="0"/>
+                        <RadioButton Content="Vertical Layout" GroupName="EditorLayout" 
+                                     IsChecked="{Binding LayoutKind, Mode=TwoWay, Converter={x:Static conveter:EditorLayoutKindRadioButtonConverter.Instance}, ConverterParameter={x:Static shared:EditorLayoutKind.Vertical}}"
+                                     Grid.Column="1"/>
+                    </Grid>
+                </widget:IconGroupBox>
+                <widget:IconGroupBox GroupBoxText="Paste Behavior" 
+                                     GroupBoxIcon="/Frontend/Assets/PasteFrame.ico"
+                                     Margin="10" Padding="10"
+                                     IsEnabled="False">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton Content="Insert Paste" GroupName="PasteBehavior" 
+                                     IsChecked="{Binding PasteBehavior, Mode=TwoWay, Converter={x:Static conveter:EditorPasteBehaviorRadioButtonConverter.Instance}, ConverterParameter={x:Static shared:EditorPasteBehavior.Insert}}"
+                                     Grid.Column="0"/>
+                        <RadioButton Content="Overwritten Paste" GroupName="PasteBehavior" 
+                                     IsChecked="{Binding PasteBehavior, Mode=TwoWay, Converter={x:Static conveter:EditorPasteBehaviorRadioButtonConverter.Instance}, ConverterParameter={x:Static shared:EditorPasteBehavior.Override}}"
+                                     Grid.Column="1"/>
                     </Grid>
                 </widget:IconGroupBox>
                 <widget:IconGroupBox GroupBoxText="Frame Count" 
                                      GroupBoxIcon="/Frontend/Assets/Count.ico"
                                      Margin="10" Padding="10">
-                    <TextBox Padding="3"/>
+                    <TextBox Padding="3"
+                             Text="{Binding FrameCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}" 
+                             Style="{StaticResource TextBoxWithErrorNotifyStyle}"/>
                 </widget:IconGroupBox>
                 <widget:IconGroupBox GroupBoxText="Game Path" 
                                      GroupBoxIcon="/Frontend/Assets/SaveFileThenRunGame.ico"

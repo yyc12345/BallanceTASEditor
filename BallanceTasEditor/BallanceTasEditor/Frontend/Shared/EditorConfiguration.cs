@@ -18,21 +18,21 @@ namespace BallanceTasEditor.Frontend.Shared {
             Init();
         }
 
-        public TasSequenceKind SequenceKind { get; set; }
+        public SequenceKind SequenceKind { get; set; }
         public EditorLayoutKind EditorLayout { get; set; }
-        public EditorPasteMode PasteMode { get; set; }
+        public EditorPasteBehavior PasteBehavior { get; set; }
         public int FrameCount { get; set; }
         public string GamePath { get; set; }
 
         [MemberNotNull(nameof(SequenceKind))]
         [MemberNotNull(nameof(EditorLayout))]
-        [MemberNotNull(nameof(PasteMode))]
+        [MemberNotNull(nameof(PasteBehavior))]
         [MemberNotNull(nameof(FrameCount))]
         [MemberNotNull(nameof(GamePath))]
         private void FromRaw(RawEditorConfiguration raw) {
             SequenceKind = raw.SequenceKind;
             EditorLayout = raw.EditorLayout;
-            PasteMode = raw.PasteMode;
+            PasteBehavior = raw.PasteBehavior;
             FrameCount = raw.FrameCount;
             GamePath = raw.GamePath;
         }
@@ -41,7 +41,7 @@ namespace BallanceTasEditor.Frontend.Shared {
             return new RawEditorConfiguration {
                 SequenceKind = SequenceKind,
                 EditorLayout = EditorLayout,
-                PasteMode = PasteMode,
+                PasteBehavior = PasteBehavior,
                 FrameCount = FrameCount,
                 GamePath = GamePath
             };
@@ -69,7 +69,7 @@ namespace BallanceTasEditor.Frontend.Shared {
 
         [MemberNotNull(nameof(SequenceKind))]
         [MemberNotNull(nameof(EditorLayout))]
-        [MemberNotNull(nameof(PasteMode))]
+        [MemberNotNull(nameof(PasteBehavior))]
         [MemberNotNull(nameof(FrameCount))]
         [MemberNotNull(nameof(GamePath))]
         private void Init() {
@@ -103,15 +103,15 @@ namespace BallanceTasEditor.Frontend.Shared {
         private class RawEditorConfiguration {
             [JsonProperty("sequence_kind", Required = Required.Always)]
             [JsonConverter(typeof(TasSequenceKindConverter))]
-            public TasSequenceKind SequenceKind { get; set; } = TasSequenceKind.Array;
+            public SequenceKind SequenceKind { get; set; } = SequenceKind.Array;
 
             [JsonProperty("editor_layout", Required = Required.Always)]
             [JsonConverter(typeof(EditorLayoutKindConverter))]
             public EditorLayoutKind EditorLayout { get; set; } = EditorLayoutKind.Vertical;
 
-            [JsonProperty("paste_mode", Required = Required.Always)]
-            [JsonConverter(typeof(EditorPasteModeConverter))]
-            public EditorPasteMode PasteMode { get; set; } = EditorPasteMode.Insert;
+            [JsonProperty("paste_behavior", Required = Required.Always)]
+            [JsonConverter(typeof(EditorPasteBehaviorConverter))]
+            public EditorPasteBehavior PasteBehavior { get; set; } = EditorPasteBehavior.Insert;
 
             [JsonProperty("frame_count", Required = Required.Always)]
             public int FrameCount { get; set; } = 20;
@@ -122,11 +122,11 @@ namespace BallanceTasEditor.Frontend.Shared {
 
         #region Custom JSON Converter
 
-        private class TasSequenceKindConverter : JsonConverter<TasSequenceKind> {
-            public override TasSequenceKind ReadJson(JsonReader reader, Type objectType, TasSequenceKind existingValue, bool hasExistingValue, JsonSerializer serializer) {
+        private class TasSequenceKindConverter : JsonConverter<SequenceKind> {
+            public override SequenceKind ReadJson(JsonReader reader, Type objectType, SequenceKind existingValue, bool hasExistingValue, JsonSerializer serializer) {
                 if (reader.TokenType == JsonToken.String) {
                     var value = (reader.Value as string).Unwrap();
-                    if (TasSequenceKindHelper.TryParse(value, out var kind)) {
+                    if (SequenceKindHelper.TryParse(value, out var kind)) {
                         return kind;
                     } else {
                         throw new JsonSerializationException($"given string can not be parsed as TasSequenceKind: {value}");
@@ -136,8 +136,8 @@ namespace BallanceTasEditor.Frontend.Shared {
                 }
             }
 
-            public override void WriteJson(JsonWriter writer, TasSequenceKind value, JsonSerializer serializer) {
-                writer.WriteValue(TasSequenceKindHelper.ToString(value));
+            public override void WriteJson(JsonWriter writer, SequenceKind value, JsonSerializer serializer) {
+                writer.WriteValue(SequenceKindHelper.ToString(value));
             }
         }
 
@@ -160,22 +160,22 @@ namespace BallanceTasEditor.Frontend.Shared {
             }
         }
 
-        private class EditorPasteModeConverter : JsonConverter<EditorPasteMode> {
-            public override EditorPasteMode ReadJson(JsonReader reader, Type objectType, EditorPasteMode existingValue, bool hasExistingValue, JsonSerializer serializer) {
+        private class EditorPasteBehaviorConverter : JsonConverter<EditorPasteBehavior> {
+            public override EditorPasteBehavior ReadJson(JsonReader reader, Type objectType, EditorPasteBehavior existingValue, bool hasExistingValue, JsonSerializer serializer) {
                 if (reader.TokenType == JsonToken.String) {
                     var value = (reader.Value as string).Unwrap();
-                    if (EditorPasteModeHelper.TryParse(value, out var kind)) {
+                    if (EditorPasteBehaviorHelper.TryParse(value, out var kind)) {
                         return kind;
                     } else {
-                        throw new JsonSerializationException($"given string can not be parsed as EditorPasteMode: {value}");
+                        throw new JsonSerializationException($"given string can not be parsed as EditorPasteBehavior: {value}");
                     }
                 } else {
                     throw new JsonSerializationException($"expect a integer but got {reader.TokenType}");
                 }
             }
 
-            public override void WriteJson(JsonWriter writer, EditorPasteMode value, JsonSerializer serializer) {
-                writer.WriteValue(EditorPasteModeHelper.ToString(value));
+            public override void WriteJson(JsonWriter writer, EditorPasteBehavior value, JsonSerializer serializer) {
+                writer.WriteValue(EditorPasteBehaviorHelper.ToString(value));
             }
         }
 

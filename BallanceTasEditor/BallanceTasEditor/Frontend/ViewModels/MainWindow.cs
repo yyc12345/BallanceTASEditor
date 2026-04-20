@@ -61,7 +61,7 @@ namespace BallanceTasEditor.Frontend.ViewModels {
             if (dialog is null) return;
 
             // Create new file
-            TasFile.NewFile(Shared.TasSequenceKind.Array, dialog.Count, dialog.Fps);
+            TasFile.NewFile(Shared.SequenceKind.Array, dialog.Count, dialog.Fps);
             // Set members
             TasFilePath = null;
             // Send notification
@@ -80,7 +80,7 @@ namespace BallanceTasEditor.Frontend.ViewModels {
 
             // Load file
             try {
-                TasFile.LoadFile(Shared.TasSequenceKind.Array, dialog.Path);
+                TasFile.LoadFile(Shared.SequenceKind.Array, dialog.Path);
             } catch (Exception e) {
                 m_DialogService.ShowOpenFileFailedDialog(e);
                 return;

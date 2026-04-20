@@ -8,27 +8,27 @@ using System.Threading.Tasks;
 
 namespace BallanceTasEditor.Frontend.Shared {
 
-    public enum TasSequenceKind {
+    public enum SequenceKind {
         Array,
         DoubleLinkedList
     }
 
-    public static class TasSequenceKindHelper {
-        public static Backend.ITasSequence CreateSequenceByKind(TasSequenceKind kind) {
+    public static class SequenceKindHelper {
+        public static Backend.ITasSequence CreateSequenceByKind(SequenceKind kind) {
             return kind switch {
-                TasSequenceKind.Array => new Backend.ListTasSequence(),
-                TasSequenceKind.DoubleLinkedList => new Backend.LegacyTasSequence(),
+                SequenceKind.Array => new Backend.ListTasSequence(),
+                SequenceKind.DoubleLinkedList => new Backend.LegacyTasSequence(),
                 _ => throw new UnreachableException(),
             };
         }
 
-        public static bool TryParse(string s, out TasSequenceKind value) {
+        public static bool TryParse(string s, out SequenceKind value) {
             switch (s) {
                 case "array":
-                    value = TasSequenceKind.Array;
+                    value = SequenceKind.Array;
                     return true;
                 case "double_linked_list":
-                    value = TasSequenceKind.DoubleLinkedList;
+                    value = SequenceKind.DoubleLinkedList;
                     return true;
                 default:
                     value = default;
@@ -36,10 +36,10 @@ namespace BallanceTasEditor.Frontend.Shared {
             }
         }
 
-        public static string ToString(TasSequenceKind kind) {
+        public static string ToString(SequenceKind kind) {
             return kind switch {
-                TasSequenceKind.Array => "array",
-                TasSequenceKind.DoubleLinkedList => "double_linked_list",
+                SequenceKind.Array => "array",
+                SequenceKind.DoubleLinkedList => "double_linked_list",
                 _ => throw new UnreachableException(),
             };
         }
@@ -73,19 +73,19 @@ namespace BallanceTasEditor.Frontend.Shared {
         }
     }
 
-    public enum EditorPasteMode {
+    public enum EditorPasteBehavior {
         Insert,
         Override
     }
 
-    public static class EditorPasteModeHelper {
-        public static bool TryParse(string s, out EditorPasteMode value) {
+    public static class EditorPasteBehaviorHelper {
+        public static bool TryParse(string s, out EditorPasteBehavior value) {
             switch (s) {
                 case "insert":
-                    value = EditorPasteMode.Insert;
+                    value = EditorPasteBehavior.Insert;
                     return true;
                 case "override":
-                    value = EditorPasteMode.Override;
+                    value = EditorPasteBehavior.Override;
                     return true;
                 default:
                     value = default;
@@ -93,10 +93,10 @@ namespace BallanceTasEditor.Frontend.Shared {
             }
         }
 
-        public static string ToString(EditorPasteMode mode) {
+        public static string ToString(EditorPasteBehavior mode) {
             return mode switch {
-                EditorPasteMode.Insert => "insert",
-                EditorPasteMode.Override => "override",
+                EditorPasteBehavior.Insert => "insert",
+                EditorPasteBehavior.Override => "override",
                 _ => throw new UnreachableException(),
             };
         }
