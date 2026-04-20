@@ -20,7 +20,7 @@
         <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Visible">
             <StackPanel Orientation="Vertical">
                 <widget:IconGroupBox GroupBoxText="Sequence Kind" 
-                                     GroupBoxIcon="/Frontend/Assets/EditorLayout.ico"
+                                     GroupBoxIcon="/Frontend/Assets/SequenceKind.ico"
                                      Margin="10" Padding="10">
                     <Grid>
                         <Grid.ColumnDefinitions>
